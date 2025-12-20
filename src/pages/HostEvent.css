@@ -1,0 +1,198 @@
+.host-event {
+  background-color: var(--accent-cream);
+}
+
+.event-header {
+  background-color: var(--primary-dark);
+  color: var(--text-light);
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.event-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.event-header p {
+  font-size: 1.2rem;
+  color: var(--secondary-brown);
+}
+
+.event-info {
+  padding: 3rem 0;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.info-card {
+  background-color: var(--accent-light);
+  padding: 2rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--secondary-brown);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  color: var(--primary-brown);
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.info-card p {
+  color: var(--text-dark);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.booking-section {
+  padding: 3rem 0;
+  background-color: var(--accent-light);
+}
+
+.booking-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-dark);
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.booking-form {
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: var(--accent-cream);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--primary-brown);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--accent-light);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  background-color: var(--accent-light);
+  color: var(--text-dark);
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--secondary-brown);
+  box-shadow: 0 0 0 3px rgba(139, 111, 71, 0.1);
+}
+
+.submit-btn {
+  width: 100%;
+  background-color: var(--secondary-brown);
+  color: var(--text-light);
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover {
+  background-color: var(--primary-brown);
+  transform: scale(1.02);
+  box-shadow: var(--shadow);
+}
+
+.faq-section {
+  padding: 3rem 0;
+  border-top: 1px solid #ddd;
+}
+
+.faq-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: var(--primary-dark);
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.faq-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.faq-item {
+  background-color: var(--accent-light);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid var(--green-accent);
+}
+
+.faq-item h4 {
+  color: var(--primary-brown);
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.faq-item p {
+  color: var(--text-dark);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .event-header h1 {
+    font-size: 2rem;
+  }
+
+  .event-info,
+  .booking-section,
+  .faq-section {
+    padding: 2rem 0;
+  }
+
+  .booking-section h2,
+  .faq-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .faq-items {
+    grid-template-columns: 1fr;
+  }
+}
