@@ -1,16 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
-
-const IntroAnimation = () => (
-  <div className="intro-container">
-    <video autoPlay muted className="intro-video">
-      <source src="/From_KlickPin_CF_Pin_di_Евгения_Кангас_su_coffee_nel_2025___Fu_1766273425602.mp4" type="video/mp4" />
-    </video>
-    <div className="logo-overlay">
-      <img src="/Rabuste_logo_1766273484756.png" alt="Rabuste" className="intro-logo" />
-    </div>
-  </div>
-);
 
 const Header = ({ page, setPage }) => (
   <header className="header">
@@ -130,25 +119,21 @@ const Workshops = () => (
           <h3>Espresso Basics</h3>
           <p>📅 Every Saturday 10:00 AM</p>
           <p>⏱️ 2 hours | 💰 $35</p>
-          <p>Learn espresso extraction fundamentals</p>
         </div>
         <div className="card">
           <h3>Latte Art Mastery</h3>
           <p>📅 Wednesdays 6:00 PM</p>
           <p>⏱️ 1.5 hours | 💰 $40</p>
-          <p>Master beautiful coffee patterns</p>
         </div>
         <div className="card">
           <h3>Coffee Tasting</h3>
           <p>📅 Sundays 2:00 PM</p>
           <p>⏱️ 2.5 hours | 💰 $50</p>
-          <p>Explore flavors from around the world</p>
         </div>
         <div className="card">
           <h3>Home Brewing</h3>
           <p>📅 Fridays 5:00 PM</p>
           <p>⏱️ 2 hours | 💰 $30</p>
-          <p>Perfect your home brewing technique</p>
         </div>
       </div>
     </section>
@@ -176,12 +161,12 @@ const OurStory = () => (
 );
 
 const HostEvent = () => {
-  const [form, setForm] = useState({ name: '', email: '', date: '', guests: '', eventType: '' });
+  const [form, setForm] = useState({ name: '', email: '', date: '', guests: '' });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert('Thank you for your inquiry! We will contact you soon.');
-    setForm({ name: '', email: '', date: '', guests: '', eventType: '' });
+    alert('Thank you! We will contact you soon.');
+    setForm({ name: '', email: '', date: '', guests: '' });
   };
 
   return (
@@ -195,30 +180,23 @@ const HostEvent = () => {
         <div className="grid">
           <div className="card">
             <h3>Private Events</h3>
-            <p>Birthdays, anniversaries, intimate gatherings up to 50 guests</p>
+            <p>Up to 50 guests</p>
           </div>
           <div className="card">
             <h3>Corporate Meetings</h3>
-            <p>Professional setting with premium coffee & AV equipment</p>
+            <p>Professional setting with AV</p>
           </div>
           <div className="card">
             <h3>Custom Catering</h3>
-            <p>Coffee menus, pastries, and snacks tailored to your event</p>
+            <p>Coffee & pastries tailored</p>
           </div>
         </div>
 
         <form onSubmit={handleSubmit} style={{ maxWidth: '500px', margin: '2rem auto' }}>
-          <input type="text" placeholder="Full Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-          <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-          <input type="date" value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} required />
-          <input type="number" placeholder="Number of Guests" min="1" max="50" value={form.guests} onChange={(e) => setForm({ ...form, guests: e.target.value })} required />
-          <select value={form.eventType} onChange={(e) => setForm({ ...form, eventType: e.target.value })} required>
-            <option value="">Select Event Type</option>
-            <option value="birthday">Birthday Party</option>
-            <option value="corporate">Corporate Meeting</option>
-            <option value="wedding">Wedding</option>
-            <option value="other">Other</option>
-          </select>
+          <input type="text" placeholder="Full Name" required />
+          <input type="email" placeholder="Email" required />
+          <input type="date" required />
+          <input type="number" placeholder="Guests" min="1" max="50" required />
           <button type="submit" className="cta-button">Request Booking</button>
         </form>
       </section>
@@ -235,15 +213,7 @@ const Footer = () => (
 );
 
 export default function App() {
-  const [showIntro, setShowIntro] = useState(true);
   const [page, setPage] = useState('home');
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowIntro(false), 5000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (showIntro) return <IntroAnimation />;
 
   const renderPage = () => {
     switch (page) {
