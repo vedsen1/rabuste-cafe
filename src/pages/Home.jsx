@@ -43,7 +43,7 @@ export default function Home() {
       </section>
 
       <section className="cta-section" style={{
-        backgroundImage: 'url(/WhatsApp_Image_2025-12-12_at_15.49.47_\(2\)_1766273677320.jpeg)'
+        backgroundImage: 'url(/WhatsApp_Image_2025-12-12_at_15.49.47_(2)_1766273677320.jpeg)'
       }}>
         <div className="overlay"></div>
         <div className="cta-content container">

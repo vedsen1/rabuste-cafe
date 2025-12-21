@@ -26,7 +26,7 @@ export default function OurStory() {
         </div>
 
         <div className="story-image">
-          <img src="/WhatsApp_Image_2025-12-12_at_15.49.49_\(1\)_1766273477552.jpeg" alt="Our café" />
+          <img src="/WhatsApp_Image_2025-12-12_at_15.49.49_(1)_1766273477552.jpeg" alt="Our café" />
         </div>
       </section>
 
