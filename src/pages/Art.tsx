@@ -4,10 +4,10 @@ import { getArtPieces, ArtPiece } from '../services/artService';
 
 // Hardcoded fallback data
 const fallbackArt: ArtPiece[] = [
-  { id: '1', title: 'The First Roast', artist: 'Elena R.', price: '$250', imageUrl: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80' },
-  { id: '2', title: 'Midnight Brew', artist: 'Marcus T.', price: '$180', imageUrl: 'https://images.unsplash.com/photo-1515405295579-ba7f9f92f413?auto=format&fit=crop&q=80' },
-  { id: '3', title: 'Steam & Dreams', artist: 'Sarah L.', price: '$320', imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80' },
-  { id: '4', title: 'Golden Pour', artist: 'Davinci B.', price: '$400', imageUrl: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&q=80' },
+  { id: '1', title: 'The First Roast', artist: 'Elena R.', price: '₹12,000', imageUrl: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80' },
+  { id: '2', title: 'Midnight Brew', artist: 'Marcus T.', price: '₹8,500', imageUrl: 'https://images.unsplash.com/photo-1515405295579-ba7f9f92f413?auto=format&fit=crop&q=80' },
+  { id: '3', title: 'Steam & Dreams', artist: 'Sarah L.', price: '₹15,000', imageUrl: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80' },
+  { id: '4', title: 'Golden Pour', artist: 'Davinci B.', price: '₹20,000', imageUrl: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?auto=format&fit=crop&q=80' },
 ];
 
 export default function Art() {

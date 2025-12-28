@@ -34,15 +34,8 @@ export const Navbar = () => {
           <Link to="/franchise" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">FRANCHISE</Link>
         </div>
 
-        {/* Right: Admin & Mobile Toggle */}
+        {/* Right: Mobile Toggle */}
         <div className="flex items-center gap-4">
-          <Link
-            to="/admin"
-            className="w-9 h-9 rounded-full bg-gold-500/20 flex items-center justify-center text-gold-400 hover:bg-gold-500 hover:text-brown-900 transition-all"
-          >
-            <User size={18} />
-          </Link>
-
           {/* Mobile Menu Button */}
           <button 
             className="md:hidden text-gold-400 hover:text-cream-100 transition"

@@ -50,7 +50,7 @@ export const ArtManager = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-serif text-cream-100 mb-6">Manage Art Gallery</h2>
+      <h2 className="text-3xl font-serif text-brown-900 mb-6">Manage Art Gallery</h2>
 
       {/* Add Form */}
       <form onSubmit={handleAdd} className="bg-brown-900 p-6 rounded-lg border border-gold-500/20 mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
@@ -73,12 +73,12 @@ export const ArtManager = () => {
           />
         </div>
         <div className="lg:col-span-1">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Price</label>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹)</label>
           <input 
             value={newArt.price}
             onChange={(e) => setNewArt({...newArt, price: e.target.value})}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
-            placeholder="$0.00"
+            placeholder="₹0.00"
           />
         </div>
         <div className="lg:col-span-1">

@@ -40,7 +40,7 @@ export const WorkshopManager = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-serif text-cream-100 mb-6">Manage Workshops</h2>
+      <h2 className="text-3xl font-serif text-brown-900 mb-6">Manage Workshops</h2>
 
       {/* Add Form */}
       <form onSubmit={handleAdd} className="bg-brown-900 p-6 rounded-lg border border-gold-500/20 mb-8 flex flex-col md:flex-row gap-4 items-end">

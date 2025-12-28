@@ -7,6 +7,7 @@ export interface MenuItem {
   id?: string;
   name: string;
   category: string;
+  subcategory?: string; // 'Milk' | 'Non-Milk' | undefined
   price: string;
 }
 
