@@ -29,6 +29,7 @@ export const Navbar = () => {
         <div className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">HOME</Link>
           <Link to="/menu" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">MENU</Link>
+          <Link to="/our-story" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">OUR STORY</Link>
           <Link to="/art" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">ART</Link>
           <Link to="/workshops" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">WORKSHOPS</Link>
           <Link to="/franchise" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">FRANCHISE</Link>
@@ -59,6 +60,7 @@ export const Navbar = () => {
             <div className="flex flex-col items-center gap-4 py-6">
               <Link to="/" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">HOME</Link>
               <Link to="/menu" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">MENU</Link>
+              <Link to="/our-story" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">OUR STORY</Link>
               <Link to="/art" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">ART</Link>
               <Link to="/workshops" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">WORKSHOPS</Link>
               <Link to="/franchise" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">FRANCHISE</Link>

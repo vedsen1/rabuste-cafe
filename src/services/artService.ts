@@ -9,6 +9,7 @@ export interface ArtPiece {
   title: string;
   artist: string;
   price: string;
+  description?: string;
   imageUrl: string;
   imagePath?: string; // To delete from storage later
 }

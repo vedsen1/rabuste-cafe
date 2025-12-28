@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Music2 } from "lucide-react";
+import { Instagram } from "lucide-react";
 import Logo from '../../assets/Logo.png';
 import { Link } from "react-router-dom";
 const scrollToTop = () => {
@@ -27,17 +27,28 @@ export const Footer = () => {
         {/* Address / Info */}
         <div className="flex flex-col gap-3 text-sm leading-relaxed">
           <p className="font-medium">The Robusta Coffee</p>
-          <a href="#" className="underline">12302 Rd</a>
-          <a href="#" className="underline">india, OH 44120</a>
-          <p>(216) 291-7620</p>
+            <a
+              href="https://maps.app.goo.gl/2VkqhZMzNmZqVHRv7?g_st=aw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              Surat, Gujarat 395007
+            </a>
+          <p>123456789</p>
 
           <div className="mt-4">
-            <p className="font-semibold">Open Monday - Friday</p>
-            <p>8am - 2pm</p>
+            <p>9:30AM - 11PM</p>
           </div>
 
           <div className="flex gap-4 mt-4">
-            <Instagram size={18} />
+            <a
+              href="https://www.instagram.com/rabuste.coffee?igsh=MXRnM2hhYW91Ym1lOQ=="
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Instagram size={18} />
+            </a>
           </div>
         </div>
 
@@ -66,12 +77,7 @@ export const Footer = () => {
       {/* Bottom Footer */}
       <div className="border-t border-[#f5efe6]/20 px-6 py-6 text-xs text-center leading-relaxed">
         ©2025. The Robusta Coffee. All Rights Reserved. Any unauthorized
-        duplication of content herein will result in prosecution. The Robusta
-        Coffee is a 501(c)(3) Public Charity · IN 84-2004511.
-        <br />
-        <span className="underline">Privacy Policy</span> |{" "}
-        <span className="underline">Terms of Use</span> |{" "}
-        <span className="underline">Refund Policy</span>
+        duplication of content herein will result in prosecution.
       </div>
     </footer>
   );

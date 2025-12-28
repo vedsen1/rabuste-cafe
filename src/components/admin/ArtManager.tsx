@@ -4,7 +4,7 @@ import { getArtPieces, addArtPiece, deleteArtPiece, ArtPiece } from '../../servi
 
 export const ArtManager = () => {
   const [items, setItems] = useState<ArtPiece[]>([]);
-  const [newArt, setNewArt] = useState({ title: '', artist: '', price: '' });
+  const [newArt, setNewArt] = useState({ title: '', artist: '', price: '', description: '' });
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -31,7 +31,7 @@ export const ArtManager = () => {
     setUploading(true);
     try {
       await addArtPiece(newArt, file);
-      setNewArt({ title: '', artist: '', price: '' });
+      setNewArt({ title: '', artist: '', price: '', description: '' });
       setFile(null);
       fetchItems();
     } catch (err) {
@@ -81,6 +81,18 @@ export const ArtManager = () => {
             placeholder="₹0.00"
           />
         </div>
+        
+        {/* Description Field - Spanning 2 columns on larger screens */}
+        <div className="lg:col-span-2 md:col-span-2">
+          <label className="block text-cream-200 text-sm font-bold mb-1">Description</label>
+          <textarea 
+            value={newArt.description}
+            onChange={(e) => setNewArt({...newArt, description: e.target.value})}
+            className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100 min-h-[42px] max-h-[80px]"
+            placeholder="Artwork details..."
+          />
+        </div>
+
         <div className="lg:col-span-1">
            <label className="block text-cream-200 text-sm font-bold mb-1">Image</label>
            <div className="relative">

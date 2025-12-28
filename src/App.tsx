@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Art from './pages/Art';
+import OurStory from './pages/OurStory';
 import Workshops from './pages/Workshops';
 import Franchise from './pages/Franchise';
 import Admin from './pages/Admin';
@@ -45,6 +46,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
+            <Route path="/our-story" element={<OurStory />} />
             <Route path="/art" element={<Art />} />
             <Route path="/workshops" element={<Workshops />} />
             <Route path="/franchise" element={<Franchise />} />
