@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { LayoutDashboard, Coffee, Palette, GraduationCap, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { MenuManager } from '../components/admin/MenuManager';
-import { ArtManager } from '../components/admin/ArtManager';
+;
 import { WorkshopManager } from '../components/admin/WorkshopManager';
 import { useNavigate } from 'react-router-dom';
+import { MenuManager } from '@/components/admin/MenuManager';
+import { ArtDetailsModal } from '@/components/modals/ArtDetailsModal';
+import { ArtManager } from '@/components/admin/ArtManager';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },

@@ -74,41 +74,41 @@ export default function OurStory() {
 
 
       <section className="relative py-10 md:py-16 flex items-start justify-center">
-  <motion.div 
-    style={{ y: yParallax }}
-    className="text-center z-10 px-6 max-w-4xl mt-6 md:mt-10"
-  >
-    <motion.span 
-      initial={{ opacity: 0, letterSpacing: "0.2em" }}
-      whileInView={{ opacity: 1, letterSpacing: "0.5em" }}
-      viewport={{ once: true }}
-      transition={{ duration: 1.5 }}
-      className="block text-gold-500 text-xs md:text-base uppercase tracking-[0.5em] mb-3 font-bold"
-    >
-      A Journey Through Time & Taste
-    </motion.span>
+        <motion.div
+          style={{ y: yParallax }}
+          className="text-center z-10 px-6 max-w-4xl mt-6 md:mt-10"
+        >
+          <motion.span
+            initial={{ opacity: 0, letterSpacing: "0.2em" }}
+            whileInView={{ opacity: 1, letterSpacing: "0.5em" }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5 }}
+            className="block text-gold-500 text-xs md:text-base uppercase tracking-[0.5em] mb-3 font-bold"
+          >
+            A Journey Through Time & Taste
+          </motion.span>
 
-    <motion.h1 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: 0.5, duration: 1 }}
-      className="text-4xl md:text-10xl font-serif text-brown-900 mb-4 leading-tight"
-    >
-      The Rabuste Experience
-    </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="text-4xl md:text-10xl font-serif text-brown-900 mb-4 leading-tight"
+          >
+            The Rabuste Experience
+          </motion.h1>
 
-    <motion.p 
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay: 1, duration: 1 }}
-      className="text-brown-900/70 text-base md:text-xl font-light max-w-3xl mx-auto"
-    >
-      Step inside our world. From the first bean we roasted to the community we've built, explore the soul of our cafe.
-    </motion.p>
-  </motion.div>
-</section>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 1, duration: 1 }}
+            className="text-brown-900/70 text-base md:text-xl font-light max-w-3xl mx-auto"
+          >
+            Step inside our world. From the first bean we roasted to the community we've built, explore the soul of our cafe.
+          </motion.p>
+        </motion.div>
+      </section>
 
 
 
