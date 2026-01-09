@@ -1,6 +1,7 @@
 import { db, storage } from '../lib/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { validateImageFile, sanitizeInput } from '../lib/validation';
 
 const COLLECTION_NAME = 'art';
 
@@ -21,14 +22,24 @@ export const getArtPieces = async () => {
 };
 
 export const addArtPiece = async (art: Omit<ArtPiece, 'imageUrl'>, file: File) => {
+  // Validate file before upload
+  const fileValidation = validateImageFile(file);
+  if (!fileValidation.valid) {
+    throw new Error(fileValidation.error || 'Invalid file');
+  }
+
   // 1. Upload Image
   const storageRef = ref(storage, `art/${Date.now()}_${file.name}`);
   const snapshot = await uploadBytes(storageRef, file);
   const downloadURL = await getDownloadURL(snapshot.ref);
 
-  // 2. Save Metadata to Firestore
+  // 2. Save Metadata to Firestore with sanitized data
   const newArt: ArtPiece = {
     ...art,
+    title: sanitizeInput(art.title),
+    artist: sanitizeInput(art.artist),
+    price: sanitizeInput(art.price),
+    description: art.description ? sanitizeInput(art.description) : undefined,
     imageUrl: downloadURL,
     imagePath: snapshot.ref.fullPath
   };
@@ -46,7 +57,9 @@ export const deleteArtPiece = async (id: string, imagePath?: string) => {
     try {
       await deleteObject(storageRef);
     } catch (error) {
-      console.warn("Failed to delete image from storage:", error);
+      if (import.meta.env.DEV) {
+        console.warn("Failed to delete image from storage:", error);
+      }
     }
   }
 };

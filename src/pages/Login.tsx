@@ -30,8 +30,12 @@ export default function Login() {
       // We don't manually navigate here anymore.
       // The useEffect above will handle redirection once the AuthContext updates.
     } catch (err: any) {
-      setError(`Login failed: ${err.message}`);
-      console.error(err);
+      // Show generic error message for security
+      setError('Invalid email or password. Please try again.');
+      // Log detailed error in development only
+      if (import.meta.env.DEV) {
+        console.error(err);
+      }
       setLoading(false);
     }
     // Note: We don't set loading(false) in success case to prevent UI flicker before redirect

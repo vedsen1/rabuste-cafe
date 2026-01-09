@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
 import { getMenuItems, addMenuItem, deleteMenuItem, MenuItem } from '../../services/menuService';
+import { validateMenuItem } from '../../lib/validation';
 
 const CATEGORIES = [
   'Robusta Cold',
@@ -23,6 +24,7 @@ export const MenuManager = () => {
     price: '' 
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     CATEGORIES.reduce((acc, cat) => ({ ...acc, [cat]: true }), {})
   );
@@ -35,8 +37,10 @@ export const MenuManager = () => {
     try {
       const data = await getMenuItems();
       setItems(data);
-    } catch (error) {
-      console.error("Error fetching menu:", error);
+    } catch (err) {
+      if (import.meta.env.DEV) {
+        console.error("Error fetching menu:", err);
+      }
     } finally {
       setLoading(false);
     }
@@ -44,23 +48,37 @@ export const MenuManager = () => {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newItem.name || !newItem.price || !newItem.category) return;
+    setError('');
+
+    // Validate input
+    const validation = validateMenuItem(newItem as MenuItem);
+    if (!validation.valid) {
+      setError(validation.errors.join(', '));
+      return;
+    }
     
     // Only include subcategory if it's relevant (not for Manual Brew/Non Coffee/Savoury)
-    const needsSubcategory = !['Manual Brew', 'Non Coffee', 'Savoury'].includes(newItem.category);
+    const needsSubcategory = !['Manual Brew', 'Non Coffee', 'Savoury'].includes(newItem.category || '');
     const itemToAdd = {
       ...newItem,
       subcategory: needsSubcategory ? newItem.subcategory : undefined
     } as MenuItem;
 
-    await addMenuItem(itemToAdd);
-    setNewItem({ 
-      name: '', 
-      category: CATEGORIES[0], 
-      subcategory: 'Milk',
-      price: '' 
-    });
-    fetchItems();
+    try {
+      await addMenuItem(itemToAdd);
+      setNewItem({ 
+        name: '', 
+        category: CATEGORIES[0], 
+        subcategory: 'Milk',
+        price: '' 
+      });
+      fetchItems();
+    } catch (err: any) {
+      setError(err.message || 'Failed to add item');
+      if (import.meta.env.DEV) {
+        console.error(err);
+      }
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -86,20 +104,28 @@ export const MenuManager = () => {
     <div>
       <h2 className="text-3xl font-serif text-brown-900 mb-6">Manage Menu</h2>
 
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-900/30 text-red-200 p-3 rounded mb-4 text-sm">
+          {error}
+        </div>
+      )}
+
       {/* Add Form */}
       <form onSubmit={handleAdd} className="bg-brown-900 p-6 rounded-lg border border-gold-500/20 mb-8 flex flex-col md:flex-row gap-4 items-end flex-wrap">
         <div className="flex-1 min-w-[200px]">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Item Name</label>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Item Name *</label>
           <input 
             value={newItem.name}
             onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+            maxLength={100}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             placeholder="e.g. Espresso"
           />
         </div>
         
         <div className="w-full md:w-48">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Category</label>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Category *</label>
           <select 
             value={newItem.category}
             onChange={(e) => setNewItem({...newItem, category: e.target.value})}
@@ -127,12 +153,15 @@ export const MenuManager = () => {
         )}
 
         <div className="w-full md:w-32">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹)</label>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹) *</label>
           <input 
             value={newItem.price}
             onChange={(e) => setNewItem({...newItem, price: e.target.value})}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             placeholder="₹0.00"
+            type="number"
+            step="0.01"
+            min="0"
           />
         </div>
         <button type="submit" className="bg-gold-500 text-brown-900 px-4 py-2 rounded font-bold hover:bg-cream-100 transition flex items-center gap-2">

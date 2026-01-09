@@ -29,19 +29,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            console.log("User data found:", userData);
             if (userData.role === 'admin') {
               setIsAdmin(true);
             } else {
-              console.warn("User does not have admin role");
               setIsAdmin(false);
             }
           } else {
-            console.warn("No user document found in 'users' collection for UID:", currentUser.uid);
             setIsAdmin(false);
           }
         } catch (error) {
-          console.error("Error verifying admin status:", error);
+          // Log errors in development only
+          if (import.meta.env.DEV) {
+            console.error("Error verifying admin status:", error);
+          }
           setIsAdmin(false);
         }
       } else {
