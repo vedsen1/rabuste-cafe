@@ -9,6 +9,8 @@ export interface MenuItem {
   category: string;
   subcategory?: string; // 'Milk' | 'Non-Milk' | undefined
   price: string;
+  description?: string;
+  imageUrl?: string;
 }
 
 export const getMenuItems = async () => {

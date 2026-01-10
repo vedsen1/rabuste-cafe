@@ -13,6 +13,7 @@ import { Navbar } from './components/layout/Navbar';
 import { Preloader } from './components/ui/Preloader';
 import { GlobalBackground } from './components/layout/GlobalBackground';
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import { ProtectedAdminRoute } from './components/layout/ProtectedAdminRoute';
 import { Footer } from './components/sections/Footer';
 
@@ -76,9 +77,11 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <CartProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </CartProvider>
     </AuthProvider>
   );
 }

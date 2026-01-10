@@ -41,9 +41,9 @@ export const ArtManager = () => {
     }
   };
 
-  const handleDelete = async (id: string, path?: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure?')) {
-      await deleteArtPiece(id, path);
+      await deleteArtPiece(id);
       fetchItems();
     }
   };
@@ -125,7 +125,7 @@ export const ArtManager = () => {
             <p className="text-gold-400 font-bold">{item.price}</p>
             
             <button 
-              onClick={() => handleDelete(item.id!, item.imagePath)}
+              onClick={() => handleDelete(item.id!)}
               className="absolute top-2 right-2 bg-red-900/80 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-600"
             >
               <Trash2 size={16} />

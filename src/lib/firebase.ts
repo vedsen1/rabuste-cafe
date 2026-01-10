@@ -7,13 +7,13 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCZDxMsDeGybbjKUnF3THaNcNG5wQEIA38",
-  authDomain: "rabustecafe.firebaseapp.com",
-  projectId: "rabustecafe",
-  storageBucket: "rabustecafe.firebasestorage.app",
-  messagingSenderId: "947845672904",
-  appId: "1:947845672904:web:282fdec3b848519acedafd",
-  measurementId: "G-6HLW2BP54M"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 

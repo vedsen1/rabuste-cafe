@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Trash2, ChevronDown, ChevronUp, Upload } from 'lucide-react';
 import { getMenuItems, addMenuItem, deleteMenuItem, MenuItem } from '../../services/menuService';
+import { uploadToCloudinary } from '../../services/cloudinaryService';
 
 const CATEGORIES = [
   'Robusta Cold',
@@ -20,9 +21,12 @@ export const MenuManager = () => {
     name: '', 
     category: CATEGORIES[0], 
     subcategory: 'Milk',
-    price: '' 
+    price: '',
+    description: ''
   });
+  const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     CATEGORIES.reduce((acc, cat) => ({ ...acc, [cat]: true }), {})
   );
@@ -46,21 +50,36 @@ export const MenuManager = () => {
     e.preventDefault();
     if (!newItem.name || !newItem.price || !newItem.category) return;
     
-    // Only include subcategory if it's relevant (not for Manual Brew/Non Coffee/Savoury)
-    const needsSubcategory = !['Manual Brew', 'Non Coffee', 'Savoury'].includes(newItem.category);
-    const itemToAdd = {
-      ...newItem,
-      subcategory: needsSubcategory ? newItem.subcategory : undefined
-    } as MenuItem;
+    setUploading(true);
+    try {
+      let imageUrl = '';
+      if (file) {
+        imageUrl = await uploadToCloudinary(file);
+      }
 
-    await addMenuItem(itemToAdd);
-    setNewItem({ 
-      name: '', 
-      category: CATEGORIES[0], 
-      subcategory: 'Milk',
-      price: '' 
-    });
-    fetchItems();
+      // Only include subcategory if it's relevant (not for Manual Brew/Non Coffee/Savoury)
+      const needsSubcategory = !['Manual Brew', 'Non Coffee', 'Savoury'].includes(newItem.category);
+      const itemToAdd = {
+        ...newItem,
+        subcategory: needsSubcategory ? newItem.subcategory : undefined,
+        imageUrl,
+      } as MenuItem;
+
+      await addMenuItem(itemToAdd);
+      setNewItem({ 
+        name: '', 
+        category: CATEGORIES[0], 
+        subcategory: 'Milk',
+        price: '',
+        description: ''
+      });
+      setFile(null);
+      fetchItems();
+    } catch (err) {
+      console.error("Failed to add menu item", err);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const handleDelete = async (id: string) => {
@@ -87,56 +106,85 @@ export const MenuManager = () => {
       <h2 className="text-3xl font-serif text-brown-900 mb-6">Manage Menu</h2>
 
       {/* Add Form */}
-      <form onSubmit={handleAdd} className="bg-brown-900 p-6 rounded-lg border border-gold-500/20 mb-8 flex flex-col md:flex-row gap-4 items-end flex-wrap">
-        <div className="flex-1 min-w-[200px]">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Item Name</label>
-          <input 
-            value={newItem.name}
-            onChange={(e) => setNewItem({...newItem, name: e.target.value})}
-            className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
-            placeholder="e.g. Espresso"
-          />
-        </div>
-        
-        <div className="w-full md:w-48">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Category</label>
-          <select 
-            value={newItem.category}
-            onChange={(e) => setNewItem({...newItem, category: e.target.value})}
-            className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
-          >
-            {CATEGORIES.map(cat => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
-        </div>
-
-        {showSubcategory && (
-          <div className="w-full md:w-32">
-            <label className="block text-cream-200 text-sm font-bold mb-1">Type</label>
+      <form onSubmit={handleAdd} className="bg-brown-900 p-6 rounded-lg border border-gold-500/20 mb-8 flex flex-col gap-4">
+        <div className="flex flex-col md:flex-row gap-4 w-full">
+          <div className="flex-1">
+            <label className="block text-cream-200 text-sm font-bold mb-1">Item Name</label>
+            <input 
+              value={newItem.name}
+              onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+              className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
+              placeholder="e.g. Espresso"
+            />
+          </div>
+          
+          <div className="w-full md:w-48">
+            <label className="block text-cream-200 text-sm font-bold mb-1">Category</label>
             <select 
-              value={newItem.subcategory}
-              onChange={(e) => setNewItem({...newItem, subcategory: e.target.value})}
+              value={newItem.category}
+              onChange={(e) => setNewItem({...newItem, category: e.target.value})}
               className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             >
-              {SUBCATEGORIES.map(sub => (
-                <option key={sub} value={sub}>{sub}</option>
+              {CATEGORIES.map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
               ))}
             </select>
           </div>
-        )}
 
-        <div className="w-full md:w-32">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹)</label>
+          {showSubcategory && (
+            <div className="w-full md:w-32">
+              <label className="block text-cream-200 text-sm font-bold mb-1">Type</label>
+              <select 
+                value={newItem.subcategory}
+                onChange={(e) => setNewItem({...newItem, subcategory: e.target.value})}
+                className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
+              >
+                {SUBCATEGORIES.map(sub => (
+                  <option key={sub} value={sub}>{sub}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div className="w-full md:w-32">
+            <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹)</label>
+            <input 
+              value={newItem.price}
+              onChange={(e) => setNewItem({...newItem, price: e.target.value})}
+              className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
+              placeholder="₹0.00"
+            />
+          </div>
+        </div>
+
+        <div className="w-full">
+          <label className="block text-cream-200 text-sm font-bold mb-1">Description (One Line)</label>
           <input 
-            value={newItem.price}
-            onChange={(e) => setNewItem({...newItem, price: e.target.value})}
+            value={newItem.description || ''}
+            onChange={(e) => setNewItem({...newItem, description: e.target.value})}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
-            placeholder="₹0.00"
+            placeholder="e.g. Rich and intense flavor"
           />
         </div>
-        <button type="submit" className="bg-gold-500 text-brown-900 px-4 py-2 rounded font-bold hover:bg-cream-100 transition flex items-center gap-2">
-          <Plus size={18} /> Add
+
+        <div className="w-full">
+           <label className="block text-cream-200 text-sm font-bold mb-1">Image</label>
+           <div className="relative">
+             <input 
+               type="file" 
+               accept="image/*"
+               onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+               className="hidden"
+               id="menu-upload"
+             />
+             <label htmlFor="menu-upload" className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-200 cursor-pointer flex items-center justify-center gap-2 hover:bg-brown-700">
+               <Upload size={16} /> {file ? 'Image Selected' : 'Upload Image'}
+             </label>
+           </div>
+        </div>
+
+        <button type="submit" disabled={uploading} className="bg-gold-500 text-brown-900 px-4 py-2 rounded font-bold hover:bg-cream-100 transition flex items-center justify-center gap-2 disabled:opacity-50">
+          <Plus size={18} /> {uploading ? 'Adding...' : 'Add Item'}
         </button>
       </form>
 
