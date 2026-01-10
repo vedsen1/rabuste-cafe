@@ -1,6 +1,7 @@
 import { db } from '../lib/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
 import { uploadToCloudinary } from './cloudinaryService';
+import { validateImageFile, sanitizeInput } from '../lib/validation';
 
 const COLLECTION_NAME = 'art';
 
@@ -25,12 +26,22 @@ export const getArtPieces = async () => {
 export const addArtPiece = async (art: Omit<ArtPiece, 'imageUrl'>, file: File | null) => {
   if (!file) throw new Error("Image file is required");
 
+  // Validate file before upload
+  const fileValidation = validateImageFile(file);
+  if (!fileValidation.valid) {
+    throw new Error(fileValidation.error || 'Invalid file');
+  }
+
   // 1. Upload Image to Cloudinary
   const downloadURL = await uploadToCloudinary(file);
 
-  // 2. Save Metadata to Firestore
+  // 2. Save Metadata to Firestore with sanitized data
   const newArt: ArtPiece = {
     ...art,
+    title: sanitizeInput(art.title),
+    artist: sanitizeInput(art.artist),
+    price: sanitizeInput(art.price),
+    description: art.description ? sanitizeInput(art.description) : undefined,
     imageUrl: downloadURL,
     // We don't need to store a storage path for Cloudinary unless we implement 
     // signed deletion logic later. For now, we just store the URL.

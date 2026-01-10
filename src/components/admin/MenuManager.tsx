@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Plus, Trash2, ChevronDown, ChevronUp, Upload } from 'lucide-react';
 import { getMenuItems, addMenuItem, deleteMenuItem, MenuItem } from '../../services/menuService';
 import { uploadToCloudinary } from '../../services/cloudinaryService';
+import { validateMenuItem } from '../../lib/validation';
 
 const CATEGORIES = [
   'Robusta Cold',
@@ -27,6 +28,7 @@ export const MenuManager = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>(
     CATEGORIES.reduce((acc, cat) => ({ ...acc, [cat]: true }), {})
   );
@@ -39,8 +41,10 @@ export const MenuManager = () => {
     try {
       const data = await getMenuItems();
       setItems(data);
-    } catch (error) {
-      console.error("Error fetching menu:", error);
+    } catch (err) {
+      if (import.meta.env.DEV) {
+        console.error("Error fetching menu:", err);
+      }
     } finally {
       setLoading(false);
     }
@@ -48,7 +52,14 @@ export const MenuManager = () => {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newItem.name || !newItem.price || !newItem.category) return;
+    setError('');
+
+    // Validate input
+    const validation = validateMenuItem(newItem as MenuItem);
+    if (!validation.valid) {
+      setError(validation.errors.join(', '));
+      return;
+    }
     
     setUploading(true);
     try {
@@ -58,7 +69,7 @@ export const MenuManager = () => {
       }
 
       // Only include subcategory if it's relevant (not for Manual Brew/Non Coffee/Savoury)
-      const needsSubcategory = !['Manual Brew', 'Non Coffee', 'Savoury'].includes(newItem.category);
+      const needsSubcategory = !['Manual Brew', 'Non Coffee', 'Savoury'].includes(newItem.category || '');
       const itemToAdd = {
         ...newItem,
         subcategory: needsSubcategory ? newItem.subcategory : undefined,
@@ -75,7 +86,8 @@ export const MenuManager = () => {
       });
       setFile(null);
       fetchItems();
-    } catch (err) {
+    } catch (err: any) {
+      setError(err.message || 'Failed to add item');
       console.error("Failed to add menu item", err);
     } finally {
       setUploading(false);
@@ -104,6 +116,13 @@ export const MenuManager = () => {
   return (
     <div>
       <h2 className="text-3xl font-serif text-brown-900 mb-6">Manage Menu</h2>
+
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-900/30 text-red-200 p-3 rounded mb-4 text-sm">
+          {error}
+        </div>
+      )}
 
       {/* Add Form */}
       <form onSubmit={handleAdd} className="bg-brown-900 p-6 rounded-lg border border-gold-500/20 mb-8 flex flex-col gap-4">

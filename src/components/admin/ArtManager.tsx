@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Plus, Trash2, Upload } from 'lucide-react';
 import { getArtPieces, addArtPiece, deleteArtPiece, ArtPiece } from '../../services/artService';
+import { validateArtPiece } from '../../lib/validation';
 
 export const ArtManager = () => {
   const [items, setItems] = useState<ArtPiece[]>([]);
@@ -8,6 +9,7 @@ export const ArtManager = () => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     fetchItems();
@@ -17,8 +19,10 @@ export const ArtManager = () => {
     try {
       const data = await getArtPieces();
       setItems(data);
-    } catch (error) {
-      console.error("Error fetching art:", error);
+    } catch (err) {
+      if (import.meta.env.DEV) {
+        console.error("Error fetching art:", err);
+      }
     } finally {
       setLoading(false);
     }
@@ -26,7 +30,19 @@ export const ArtManager = () => {
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newArt.title || !newArt.price || !file) return;
+    setError('');
+    
+    // Validate input
+    const validation = validateArtPiece(newArt);
+    if (!validation.valid) {
+      setError(validation.errors.join(', '));
+      return;
+    }
+
+    if (!file) {
+      setError('Please select an image file');
+      return;
+    }
     
     setUploading(true);
     try {
@@ -34,8 +50,11 @@ export const ArtManager = () => {
       setNewArt({ title: '', artist: '', price: '', description: '' });
       setFile(null);
       fetchItems();
-    } catch (err) {
-      console.error("Upload failed", err);
+    } catch (err: any) {
+      setError(err.message || 'Upload failed. Please try again.');
+      if (import.meta.env.DEV) {
+        console.error("Upload failed", err);
+      }
     } finally {
       setUploading(false);
     }
@@ -52,33 +71,45 @@ export const ArtManager = () => {
     <div>
       <h2 className="text-3xl font-serif text-brown-900 mb-6">Manage Art Gallery</h2>
 
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-900/30 text-red-200 p-3 rounded mb-4 text-sm">
+          {error}
+        </div>
+      )}
+
       {/* Add Form */}
       <form onSubmit={handleAdd} className="bg-brown-900 p-6 rounded-lg border border-gold-500/20 mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
         <div className="lg:col-span-1">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Title</label>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Title *</label>
           <input 
             value={newArt.title}
             onChange={(e) => setNewArt({...newArt, title: e.target.value})}
+            maxLength={100}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             placeholder="Piece Title"
           />
         </div>
         <div className="lg:col-span-1">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Artist</label>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Artist *</label>
           <input 
             value={newArt.artist}
             onChange={(e) => setNewArt({...newArt, artist: e.target.value})}
+            maxLength={100}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             placeholder="Artist Name"
           />
         </div>
         <div className="lg:col-span-1">
-          <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹)</label>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹) *</label>
           <input 
             value={newArt.price}
             onChange={(e) => setNewArt({...newArt, price: e.target.value})}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             placeholder="₹0.00"
+            type="number"
+            step="0.01"
+            min="0"
           />
         </div>
         
@@ -88,17 +119,18 @@ export const ArtManager = () => {
           <textarea 
             value={newArt.description}
             onChange={(e) => setNewArt({...newArt, description: e.target.value})}
+            maxLength={1000}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100 min-h-[42px] max-h-[80px]"
             placeholder="Artwork details..."
           />
         </div>
 
         <div className="lg:col-span-1">
-           <label className="block text-cream-200 text-sm font-bold mb-1">Image</label>
+           <label className="block text-cream-200 text-sm font-bold mb-1">Image *</label>
            <div className="relative">
              <input 
                type="file" 
-               accept="image/*"
+               accept="image/jpeg,image/png,image/webp,image/gif"
                onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
                className="hidden"
                id="art-upload"
