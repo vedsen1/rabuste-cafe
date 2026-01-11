@@ -13,7 +13,7 @@ export const Preloader = ({ onComplete }: PreloaderProps) => {
     const timer = setTimeout(() => {
       setExit(true);
       setTimeout(onComplete, 800); // Wait for exit animation
-    }, 3500); // 3.5 seconds total duration
+    }, 2200); // 2.2 seconds total duration (optimized from 3.5s)
 
     return () => clearTimeout(timer);
   }, [onComplete]);
