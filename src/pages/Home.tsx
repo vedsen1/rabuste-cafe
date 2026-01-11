@@ -1,4 +1,5 @@
 import { HeroSlideshow } from '../components/sections/HeroSlideshow';
+import { Hero } from '../components/sections/Hero';
 import { Story } from '../components/sections/Story';
 
 import { ExperienceReviews } from '../components/sections/ExperienceReviews';
@@ -12,6 +13,7 @@ export default function Home() {
       <main className="relative z-10">
         <Navbar/>
         <HeroSlideshow />
+        <Hero />
         <Story />
         <WhyRobusta />
         <ExperienceReviews />
