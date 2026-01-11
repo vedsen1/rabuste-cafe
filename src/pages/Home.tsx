@@ -1,4 +1,4 @@
-import { Hero } from '../components/sections/Hero';
+import { HeroSlideshow } from '../components/sections/HeroSlideshow';
 import { Story } from '../components/sections/Story';
 
 import { ExperienceReviews } from '../components/sections/ExperienceReviews';
@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <main className="relative z-10">
         <Navbar/>
-        <Hero />
+        <HeroSlideshow />
         <Story />
         <WhyRobusta />
         <ExperienceReviews />
