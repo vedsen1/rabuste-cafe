@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Coffee, Users, Heart } from 'lucide-react';
+import { ShoppingCart, Coffee, Users, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getMenuItems, MenuItem } from '../services/menuService';
 import { useCart } from '../context/CartContext';
 
@@ -58,10 +58,12 @@ export default function Menu() {
     return acc;
   }, {} as Record<string, { milk: MenuItem[], nonMilk: MenuItem[], others: MenuItem[] }>);
 
-  const MenuItemCard = ({ item }: { item: MenuItem }) => (
-    <div className="flex-shrink-0 w-[280px] md:w-[320px] bg-brown-900/90 rounded-xl overflow-hidden border border-gold-500/10 hover:border-gold-500/30 transition-all duration-300 group shadow-lg snap-start hover:scale-105 z-0 hover:z-10 relative">
+
+
+const MenuItemCard = ({ item }: { item: MenuItem }) => (
+    <div className="flex-shrink-0 w-[160px] md:w-[320px] bg-brown-900/90 rounded-xl overflow-hidden border border-gold-500/10 hover:border-gold-500/30 transition-all duration-300 group shadow-lg snap-start hover:scale-105 z-0 hover:z-10 relative">
       {/* Image Area */}
-      <div className="h-48 w-full bg-black/40 relative overflow-hidden rounded-t-xl">
+      <div className="h-32 md:h-48 w-full bg-black/40 relative overflow-hidden rounded-t-xl">
         {item.imageUrl ? (
           <img 
             src={item.imageUrl} 
@@ -77,25 +79,64 @@ export default function Menu() {
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col gap-3">
+      <div className="p-3 md:p-5 flex flex-col gap-2 md:gap-3">
         <div className="flex justify-between items-start">
-          <h3 className="text-xl font-serif text-gold-400 leading-tight">{item.name}</h3>
-          <span className="text-lg font-bold text-cream-100">{item.price}</span>
+          <h3 className="text-sm md:text-xl font-serif text-gold-400 leading-tight line-clamp-2">{item.name}</h3>
+          <span className="text-sm md:text-lg font-bold text-cream-100">{item.price}</span>
         </div>
         
-        <p className="text-sm text-cream-200/60 line-clamp-2 min-h-[2.5em]">
+        <p className="text-xs md:text-sm text-cream-200/60 line-clamp-2 min-h-[2.5em] hidden md:block">
           {item.description || "A classic favorite brewed to perfection."}
         </p>
 
         <button 
           onClick={() => addToCart(item)}
-          className="mt-2 w-full py-3 bg-gold-500/10 border border-gold-500/30 text-gold-400 hover:bg-gold-500 hover:text-brown-900 rounded-lg text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-2"
+          className="mt-auto w-full py-2 md:py-3 bg-gold-500/10 border border-gold-500/30 text-gold-400 hover:bg-gold-500 hover:text-brown-900 rounded-lg text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-1 md:gap-2"
         >
-          Add to Cart
+          Add <span className="hidden md:inline">to Cart</span>
         </button>
       </div>
     </div>
   );
+
+  const ScrollRow = ({ items }: { items: MenuItem[] }) => {
+    const rowRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: 'left' | 'right') => {
+      if (rowRef.current) {
+        const scrollAmount = direction === 'left' ? -300 : 300;
+        rowRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      }
+    };
+
+    return (
+      <div className="relative group/row">
+        {/* Left Arrow */}
+        <button 
+          onClick={() => scroll('left')}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-brown-900/80 text-gold-400 p-2 rounded-full opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-brown-900 shadow-lg -ml-4"
+        >
+          <ChevronLeft size={24} />
+        </button>
+
+        {/* Scroll Container */}
+        <div 
+          ref={rowRef}
+          className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6"
+        >
+          {items.map(item => <MenuItemCard key={item.id} item={item} />)}
+        </div>
+
+        {/* Right Arrow */}
+        <button 
+          onClick={() => scroll('right')}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-brown-900/80 text-gold-400 p-2 rounded-full opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-brown-900 shadow-lg -mr-4"
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen pb-20 overflow-x-hidden relative">
@@ -146,9 +187,7 @@ export default function Menu() {
                   {milkItems.length > 0 && (
                     <div>
                       <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Milk Based</h3>
-                      <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6">
-                        {milkItems.map(item => <MenuItemCard key={item.id} item={item} />)}
-                      </div>
+                      <ScrollRow items={milkItems} />
                     </div>
                   )}
 
@@ -156,9 +195,7 @@ export default function Menu() {
                   {nonMilkItems.length > 0 && (
                     <div>
                       <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Non-Milk Based</h3>
-                      <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6">
-                        {nonMilkItems.map(item => <MenuItemCard key={item.id} item={item} />)}
-                      </div>
+                      <ScrollRow items={nonMilkItems} />
                     </div>
                   )}
 
@@ -166,9 +203,7 @@ export default function Menu() {
                    {otherItems.length > 0 && (
                     <div>
                       {(milkItems.length > 0 || nonMilkItems.length > 0) && <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Others</h3>}
-                      <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6">
-                        {otherItems.map(item => <MenuItemCard key={item.id} item={item} />)}
-                      </div>
+                      <ScrollRow items={otherItems} />
                     </div>
                   )}
                 </>
@@ -209,9 +244,7 @@ export default function Menu() {
                     {group.milk.length > 0 && (
                       <div>
                         <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Milk Based</h3>
-                        <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6">
-                          {group.milk.map(item => <MenuItemCard key={item.id} item={item} />)}
-                        </div>
+                        <ScrollRow items={group.milk} />
                       </div>
                     )}
 
@@ -219,9 +252,7 @@ export default function Menu() {
                     {group.nonMilk.length > 0 && (
                       <div>
                         <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Non-Milk Based</h3>
-                        <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6">
-                          {group.nonMilk.map(item => <MenuItemCard key={item.id} item={item} />)}
-                        </div>
+                        <ScrollRow items={group.nonMilk} />
                       </div>
                     )}
 
@@ -229,9 +260,7 @@ export default function Menu() {
                     {group.others.length > 0 && (
                       <div>
                         {hasSub && <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Others</h3>}
-                        <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6">
-                          {group.others.map(item => <MenuItemCard key={item.id} item={item} />)}
-                        </div>
+                        <ScrollRow items={group.others} />
                       </div>
                     )}
                   </div>
