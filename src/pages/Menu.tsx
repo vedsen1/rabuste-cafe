@@ -163,7 +163,7 @@ const MenuItemCard = ({ item }: { item: MenuItem }) => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-3xl md:text-4xl font-serif text-brown-900 mb-12 text-left pl-4">Our Specialty</h2>
+          <h2 className="text-3xl md:text-4xl font-serif text-brown-900 mb-12 text-left pl-4">Our Specialty (Robusta) </h2>
           
           <div className="space-y-12">
             {/* Group by Subcategory Logic for Specialty Section */}
