@@ -46,8 +46,9 @@ export const Footer = () => {
               href="https://www.instagram.com/rabuste.coffee?igsh=MXRnM2hhYW91Ym1lOQ=="
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Visit Robusta Coffee Instagram"
             >
-              <Instagram size={18} />
+              <Instagram size={18} aria-hidden="false" />
             </a>
           </div>
         </div>

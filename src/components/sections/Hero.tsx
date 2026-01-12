@@ -77,6 +77,7 @@ export const Hero = () => {
           onClick={() => navigate('/menu')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          aria-label="Navigate to menu"
           className="px-6 py-3 md:px-8 md:py-4 bg-[#3C2F2F] text-[#FFF8E7] font-serif text-base md:text-lg rounded-full shadow-xl hover:bg-[#C49B62] hover:text-[#3C2F2F] transition-all duration-300"
           style={{ fontFamily: "'Inria Serif', serif" }}
         >

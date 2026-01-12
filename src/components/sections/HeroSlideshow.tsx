@@ -1,0 +1,151 @@
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+interface SlideImage {
+  id: number;
+  src: string;
+  alt: string;
+}
+
+// Import slideshow images
+const slides: SlideImage[] = [
+  {
+    id: 1,
+    src: new URL('../../assets/slideshow/slide-1.jpg', import.meta.url).href,
+    alt: 'Rabuste Cafe - Premium Coffee',
+  },
+  {
+    id: 2,
+    src: new URL('../../assets/slideshow/slide-2.jpg', import.meta.url).href,
+    alt: 'Rabuste Cafe - Artisan Pastries',
+  },
+  {
+    id: 3,
+    src: new URL('../../assets/slideshow/slide-3.jpg', import.meta.url).href,
+    alt: 'Rabuste Cafe - Workshop Experience',
+  },
+];
+
+export const HeroSlideshow = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
+  const autoPlayTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // Auto-play slideshow
+  useEffect(() => {
+    if (isAutoPlay && !isHovering && slides.length > 1) {
+      autoPlayTimer.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }, 4000); // Change slide every 4 seconds
+    }
+
+    return () => {
+      if (autoPlayTimer.current) {
+        clearInterval(autoPlayTimer.current);
+      }
+    };
+  }, [isAutoPlay, isHovering]);
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+    setIsAutoPlay(false);
+    // Resume auto-play after 8 seconds of manual interaction
+    setTimeout(() => setIsAutoPlay(true), 8000);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setIsAutoPlay(false);
+    setTimeout(() => setIsAutoPlay(true), 8000);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setIsAutoPlay(false);
+    setTimeout(() => setIsAutoPlay(true), 8000);
+  };
+
+  return (
+    <section
+      className="relative w-full h-screen overflow-hidden"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      {/* Slides */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentSlide}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          className="absolute inset-0"
+        >
+          <img
+            src={slides[currentSlide].src}
+            alt={slides[currentSlide].alt}
+            className="w-full h-full object-cover"
+            loading={currentSlide === 0 ? 'eager' : 'lazy'}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Dark Overlay for text readability */}
+      <div className="absolute inset-0 bg-black/30 z-10" />
+
+      {/* Left Arrow Button */}
+      <button
+        onClick={prevSlide}
+        aria-label="Previous slide"
+        className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 transition-all duration-300 p-2 md:p-3 rounded-full backdrop-blur-sm"
+      >
+        <ChevronLeft size={24} className="text-white md:w-8 md:h-8" />
+      </button>
+
+      {/* Right Arrow Button */}
+      <button
+        onClick={nextSlide}
+        aria-label="Next slide"
+        className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/20 hover:bg-white/40 transition-all duration-300 p-2 md:p-3 rounded-full backdrop-blur-sm"
+      >
+        <ChevronRight size={24} className="text-white md:w-8 md:h-8" />
+      </button>
+
+      {/* Dot Indicators */}
+      <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {slides.map((_, index) => (
+          <motion.button
+            key={index}
+            onClick={() => goToSlide(index)}
+            aria-label={`Go to slide ${index + 1}`}
+            className={`transition-all duration-300 rounded-full ${
+              currentSlide === index
+                ? 'bg-white w-8 md:w-10 h-2 md:h-3'
+                : 'bg-white/50 hover:bg-white/80 w-2 md:w-3 h-2 md:h-3'
+            }`}
+            whileHover={{ scale: 1.2 }}
+          />
+        ))}
+      </div>
+
+      {/* Slide Counter (Optional) */}
+      <div className="absolute top-6 md:top-10 right-6 md:right-10 z-20 text-white text-sm md:text-base font-medium bg-black/30 px-4 py-2 rounded-full backdrop-blur-sm">
+        {currentSlide + 1} / {slides.length}
+      </div>
+
+      {/* Auto-play Indicator (Optional) */}
+      {isAutoPlay && (
+        <div className="absolute top-6 md:top-10 left-6 md:left-10 z-20 flex items-center gap-2 text-white text-sm bg-black/30 px-3 py-2 rounded-full backdrop-blur-sm">
+          <motion.div
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-2 h-2 bg-green-400 rounded-full"
+          />
+          <span className="text-xs md:text-sm">Auto-playing</span>
+        </div>
+      )}
+    </section>
+  );
+};
