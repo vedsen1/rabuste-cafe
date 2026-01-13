@@ -48,24 +48,24 @@ const slides: SlideImage[] = [
 export const HeroSlideshow = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
-  const [isHovering, setIsHovering] = useState(false);
-  const autoPlayTimer = useRef<NodeJS.Timeout | null>(null);
+  const autoPlayTimer = useRef<number | null>(null);
   const navigate = useNavigate();
 
   // Auto-play slideshow
   useEffect(() => {
-    if (isAutoPlay && !isHovering && slides.length > 1) {
-      autoPlayTimer.current = setInterval(() => {
+    if (isAutoPlay && slides.length > 1) {
+      autoPlayTimer.current = window.setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
       }, 4000); // Change slide every 4 seconds
     }
 
     return () => {
       if (autoPlayTimer.current) {
-        clearInterval(autoPlayTimer.current);
+        window.clearInterval(autoPlayTimer.current);
+        autoPlayTimer.current = null;
       }
     };
-  }, [isAutoPlay, isHovering]);
+  }, [isAutoPlay]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
@@ -89,8 +89,6 @@ export const HeroSlideshow = () => {
   return (
     <section
       className="relative w-full h-screen overflow-hidden"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
     >
       {/* Slides */}
       <AnimatePresence mode="wait">
