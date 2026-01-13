@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { getRobustaSeeds, RobustaSeed } from '../../services/seedsService';
 import { ArrowRight } from 'lucide-react';
 import seedBagImage from '../../assets/robusta-seeds-bag.png';
+import beansBorder from '../../assets/beans1.png';
+import seedsBg from '../../assets/seeds-bg.png';
 
 // Fallback demo seed
 const fallbackSeed: RobustaSeed = {
@@ -41,80 +43,100 @@ export const RobustaSeeds = () => {
 
   if (loading) {
     return (
-      <section className="w-full py-20 px-4 md:px-12 bg-gradient-to-b from-[#f4f1ea] to-[#e8e5cc]">
+      <section className="w-full py-20 px-4 md:px-12 bg-[#6B4E45]">
         <div className="max-w-7xl mx-auto text-center">
-          <p className="text-brown-700">Loading seeds...</p>
+          <p className="text-[#E8DCC4]">Loading seeds...</p>
         </div>
       </section>
     );
   }
 
   return (
-    <section className="w-full py-20 px-4 md:px-12 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[600px]">
-          {/* Left: Content */}
+    <section 
+      className="w-full relative overflow-hidden bg-[#6B4E45]"
+      style={{
+        backgroundImage: `url(${seedsBg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-4 md:px-12 pt-20 pb-32 relative z-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center min-h-[500px]">
+          {/* Left: Product Image (Swapped position) */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="relative h-[500px] md:h-[600px] flex items-center justify-center md:justify-start order-2 md:order-1"
           >
-            {/* Tag */}
-            <p className="text-brown-600 text-sm font-medium">
-              Premium Coffee Seeds Collection
-            </p>
-
-            {/* Heading */}
-            <h2 className="text-5xl md:text-6xl font-serif text-brown-900 leading-tight">
-              Grow Your Own <br />
-              <span className="text-orange-600">Robusta</span> Seeds
-            </h2>
-
-            {/* Description */}
-            <p className="text-brown-700/80 text-lg leading-relaxed">
-              Once premium beans, now premium seeds — <span className="font-bold text-brown-900">Rabuste Seeds</span> is your gateway to cultivating authentic <span className="font-bold">Robusta</span> coffee at home through <span className="font-bold">quality, expertise,</span> and <span className="font-bold">passion</span>.
-            </p>
-
-            {/* Details */}
-            <p className="text-brown-900 font-semibold">
-              Starting at {seed.price} • {seed.quantity}
-            </p>
-
-            {/* Buttons */}
-            <div className="flex flex-wrap gap-4 pt-4">
-              <motion.button
-                onClick={() => navigate('/seeds-inquiry')}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 bg-brown-900 text-white font-serif font-bold rounded-sm hover:bg-orange-600 transition-all duration-300"
-              >
-                Buy Seeds →
-              </motion.button>
+            {/* Bag Image - Enlarged */}
+            <div className="relative w-full h-full flex items-center justify-center md:justify-start filter drop-shadow-2xl hover:scale-105 transition-transform duration-500">
+              <img
+                src={seed.imageUrl}
+                alt={seed.title}
+                className="max-w-full max-h-full w-auto h-auto object-contain scale-125 md:scale-135 origin-center md:-translate-x-12"
+              />
             </div>
           </motion.div>
 
-          {/* Right: Product Image */}
+          {/* Right: Content (Swapped position) */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="relative h-96 md:h-[500px] flex items-center justify-center"
+            className="space-y-8 order-1 md:order-2"
           >
-            <img
-              src={seed.imageUrl}
-              alt={seed.title}
-              className="w-4/5 h-4/5 object-contain drop-shadow-2xl"
-            />
-            {/* Decorative circles */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-80 h-80 border-2 border-brown-200/30 rounded-full" />
-              <div className="absolute w-96 h-96 border border-brown-100/20 rounded-full" />
+            {/* Heading */}
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif text-[#E8DCC4] leading-[1.1] italic">
+              Grab a Bag of Our Finest Robusta Seeds
+            </h2>
+
+            {/* Description */}
+            <div className="space-y-4 max-w-lg">
+              <p className="text-[#D4C5B0] text-lg leading-relaxed">
+                Bring a piece of Rabuste home with you. Every pack of our premium Robusta seeds delivers more than just strong plants — it carries a legacy of quality, passion, and sustainable farming.
+              </p>
+              <p className="text-[#E8DCC4] text-lg">
+                Bold in strength. Rich in character. Grown with care.
+              </p>
+              <p className="text-white font-bold text-lg">
+                Grow boldly. Harvest joy.
+              </p>
+            </div>
+
+            {/* Details */}
+            <div className="border-t border-b border-[#8B5E3C] py-4 my-6">
+               <p className="text-[#E8DCC4] font-medium flex items-center gap-2">
+                 <span className="text-xl">☕</span> {seed.quantity} • Premium Grade
+               </p>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex flex-wrap gap-4 pt-2">
+              <motion.button
+                onClick={() => navigate('/seeds-inquiry')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-4 bg-[#A65D37] text-white font-serif font-bold text-lg hover:bg-[#8B4A28] transition-all duration-300 shadow-lg flex items-center gap-2"
+              >
+                {seed.price} | Order Today <ArrowRight size={20} />
+              </motion.button>
             </div>
           </motion.div>
         </div>
+      </div>
+      
+      {/* Bottom Beans Border - Adjusted color blending if needed, or kept as is */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-10 opacity-30 mix-blend-multiply">
+         <img 
+            src={beansBorder} 
+            alt="Coffee Beans Border" 
+            className="w-full h-auto object-cover transform translate-y-1/4 scale-110"
+            style={{ maxHeight: '150px', objectPosition: 'bottom' }}
+         />
       </div>
     </section>
   );
