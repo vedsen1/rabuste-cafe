@@ -7,6 +7,7 @@ import Art from './pages/Art';
 import OurStory from './pages/OurStory';
 import Workshops from './pages/Workshops';
 import Franchise from './pages/Franchise';
+import SeedsInquiry from './pages/SeedsInquiry';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
 import { Navbar } from './components/layout/Navbar';
@@ -51,6 +52,7 @@ function AppContent() {
             <Route path="/art" element={<Art />} />
             <Route path="/workshops" element={<Workshops />} />
             <Route path="/franchise" element={<Franchise />} />
+            <Route path="/seeds-inquiry" element={<SeedsInquiry />} />
             <Route path="/login" element={<Login />} />
             <Route 
               path="/admin" 
@@ -63,8 +65,8 @@ function AppContent() {
           </Routes>
         </div>
         
-        {/* Render Footer everywhere except Admin panel and Login page */}
-        {location.pathname !== '/admin' && location.pathname !== '/login' && (
+        {/* Render Footer everywhere except Admin panel, Login page, and Seeds Inquiry */}
+        {location.pathname !== '/admin' && location.pathname !== '/login' && location.pathname !== '/seeds-inquiry' && (
           <div className="relative z-10">
             <Footer />
           </div>

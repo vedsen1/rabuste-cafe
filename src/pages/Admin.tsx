@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Coffee, Palette, GraduationCap, LogOut } from 'lucide-react';
+import { LayoutDashboard, Coffee, Palette, GraduationCap, Sprout, LogOut } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 ;
 import { WorkshopManager } from '../components/admin/WorkshopManager';
@@ -8,11 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { MenuManager } from '@/components/admin/MenuManager';
 import { ArtDetailsModal } from '@/components/modals/ArtDetailsModal';
 import { ArtManager } from '@/components/admin/ArtManager';
+import { SeedsManager } from '@/components/admin/SeedsManager';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'menu', label: 'Manage Menu', icon: Coffee },
   { id: 'art', label: 'Manage Art', icon: Palette },
+  { id: 'seeds', label: 'Manage Seeds', icon: Sprout },
   { id: 'workshops', label: 'Workshops', icon: GraduationCap },
 ];
 
@@ -84,6 +86,7 @@ export default function Admin() {
           {activeTab === 'dashboard' && <DashboardView />}
           {activeTab === 'menu' && <MenuManager />}
           {activeTab === 'art' && <ArtManager />}
+          {activeTab === 'seeds' && <SeedsManager />}
           {activeTab === 'workshops' && <WorkshopManager />}
         </motion.div>
       </div>

@@ -17,7 +17,8 @@ export const Hero = () => {
           src={pie}
           alt="Pie"
           initial={{ opacity: 0, scale: 0.8, x: 70 }}
-          animate={{ opacity: 1, scale: 1, x: 40 }}
+          whileInView={{ opacity: 1, scale: 1, x: 40 }}
+          viewport={{ once: true }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="
             w-[70vw] sm:w-[90vw] md:w-[100%]
@@ -31,7 +32,8 @@ export const Hero = () => {
           src={beans}
           alt="Coffee Beans"
           initial={{ opacity: 0, scale:1, x: 50, y: 0 }}
-          animate={{ opacity: 1, scale: 2.5, x: 20, y: 50 }}
+          whileInView={{ opacity: 1, scale: 2.5, x: 20, y: 50 }}
+          viewport={{ once: true }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="absolute top-0 right-0 w-24 md:w-32 object-contain"
         />
@@ -40,7 +42,8 @@ export const Hero = () => {
           src={beans}
           alt="Coffee Beans"
           initial={{ opacity: 0, scale:1, x: 50, y: 70 }}
-          animate={{ opacity: 1, scale: 2.5, x: 20, y: 80 }}
+          whileInView={{ opacity: 1, scale: 2.5, x: 20, y: 80 }}
+          viewport={{ once: true }}
           transition={{ duration: 1.5, ease: "easeOut" }}
           className="absolute top-0 right-0 w-24 md:w-32 object-contain"
         />
@@ -50,8 +53,9 @@ export const Hero = () => {
       <div className="w-full md:w-5/12 min-h-[40vh] md:h-screen flex flex-col justify-center items-center md:items-start text-center md:text-left mt-0 md:mt-16 md:-ml-8 -translate-y-4 md:-translate-y-8 px-4 md:px-0">
         <motion.h1
           initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.5, duration: 1, ease: "easeOut" }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
           className="text-4xl md:text-5xl font-serif font-normal tracking-tight text-[#3C2F2F] mb-4 md:mb-6 drop-shadow-sm leading-tight"
           style={{ fontFamily: "'Inria Serif', serif" }}
         >
@@ -60,8 +64,9 @@ export const Hero = () => {
 
         <motion.p
           initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 1, duration: 1 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 1 }}
           className="text-base md:text-2xl font-sans font-normal tracking-wide text-[#5B4B3A]/90 mb-8 md:mb-12 max-w-sm md:max-w-md leading-relaxed"
           style={{ fontFamily: "'Lato', sans-serif" }}
         >
@@ -72,8 +77,9 @@ export const Hero = () => {
 
         <motion.button
           initial={{ opacity: 0, y: 10 , x: 50}}
-          animate={{ opacity: 1, y: 0, x: 0}}
-          transition={{ delay: 1.2 }}
+          whileInView={{ opacity: 1, y: 0, x: 0}}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6, duration: 0.8 }}
           onClick={() => navigate('/menu')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

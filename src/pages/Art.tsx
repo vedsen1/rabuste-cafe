@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Autoplay, Navigation, Pagination, Mousewheel, FreeMode } from 'swiper/modules';
+import { EffectCoverflow, Autoplay, Navigation, Pagination, Mousewheel } from 'swiper/modules';
 import { getArtPieces, ArtPiece } from '../services/artService';
 import { ArtDetailsModal } from '../components/modals/ArtDetailsModal';
 
-// Import Swiper styles
+// Import Swiper stylesa
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
@@ -102,7 +102,7 @@ export default function Art() {
               }}
               pagination={{ clickable: true }}
               navigation={true}
-              modules={[EffectCoverflow, Pagination, Navigation, Autoplay, Mousewheel, FreeMode]}
+              modules={[EffectCoverflow, Pagination, Navigation, Autoplay, Mousewheel]}
               className="w-full py-12"
               breakpoints={{
                 640: {

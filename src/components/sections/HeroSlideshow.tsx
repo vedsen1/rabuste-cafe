@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface SlideImage {
   id: number;
   src: string;
   alt: string;
+  isSeedsSlide?: boolean;
 }
 
 // Import slideshow images
@@ -25,6 +27,22 @@ const slides: SlideImage[] = [
     src: new URL('../../assets/slideshow/slide-3.jpg', import.meta.url).href,
     alt: 'Rabuste Cafe - Workshop Experience',
   },
+  {
+    id: 4,
+    src: new URL('../../assets/slideshow/slide-4.jpg', import.meta.url).href,
+    alt: 'Rabuste Cafe - Cozy Ambiance',
+  },
+  {
+    id: 5,
+    src: new URL('../../assets/slideshow/slide-5.jpg', import.meta.url).href,
+    alt: 'Rabuste Cafe - Community Gathering',
+  },
+  {
+    id: 6,
+    src: new URL('../../assets/slideshow/slide-6.jpg', import.meta.url).href,
+    alt: 'Rabuste Premium Seeds - The Art of Coffee, Refined',
+    isSeedsSlide: true,
+  },
 ];
 
 export const HeroSlideshow = () => {
@@ -32,6 +50,7 @@ export const HeroSlideshow = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [isHovering, setIsHovering] = useState(false);
   const autoPlayTimer = useRef<NodeJS.Timeout | null>(null);
+  const navigate = useNavigate();
 
   // Auto-play slideshow
   useEffect(() => {
@@ -77,10 +96,10 @@ export const HeroSlideshow = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 1, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
           <img
@@ -89,8 +108,38 @@ export const HeroSlideshow = () => {
             className="w-full h-full object-cover"
             loading={currentSlide === 0 ? 'eager' : 'lazy'}
           />
+          {/* Animated overlay effect */}
+          <motion.div
+            initial={{ opacity: 0.3 }}
+            animate={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: 'easeOut' }}
+            className="absolute inset-0 bg-white"
+          />
         </motion.div>
       </AnimatePresence>
+
+      {/* Seeds Slide Special CTA */}
+      {slides[currentSlide].isSeedsSlide && (
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 z-20 text-white"
+        >
+          <h2 className="text-5xl md:text-6xl font-serif mb-4 tracking-tight">
+            The Art of Coffee,{' '}
+            <span className="italic text-orange-500">Refined</span>
+          </h2>
+          <motion.button
+            onClick={() => navigate('/seeds-inquiry')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="mt-8 px-8 py-4 bg-black border-2 border-orange-500 text-white font-serif text-lg rounded-full hover:bg-orange-500 hover:text-black transition-all duration-300"
+          >
+            Buy Our Seeds
+          </motion.button>
+        </motion.div>
+      )}
 
       {/* Dark Overlay for text readability */}
       <div className="absolute inset-0 bg-black/30 z-10" />

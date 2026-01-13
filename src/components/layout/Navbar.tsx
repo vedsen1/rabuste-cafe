@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   // Close mobile menu on ESC key
   useEffect(() => {
@@ -17,6 +18,16 @@ export const Navbar = () => {
     window.addEventListener('keydown', handleEsc);
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen]);
+
+  const isActive = (path: string) => location.pathname === path;
+
+  const getLinkClass = (path: string) => {
+    const baseClass = "text-sm tracking-wide transition relative";
+    if (isActive(path)) {
+      return `${baseClass} text-gold-400 font-semibold`;
+    }
+    return `${baseClass} text-cream-200 hover:text-gold-400`;
+  };
 
   return (
     <motion.nav
@@ -38,12 +49,66 @@ export const Navbar = () => {
 
         {/* Center Links (Desktop) */}
         <div className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">HOME</Link>
-          <Link to="/menu" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">MENU</Link>
-          <Link to="/our-story" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">OUR STORY</Link>
-          <Link to="/art" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">ART</Link>
-          <Link to="/workshops" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">WORKSHOPS</Link>
-          <Link to="/franchise" className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">FRANCHISE</Link>
+          <Link to="/" className={getLinkClass("/")} >
+            HOME
+            {isActive("/") && (
+              <motion.div 
+                layoutId="navbar-highlight"
+                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
+          <Link to="/menu" className={getLinkClass("/menu")}>
+            MENU
+            {isActive("/menu") && (
+              <motion.div 
+                layoutId="navbar-highlight"
+                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
+          <Link to="/our-story" className={getLinkClass("/our-story")}>
+            OUR STORY
+            {isActive("/our-story") && (
+              <motion.div 
+                layoutId="navbar-highlight"
+                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
+          <Link to="/art" className={getLinkClass("/art")}>
+            ART
+            {isActive("/art") && (
+              <motion.div 
+                layoutId="navbar-highlight"
+                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
+          <Link to="/workshops" className={getLinkClass("/workshops")}>
+            WORKSHOPS
+            {isActive("/workshops") && (
+              <motion.div 
+                layoutId="navbar-highlight"
+                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
+          <Link to="/franchise" className={getLinkClass("/franchise")}>
+            FRANCHISE
+            {isActive("/franchise") && (
+              <motion.div 
+                layoutId="navbar-highlight"
+                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+          </Link>
         </div>
 
         {/* Right: Mobile Toggle */}
@@ -69,12 +134,12 @@ export const Navbar = () => {
             className="md:hidden bg-brown-900 border-t border-gold-500/20 overflow-hidden"
           >
             <div className="flex flex-col items-center gap-4 py-6">
-              <Link to="/" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">HOME</Link>
-              <Link to="/menu" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">MENU</Link>
-              <Link to="/our-story" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">OUR STORY</Link>
-              <Link to="/art" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">ART</Link>
-              <Link to="/workshops" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">WORKSHOPS</Link>
-              <Link to="/franchise" onClick={() => setIsOpen(false)} className="text-cream-200 hover:text-gold-400 text-sm tracking-wide transition">FRANCHISE</Link>
+              <Link to="/" onClick={() => setIsOpen(false)} className={`${getLinkClass("/")} block`}>HOME</Link>
+              <Link to="/menu" onClick={() => setIsOpen(false)} className={`${getLinkClass("/menu")} block`}>MENU</Link>
+              <Link to="/our-story" onClick={() => setIsOpen(false)} className={`${getLinkClass("/our-story")} block`}>OUR STORY</Link>
+              <Link to="/art" onClick={() => setIsOpen(false)} className={`${getLinkClass("/art")} block`}>ART</Link>
+              <Link to="/workshops" onClick={() => setIsOpen(false)} className={`${getLinkClass("/workshops")} block`}>WORKSHOPS</Link>
+              <Link to="/franchise" onClick={() => setIsOpen(false)} className={`${getLinkClass("/franchise")} block`}>FRANCHISE</Link>
             </div>
           </motion.div>
         )}
