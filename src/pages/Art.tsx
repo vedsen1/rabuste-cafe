@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { EffectCoverflow, Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { EffectCoverflow, Autoplay, Navigation, Pagination, Mousewheel, FreeMode } from 'swiper/modules';
 import { getArtPieces, ArtPiece } from '../services/artService';
 import { ArtDetailsModal } from '../components/modals/ArtDetailsModal';
 
@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import 'swiper/css/free-mode';
 
 // Hardcoded fallback data
 const fallbackArt: ArtPiece[] = [
@@ -85,7 +86,8 @@ export default function Art() {
               grabCursor={true}
               centeredSlides={true}
               slidesPerView={'auto'}
-              loop={true}
+              spaceBetween={40}
+              loop={false}
               autoplay={{
                 delay: 2500,
                 disableOnInteraction: false,
@@ -94,13 +96,13 @@ export default function Art() {
               coverflowEffect={{
                 rotate: 0,
                 stretch: 0,
-                depth: 100,
-                modifier: 2.5,
+                depth: 120,
+                modifier: 2,
                 slideShadows: false,
               }}
               pagination={{ clickable: true }}
               navigation={true}
-              modules={[EffectCoverflow, Pagination, Navigation, Autoplay]}
+              modules={[EffectCoverflow, Pagination, Navigation, Autoplay, Mousewheel, FreeMode]}
               className="w-full py-12"
               breakpoints={{
                 640: {
@@ -109,6 +111,15 @@ export default function Art() {
                 1024: {
                   slidesPerView: 3,
                 },
+              }}
+              freeMode={{
+                   enabled: true,
+                   momentum: true,
+                  momentumRatio: 0.6,
+              }}
+              mousewheel={{
+                    forceToAxis: true,
+                    sensitivity: 1,
               }}
             >
               {artPieces.map((art) => (
