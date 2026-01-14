@@ -87,7 +87,7 @@ export default function Art() {
               centeredSlides={true}
               slidesPerView={'auto'}
               spaceBetween={40}
-              loop={false}
+              loop={true}
               autoplay={{
                 delay: 2500,
                 disableOnInteraction: false,

@@ -7,6 +7,7 @@ import Art from './pages/Art';
 import OurStory from './pages/OurStory';
 import Workshops from './pages/Workshops';
 import Franchise from './pages/Franchise';
+import Explore from './pages/Explore';
 import SeedsInquiry from './pages/SeedsInquiry';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
@@ -52,6 +53,7 @@ function AppContent() {
             <Route path="/art" element={<Art />} />
             <Route path="/workshops" element={<Workshops />} />
             <Route path="/franchise" element={<Franchise />} />
+            <Route path='/explore' element={<Explore/>}/>
             <Route path="/seeds-inquiry" element={<SeedsInquiry />} />
             <Route path="/login" element={<Login />} />
             <Route 

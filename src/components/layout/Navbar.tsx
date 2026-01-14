@@ -100,7 +100,7 @@ export const Navbar = () => {
             )}
           </Link>
           <Link to="/franchise" className={getLinkClass("/franchise")}>
-            FRANCHISE
+            CONTACT US
             {isActive("/franchise") && (
               <motion.div 
                 layoutId="navbar-highlight"
@@ -139,7 +139,7 @@ export const Navbar = () => {
               <Link to="/our-story" onClick={() => setIsOpen(false)} className={`${getLinkClass("/our-story")} block`}>OUR STORY</Link>
               <Link to="/art" onClick={() => setIsOpen(false)} className={`${getLinkClass("/art")} block`}>ART</Link>
               <Link to="/workshops" onClick={() => setIsOpen(false)} className={`${getLinkClass("/workshops")} block`}>WORKSHOPS</Link>
-              <Link to="/franchise" onClick={() => setIsOpen(false)} className={`${getLinkClass("/franchise")} block`}>FRANCHISE</Link>
+              <Link to="/franchise" onClick={() => setIsOpen(false)} className={`${getLinkClass("/franchise")} block`}>CONTACT US</Link>
             </div>
           </motion.div>
         )}

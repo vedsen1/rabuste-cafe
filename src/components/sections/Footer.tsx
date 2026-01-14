@@ -60,7 +60,7 @@ export const Footer = () => {
           <Link to="/our-story" onClick={scrollToTop} className="hover:text-gold-400 transition-colors">Our Story</Link>
           <Link to="/art" onClick={scrollToTop} className="hover:text-gold-400 transition-colors">Art Gallery</Link>
           <Link to="/workshops" onClick={scrollToTop} className="hover:text-gold-400 transition-colors">Workshops</Link>
-          <Link to="/franchise" onClick={scrollToTop} className="hover:text-gold-400 transition-colors">Franchise</Link>
+          <Link to="/franchise" onClick={scrollToTop} className="hover:text-gold-400 transition-colors">Contact Us</Link>
         </div>
 
         {/* Description */}
