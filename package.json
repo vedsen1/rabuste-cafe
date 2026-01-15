@@ -14,7 +14,6 @@
     "@react-three/drei": "^9.88.0",
     "@react-three/fiber": "^8.15.0",
     "clsx": "^2.1.1",
-    "dependencies": "^0.0.1",
     "firebase": "^12.7.0",
     "framer-motion": "^10.16.0",
     "gsap": "^3.12.0",

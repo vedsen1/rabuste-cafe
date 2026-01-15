@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Coffee, Star } from 'lucide-react';
+import { ShoppingCart, Coffee, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import muffin from '../assets/muffin.png';
 import menuHeroBg from '../assets/menu-hero-bg.png';
 import { getMenuItems, MenuItem } from '../services/menuService';
@@ -114,7 +114,7 @@ export default function Menu() {
           ref={rowRef}
           className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6"
         >
-          {items.map(item => <MenuItemCard key={item.id} item={item} />)}
+          {items.map(item => <GridCard key={item.id} item={item} />)}
         </div>
 
         {/* Right Arrow */}
