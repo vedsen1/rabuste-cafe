@@ -266,19 +266,19 @@ export default function Franchise() {
 
           <div className="relative z-10 max-w-lg mx-auto w-full p-8 md:p-16 text-white">
             <div className="flex flex-col items-center text-center mb-10">
-              <Phone className="w-12 h-12 md:w-20 md:h-20 text-white md:text-gold-400 mb-4 md:mb-6 md:animate-pulse" />
+              <Phone className="w-12 h-12 md:w-10 md:h-10 text-white md:text-gold-400 mb-4 md:mb-6 md:animate-pulse" />
 
-              <h2 className="text-3xl md:text-6xl font-serif mb-3 md:mb-4 leading-tight drop-shadow-lg">
+              <h2 className="text-3xl md:text-4xl font-serif mb-3 md:mb-4 leading-tight drop-shadow-lg">
                 Know More
               </h2>
-              <p className="text-sm md:text-xl text-white/90 md:text-cream-200/90 max-w-xs md:max-w-lg">
+              <p className="text-sm md:text-l text-white/90 md:text-cream-200/90 max-w-xs md:max-w-lg">
                 Connect with Rabuste
               </p>
             </div>
 
             <form onSubmit={handleContactSubmit} className="space-y-6">
               <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400">Name</label>
+                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
                 <input
                   value={contactName} onChange={e => setContactName(e.target.value)}
                   className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-4 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm"
@@ -288,12 +288,12 @@ export default function Franchise() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400">Phone</label>
+                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
                 <div className="flex">
                   <span className="py-3 px-2 text-white/50 bg-white/10 md:bg-black/20 border-2 border-white/30 border-r-0 rounded-l-lg flex items-center">+91</span>
                   <input
                     value={contactPhone} onChange={e => setContactPhone(e.target.value)} maxLength={10}
-                    className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 border-l-0 focus:border-gold-400 text-white rounded-r-lg py-3 px-4 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm"
+                    className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 border-l-0 focus:border-gold-400 text-white rounded-r-lg py-3 px-3 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm "
                     placeholder="999 999 9999"
                   />
                 </div>
@@ -301,17 +301,17 @@ export default function Franchise() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400">Email</label>
+                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
                 <input
                   value={contactEmail} onChange={e => setContactEmail(e.target.value)}
-                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-4 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm"
-                  placeholder="example@email.com"
+                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-3 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm"
+                  placeholder="ABC@email.com"
                 />
                 {contactErrors.email && <p className="text-red-400 text-xs ml-1">{contactErrors.email}</p>}
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400">Reason</label>
+                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
                 <select
                   value={contactReason} onChange={e => setContactReason(e.target.value)}
                   className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-4 focus:outline-none transition-all [&>option]:text-black backdrop-blur-sm"
@@ -328,7 +328,7 @@ export default function Franchise() {
                 <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400">Suggestions / Questions</label>
                 <textarea
                   value={suggestions} onChange={e => setSuggestions(e.target.value)} rows={3}
-                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-4 focus:outline-none transition-all resize-none placeholder:text-white/40 backdrop-blur-sm"
+                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-4 px-4 focus:outline-none transition-all resize-none placeholder:text-white/40 backdrop-blur-sm"
                   placeholder="Max 500 words..."
                 />
                 {contactErrors.suggestions && <p className="text-red-400 text-xs ml-1">{contactErrors.suggestions}</p>}
@@ -354,7 +354,7 @@ export default function Franchise() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => navigate('/explore')}
-                  className="w-full text-white/70 py-4 font-serif uppercase tracking-widest hover:text-gold-400 transition-all group flex items-center justify-center gap-2 text-xs"
+                  className="w-full text-white/70 py- font-serif uppercase tracking-widest hover:text-gold-400 transition-all group flex items-center justify-center gap-2 text-s"
                 >
                   Explore More
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -371,7 +371,7 @@ export default function Franchise() {
       <section className="relative z-10 w-full bg-[#3b2a2a] text-cream-100 py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-6xl font-serif mb-6 text-gold-400">
+            <h2 className="text-3xl md:text-4xl font-serif mb-6 text-gold-400">
               VISIT US
             </h2>
             <div className="w-24 h-1 bg-gold-500 mx-auto opacity-60"></div>
@@ -380,7 +380,7 @@ export default function Franchise() {
           <div className="grid md:grid-cols-2 gap-16 items-start">
 
             {/* Contact Info */}
-            <div className="space-y-8 bg-white/5 p-10 rounded-2xl border border-white/10 backdrop-blur-sm">
+            <div className="space-y-2 bg-white/5 p-10 rounded-2xl border border-white/10 backdrop-blur-sm">
               <h3 className="text-2xl font-serif text-gold-400 border-b border-white/10 pb-4 mb-6">Contact Info</h3>
 
               <div className="flex items-center gap-6 group">
@@ -415,7 +415,7 @@ export default function Franchise() {
             </div>
 
             {/* Opening Hours */}
-            <div className="space-y-8 bg-gold-400/5 p-10 rounded-2xl border border-gold-400/20 backdrop-blur-sm">
+            <div className="space-y-1 bg-gold-400/5 p-10 rounded-2xl border border-gold-400/20 backdrop-blur-sm">
               <h3 className="text-2xl font-serif text-gold-400 border-b border-white/10 pb-4 mb-6">
                 OPENING HOURS
               </h3>
