@@ -12,13 +12,6 @@ import {
   MapPin,
 } from "lucide-react";
 
-import {
-  FaInstagram,
-  FaFacebook,
-  FaTwitter,
-  FaLinkedin,
-} from "react-icons/fa";
-
 import coverimg from "../assets/coverimg.png";
 import seedsBg from "../assets/seeds-bg.png";
 import beans1 from "../assets/beans1.png";

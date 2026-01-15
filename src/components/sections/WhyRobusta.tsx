@@ -1,16 +1,21 @@
 import { motion } from "framer-motion";
 import coffeeCup from "../../assets/Splash.png";
+import patternBg from "../../assets/why-bg.png";
 
 export const WhyRobusta = () => {
   return (
     <section
       id="story"
       className="relative w-full py-20 overflow-hidden"
-      style={{ backgroundColor: "#F5F5DC" }}
+      style={{ 
+        backgroundColor: "#F7F1E6",
+        backgroundImage: `linear-gradient(rgba(255,255,255,0.94), rgba(255,255,255,0.94)), url(${patternBg})`,
+        backgroundRepeat: "repeat",
+        backgroundSize: "100px",
+        backgroundPosition: "center",
+        backgroundBlendMode: "screen"
+      }}
     >
-      {/* Subtle pattern background */}
-      <div className="absolute inset-0 opacity-[0.04] bg-[url('/coffee-pattern.svg')] bg-repeat" />
-
       <div className="relative container mx-auto px-6 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-20">
 

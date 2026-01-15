@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Coffee, Users, Heart, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ShoppingCart, Coffee, Star } from 'lucide-react';
+import pie from '../assets/pie.png';
+import menuHeroBg from '../assets/menu-hero-bg.png';
 import { getMenuItems, MenuItem } from '../services/menuService';
 import { useCart } from '../context/CartContext';
 
@@ -35,69 +37,57 @@ export default function Menu() {
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  // Filter for Specialty Items (Robusta Cold or Hot)
-  const specialtyItems = menuItems.filter(
-    item => item.category === 'Robusta Cold' || item.category === 'Robusta Hot'
-  );
-
-  // Group items by category and then by subcategory
-  const groupedItems = CATEGORIES.reduce((acc, cat) => {
-    const catItems = menuItems.filter(item => item.category === cat);
-    if (catItems.length > 0) {
-      // Check for subcategories
-      const milkItems = catItems.filter(item => item.subcategory === 'Milk');
-      const nonMilkItems = catItems.filter(item => item.subcategory === 'Non-Milk');
-      const otherItems = catItems.filter(item => !item.subcategory);
-
-      acc[cat] = {
-        milk: milkItems,
-        nonMilk: nonMilkItems,
-        others: otherItems
-      };
+  // UI helpers
+  const categoryColor = (cat: string) => {
+    switch (cat) {
+      case 'Robusta Cold': return 'bg-[#2f7d5d]';
+      case 'Robusta Hot': return 'bg-[#c24f33]';
+      case 'Blend Cold': return 'bg-[#4f6fc2]';
+      case 'Blend Hot': return 'bg-[#c28a33]';
+      case 'Manual Brew': return 'bg-[#7a5f3b]';
+      case 'Non Coffee': return 'bg-[#7a7a7a]';
+      case 'Savoury': return 'bg-[#a64b2a]';
+      default: return 'bg-[#7a5f3b]';
     }
-    return acc;
-  }, {} as Record<string, { milk: MenuItem[], nonMilk: MenuItem[], others: MenuItem[] }>);
+  };
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
 
 
-const MenuItemCard = ({ item }: { item: MenuItem }) => (
-    <div className="flex-shrink-0 w-[160px] md:w-[320px] bg-brown-900/90 rounded-xl overflow-hidden border border-gold-500/10 hover:border-gold-500/30 transition-all duration-300 group shadow-lg snap-start hover:scale-105 z-0 hover:z-10 relative">
-      {/* Image Area */}
-      <div className="h-32 md:h-48 w-full bg-black/40 relative overflow-hidden rounded-t-xl">
-        {item.imageUrl ? (
-          <img 
-            src={item.imageUrl} 
-            alt={item.name} 
-            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" 
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center text-brown-900/20 bg-cream-100/5">
-            <span className="font-serif italic">No Image</span>
-          </div>
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-brown-900/90 via-transparent to-transparent" />
+const GridCard = ({ item }: { item: MenuItem }) => (
+  <div className="bg-white rounded-xl border border-[#eee] shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
+    {/* Rating badge */}
+    <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded-full border border-[#ddd] text-[#555] text-xs font-semibold">
+      <Star size={14} className="text-[#f5a623]" fill="#f5a623" />
+      <span>4.8</span>
+    </div>
+    {/* Image */}
+    <div className="h-56 w-full bg-[#f7f3ee]">
+      {item.imageUrl ? (
+        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+      ) : (
+        <div className="w-full h-full flex items-center justify-center text-[#b7a89a]">No Image</div>
+      )}
+    </div>
+    {/* Content */}
+    <div className="p-4">
+      <div className="flex items-center gap-2 mb-2">
+        <span className={`inline-block w-3 h-3 rounded-sm ${categoryColor(item.category)}`} />
+        <h3 className="text-lg font-semibold text-[#2b2b2b]">{item.name}</h3>
       </div>
-
-      {/* Content */}
-      <div className="p-3 md:p-5 flex flex-col gap-2 md:gap-3">
-        <div className="flex justify-between items-start">
-          <h3 className="text-sm md:text-xl font-serif text-gold-400 leading-tight line-clamp-2">{item.name}</h3>
-          <span className="text-sm md:text-lg font-bold text-cream-100">{item.price}</span>
-        </div>
-        
-        <p className="text-xs md:text-sm text-cream-200/60 line-clamp-2 min-h-[2.5em] hidden md:block">
-          {item.description || "A classic favorite brewed to perfection."}
-        </p>
-
+      <p className="text-sm text-[#6f6f6f] mb-3">{item.description || item.name}</p>
+      <div className="flex items-center justify-between">
+        <span className="text-[#333] font-semibold">{item.price}</span>
         <button 
           onClick={() => addToCart(item)}
-          className="mt-auto w-full py-2 md:py-3 bg-gold-500/10 border border-gold-500/30 text-gold-400 hover:bg-gold-500 hover:text-brown-900 rounded-lg text-[10px] md:text-xs font-bold tracking-widest uppercase transition-all flex items-center justify-center gap-1 md:gap-2"
+          className="px-3 py-2 bg-[#2f7d5d] text-white rounded-md text-xs font-semibold hover:bg-[#276b51]"
         >
-          Add <span className="hidden md:inline">to Cart</span>
+          Add to Cart
         </button>
       </div>
     </div>
-  );
+  </div>
+);
 
   const ScrollRow = ({ items }: { items: MenuItem[] }) => {
     const rowRef = useRef<HTMLDivElement>(null);
@@ -139,134 +129,66 @@ const MenuItemCard = ({ item }: { item: MenuItem }) => (
   };
 
   return (
-    <div className="min-h-screen pb-20 overflow-x-hidden relative">
-      
-      {/* Background Texture */}
-      <div className="fixed inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/coffee.png')]"></div>
-
-      {/* Our Menu Heading */}
-      <div className="container mx-auto px-6 relative z-10 pt-32 mb-16">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center"
-        >
-          <span className="block text-gold-500 text-sm tracking-[0.3em] uppercase mb-4 font-bold">Discover Our Flavors</span>
-          <h1 className="text-5xl md:text-7xl font-serif text-brown-900">Our Menu</h1>
-        </motion.div>
-      </div>
-
-      {/* Our Specialty Section */}
-      <section className="container mx-auto px-6 mb-24 relative z-10 bg-brown-900/5 py-16 rounded-3xl">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-3xl md:text-4xl font-serif text-brown-900 mb-12 text-left pl-4">Our Specialty (Robusta) </h2>
-          
-          <div className="space-y-12">
-            {/* Group by Subcategory Logic for Specialty Section */}
-            {(() => {
-              const milkItems = specialtyItems.filter(item => item.subcategory === 'Milk');
-              const nonMilkItems = specialtyItems.filter(item => item.subcategory === 'Non-Milk');
-              const otherItems = specialtyItems.filter(item => !item.subcategory);
-
-              if (specialtyItems.length === 0) {
-                 return (
-                  <div className="text-center text-brown-900/50 py-10">
-                    <Coffee size={48} className="mx-auto mb-4 opacity-50" />
-                    <p>Our Robusta specialties are brewing soon...</p>
-                  </div>
-                 );
-              }
-
-              return (
-                <>
-                  {/* Milk Based */}
-                  {milkItems.length > 0 && (
-                    <div>
-                      <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Milk Based</h3>
-                      <ScrollRow items={milkItems} />
-                    </div>
-                  )}
-
-                  {/* Non-Milk Based */}
-                  {nonMilkItems.length > 0 && (
-                    <div>
-                      <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Non-Milk Based</h3>
-                      <ScrollRow items={nonMilkItems} />
-                    </div>
-                  )}
-
-                   {/* Other Items */}
-                   {otherItems.length > 0 && (
-                    <div>
-                      {(milkItems.length > 0 || nonMilkItems.length > 0) && <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Others</h3>}
-                      <ScrollRow items={otherItems} />
-                    </div>
-                  )}
-                </>
-              );
-            })()}
+    <div className="min-h-screen pb-20 overflow-x-hidden relative bg-[#f2e8db]">
+      {/* Hero */}
+      <section 
+        className="container mx-auto px-6 pt-28 md:pt-32 pb-20 rounded-2xl"
+        style={{
+          backgroundImage: `url(${menuHeroBg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
+          {/* Left: Copy */}
+          <div>
+            <div className="flex items-center gap-2 mb-2 text-[#6b5a4a]">
+              <span className="text-2xl">☕</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-serif leading-tight">
+              <span className="text-[#2f7d5d] font-bold">Our</span>{' '}
+              <span className="text-[#e4633a] font-bold italic">Product</span>
+            </h1>
+            <p className="mt-4 text-[#53483f] text-lg max-w-md">
+              Whatever your diet or preferences, there’s enough choice for everyone.
+            </p>
           </div>
-        </motion.div>
+          {/* Right: Pie image (no circle) */}
+          <div className="flex md:justify-center">
+            <img src={pie} alt="Pie" className="w-72 md:w-96 h-auto object-contain drop-shadow-xl" />
+          </div>
+        </div>
       </section>
 
-      {/* Actual Menu Grid */}
-      <div className="container mx-auto px-6 relative z-10">
+      {/* Category Filters */}
+      <div className="container mx-auto px-6 mt-8 mb-6">
+        <div className="flex flex-wrap gap-3">
+          {['All', ...CATEGORIES].map(cat => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-2 rounded-full text-sm border ${
+                selectedCategory === cat 
+                  ? 'bg-[#2f7d5d] text-white border-[#2f7d5d]' 
+                  : 'bg-white text-[#53483f] border-[#ddd] hover:bg-[#f7f3ee]'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Grid Menu */}
+      <div className="container mx-auto px-6">
         {loading ? (
-          <div className="text-center text-brown-900/50 py-20">Brewing the menu...</div>
+          <div className="text-center text-[#6f6f6f] py-20">Brewing the menu...</div>
         ) : (
-          <div className="space-y-24">
-            {CATEGORIES.filter(cat => cat !== 'Robusta Cold' && cat !== 'Robusta Hot').map((cat) => {
-              const group = groupedItems[cat];
-              if (!group) return null;
-
-              const hasSub = group.milk.length > 0 || group.nonMilk.length > 0;
-
-              return (
-                <motion.div 
-                  key={cat}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  className="relative"
-                >
-                  {/* Category Title */}
-                  <div className="flex items-baseline gap-6 mb-8 border-b border-brown-900/10 pb-4">
-                    <h2 className="text-3xl md:text-4xl font-serif text-brown-900">{cat}</h2>
-                  </div>
-
-                  {/* Subcategories or Direct Items */}
-                  <div className="space-y-12">
-                    {/* Milk Based */}
-                    {group.milk.length > 0 && (
-                      <div>
-                        <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Milk Based</h3>
-                        <ScrollRow items={group.milk} />
-                      </div>
-                    )}
-
-                    {/* Non-Milk Based */}
-                    {group.nonMilk.length > 0 && (
-                      <div>
-                        <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Non-Milk Based</h3>
-                        <ScrollRow items={group.nonMilk} />
-                      </div>
-                    )}
-
-                    {/* Other Items (No subcategory) */}
-                    {group.others.length > 0 && (
-                      <div>
-                        {hasSub && <h3 className="text-lg font-bold text-brown-900 mb-6 pl-2">Others</h3>}
-                        <ScrollRow items={group.others} />
-                      </div>
-                    )}
-                  </div>
-                </motion.div>
-              );
-            })}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {(selectedCategory === 'All' ? menuItems : menuItems.filter(i => i.category === selectedCategory)).map((item) => (
+              <GridCard key={item.id || item.name} item={item} />
+            ))}
           </div>
         )}
       </div>
