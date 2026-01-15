@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+import { FullScreenMenu } from './FullScreenMenu';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
 
-  // Smart Navbar Visibility Logic
+  // Smart Navbar - Hide on Scroll, Show on Hover
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -18,15 +17,15 @@ export const Navbar = () => {
 
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false); // Hide on scroll down
-      } else {
-        setIsVisible(true);  // Show on scroll up
+      } else if (currentScrollY < lastScrollY) {
+        setIsVisible(true); // Show on scroll up
       }
       setLastScrollY(currentScrollY);
     };
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (e.clientY < 100) {
-        setIsVisible(true); // Show if cursor near top
+      if (e.clientY < 50) {
+        setIsVisible(true); // Show navbar if cursor near top
       }
     };
 
@@ -50,16 +49,6 @@ export const Navbar = () => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen]);
 
-  const isActive = (path: string) => location.pathname === path;
-
-  const getLinkClass = (path: string) => {
-    const baseClass = "text-sm tracking-wide transition relative";
-    if (isActive(path)) {
-      return `${baseClass} text-gold-400 font-semibold`;
-    }
-    return `${baseClass} text-cream-200 hover:text-gold-400`;
-  };
-
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
@@ -81,103 +70,72 @@ export const Navbar = () => {
           />
         </Link>
 
-        {/* Center Links (Desktop) */}
-        <div className="hidden md:flex items-center gap-8">
-          <Link to="/" className={getLinkClass("/")} >
-            HOME
-            {isActive("/") && (
-              <motion.div
-                layoutId="navbar-highlight"
-                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </Link>
-          <Link to="/menu" className={getLinkClass("/menu")}>
-            MENU
-            {isActive("/menu") && (
-              <motion.div
-                layoutId="navbar-highlight"
-                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </Link>
-          <Link to="/our-story" className={getLinkClass("/our-story")}>
-            OUR STORY
-            {isActive("/our-story") && (
-              <motion.div
-                layoutId="navbar-highlight"
-                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </Link>
-          <Link to="/art" className={getLinkClass("/art")}>
-            ART
-            {isActive("/art") && (
-              <motion.div
-                layoutId="navbar-highlight"
-                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </Link>
-          <Link to="/workshops" className={getLinkClass("/workshops")}>
-            WORKSHOPS
-            {isActive("/workshops") && (
-              <motion.div
-                layoutId="navbar-highlight"
-                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </Link>
-          <Link to="/franchise" className={getLinkClass("/franchise")}>
-            CONTACT US
-            {isActive("/franchise") && (
-              <motion.div
-                layoutId="navbar-highlight"
-                className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-          </Link>
-        </div>
-
-        {/* Right: Mobile Toggle */}
-        <div className="flex items-center gap-4">
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-gold-400 hover:text-cream-100 transition"
-            onClick={() => setIsOpen(!isOpen)}
+        {/* Right: Animated Hamburger/Cross Menu Button */}
+        <button
+          className="text-gold-400 hover:text-cream-100 transition relative w-8 h-8 flex items-center justify-center"
+          onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+        >
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+            {/* Top Line */}
+            <motion.path
+              d="M4 6H20"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              animate={{
+                d: isOpen ? "M6 6L18 18" : "M4 6H20",
+                opacity: 1
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+
+            {/* Middle Line */}
+            <motion.path
+              d="M4 12H20"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              animate={{
+                opacity: isOpen ? 0 : 1
+              }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            />
+
+            {/* Bottom Line */}
+            <motion.path
+              d="M4 18H20"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              animate={{
+                d: isOpen ? "M6 18L18 6" : "M4 18H20",
+                opacity: 1
+              }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+          </svg>
+        </button>
 
       </div>
 
-      {/* Mobile Menu Dropdown */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-brown-900 border-t border-gold-500/20 overflow-hidden"
-          >
-            <div className="flex flex-col items-center gap-4 py-6">
-              <Link to="/" onClick={() => setIsOpen(false)} className={`${getLinkClass("/")} block`}>HOME</Link>
-              <Link to="/menu" onClick={() => setIsOpen(false)} className={`${getLinkClass("/menu")} block`}>MENU</Link>
-              <Link to="/our-story" onClick={() => setIsOpen(false)} className={`${getLinkClass("/our-story")} block`}>OUR STORY</Link>
-              <Link to="/art" onClick={() => setIsOpen(false)} className={`${getLinkClass("/art")} block`}>ART</Link>
-              <Link to="/workshops" onClick={() => setIsOpen(false)} className={`${getLinkClass("/workshops")} block`}>WORKSHOPS</Link>
-              <Link to="/franchise" onClick={() => setIsOpen(false)} className={`${getLinkClass("/franchise")} block`}>CONTACT US</Link>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Full Screen Menu */}
+      <FullScreenMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
+      {/* Hover Trigger Area - Shows when navbar is hidden */}
+      {!isVisible && (
+        <div
+          className="fixed top-0 left-0 w-full h-12 z-40 cursor-pointer"
+          onMouseEnter={() => setIsVisible(true)}
+          title="Hover to show menu"
+        />
+      )}
     </motion.nav>
   );
 };
