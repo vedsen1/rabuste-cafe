@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingCart, Coffee, Star } from 'lucide-react';
-import pie from '../assets/pie.png';
+import muffin from '../assets/muffin.png';
 import menuHeroBg from '../assets/menu-hero-bg.png';
 import { getMenuItems, MenuItem } from '../services/menuService';
 import { useCart } from '../context/CartContext';
@@ -54,40 +54,40 @@ export default function Menu() {
 
 
 
-const GridCard = ({ item }: { item: MenuItem }) => (
-  <div className="bg-white rounded-xl border border-[#eee] shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
-    {/* Rating badge */}
-    <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded-full border border-[#ddd] text-[#555] text-xs font-semibold">
-      <Star size={14} className="text-[#f5a623]" fill="#f5a623" />
-      <span>4.8</span>
-    </div>
-    {/* Image */}
-    <div className="h-56 w-full bg-[#f7f3ee]">
-      {item.imageUrl ? (
-        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
-      ) : (
-        <div className="w-full h-full flex items-center justify-center text-[#b7a89a]">No Image</div>
-      )}
-    </div>
-    {/* Content */}
-    <div className="p-4">
-      <div className="flex items-center gap-2 mb-2">
-        <span className={`inline-block w-3 h-3 rounded-sm ${categoryColor(item.category)}`} />
-        <h3 className="text-lg font-semibold text-[#2b2b2b]">{item.name}</h3>
+  const GridCard = ({ item }: { item: MenuItem }) => (
+    <div className="bg-white rounded-xl border border-[#eee] shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
+      {/* Rating badge */}
+      <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded-full border border-[#ddd] text-[#555] text-xs font-semibold">
+        <Star size={14} className="text-[#f5a623]" fill="#f5a623" />
+        <span>4.8</span>
       </div>
-      <p className="text-sm text-[#6f6f6f] mb-3">{item.description || item.name}</p>
-      <div className="flex items-center justify-between">
-        <span className="text-[#333] font-semibold">{item.price}</span>
-        <button 
-          onClick={() => addToCart(item)}
-          className="px-3 py-2 bg-[#2f7d5d] text-white rounded-md text-xs font-semibold hover:bg-[#276b51]"
-        >
-          Add to Cart
-        </button>
+      {/* Image */}
+      <div className="h-72 w-full bg-[#f7f3ee]">
+        {item.imageUrl ? (
+          <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-[#b7a89a]">No Image</div>
+        )}
+      </div>
+      {/* Content */}
+      <div className="p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <span className={`inline-block w-3 h-3 rounded-sm ${categoryColor(item.category)}`} />
+          <h3 className="text-lg font-semibold text-[#2b2b2b]">{item.name}</h3>
+        </div>
+        <p className="text-sm text-[#6f6f6f] mb-3">{item.description || item.name}</p>
+        <div className="flex items-center justify-between">
+          <span className="text-[#333] font-semibold">{item.price}</span>
+          <button
+            onClick={() => addToCart(item)}
+            className="px-3 py-2 bg-[#2f7d5d] text-white rounded-md text-xs font-semibold hover:bg-[#276b51]"
+          >
+            Add to Cart
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 
   const ScrollRow = ({ items }: { items: MenuItem[] }) => {
     const rowRef = useRef<HTMLDivElement>(null);
@@ -102,7 +102,7 @@ const GridCard = ({ item }: { item: MenuItem }) => (
     return (
       <div className="relative group/row">
         {/* Left Arrow */}
-        <button 
+        <button
           onClick={() => scroll('left')}
           className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-brown-900/80 text-gold-400 p-2 rounded-full opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-brown-900 shadow-lg -ml-4"
         >
@@ -110,7 +110,7 @@ const GridCard = ({ item }: { item: MenuItem }) => (
         </button>
 
         {/* Scroll Container */}
-        <div 
+        <div
           ref={rowRef}
           className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6"
         >
@@ -118,7 +118,7 @@ const GridCard = ({ item }: { item: MenuItem }) => (
         </div>
 
         {/* Right Arrow */}
-        <button 
+        <button
           onClick={() => scroll('right')}
           className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-brown-900/80 text-gold-400 p-2 rounded-full opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-brown-900 shadow-lg -mr-4"
         >
@@ -131,48 +131,64 @@ const GridCard = ({ item }: { item: MenuItem }) => (
   return (
     <div className="min-h-screen pb-20 overflow-x-hidden relative bg-[#f2e8db]">
       {/* Hero */}
-      <section 
-        className="container mx-auto px-6 pt-28 md:pt-32 pb-20 rounded-2xl"
-        style={{
-          backgroundImage: `url(${menuHeroBg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
-        }}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
-          {/* Left: Copy */}
-          <div>
-            <div className="flex items-center gap-2 mb-2 text-[#6b5a4a]">
-              <span className="text-2xl">☕</span>
-            </div>
-            <h1 className="text-5xl md:text-6xl font-serif leading-tight">
-              <span className="text-[#2f7d5d] font-bold">Our</span>{' '}
-              <span className="text-[#e4633a] font-bold italic">Product</span>
+      {/* Hero */}
+      <section className="container mx-auto px-6 pt-32 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-0">
+
+          {/* Left: Text Content */}
+          <div className="flex flex-col items-start text-left">
+            <span className="text-[#4CAF50] font-[Yellowtail] text-3xl md:text-4xl mb-4 transform -rotate-2">
+              we speak fluent coffee
+            </span>
+
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#1a1a1a] leading-[1.1] mb-2 tracking-tight font-sans">
+              NO MATTER WHICH <br />
+              ROAST YOU <span className="text-[#FFC107] font-[Yellowtail] font-normal ml-2">prefer.</span>
             </h1>
-            <p className="mt-4 text-[#53483f] text-lg max-w-md">
-              Whatever your diet or preferences, there’s enough choice for everyone.
+
+            <p className="mt-6 text-gray-500 text-lg max-w-lg leading-relaxed font-sans">
+              Freshly brewed global coffee blends. From Robusta to Arabica, authentic flavors delivered fresh to your cup every day.
             </p>
+
+            <button
+              onClick={() => document.getElementById('menu-grid')?.scrollIntoView({ behavior: 'smooth' })}
+              className="mt-8 bg-[#FFC107] hover:bg-[#ffb300] text-black font-semibold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all flex items-center gap-2"
+            >
+              Order Now <span className="text-xl">→</span>
+            </button>
+
+            <div className="mt-10 flex items-center gap-6 text-sm font-medium text-gray-500">
+              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-[#FFC107] rounded-full"></span> Brewed to Order</span>
+              <span className="flex items-center gap-2"><span className="w-2 h-2 bg-[#FFC107] rounded-full"></span> Menu Changes Weekly</span>
+            </div>
           </div>
-          {/* Right: Pie image (no circle) */}
-          <div className="flex md:justify-center">
-            <img src={pie} alt="Pie" className="w-72 md:w-96 h-auto object-contain drop-shadow-xl" />
+
+          {/* Right: Muffin/Image with Badges */}
+          <div className="relative">
+            {/* Main Image Container */}
+            <div className="relative flex justify-center">
+              <img
+                src={muffin}
+                alt="Delicious Feature"
+                className="w-full max-w-2xl h-auto object-contain transform hover:scale-105 transition-transform duration-700 drop-shadow-2xl"
+              />
+            </div>
           </div>
+
         </div>
       </section>
 
       {/* Category Filters */}
-      <div className="container mx-auto px-6 mt-8 mb-6">
+      <div className="container mx-auto px-6 mt-8 mb-6" id="menu-grid">
         <div className="flex flex-wrap gap-3">
           {['All', ...CATEGORIES].map(cat => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 rounded-full text-sm border ${
-                selectedCategory === cat 
-                  ? 'bg-[#2f7d5d] text-white border-[#2f7d5d]' 
-                  : 'bg-white text-[#53483f] border-[#ddd] hover:bg-[#f7f3ee]'
-              }`}
+              className={`px-4 py-2 rounded-full text-sm border ${selectedCategory === cat
+                ? 'bg-[#2f7d5d] text-white border-[#2f7d5d]'
+                : 'bg-white text-[#53483f] border-[#ddd] hover:bg-[#f7f3ee]'
+                }`}
             >
               {cat}
             </button>
@@ -185,7 +201,7 @@ const GridCard = ({ item }: { item: MenuItem }) => (
         {loading ? (
           <div className="text-center text-[#6f6f6f] py-20">Brewing the menu...</div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {(selectedCategory === 'All' ? menuItems : menuItems.filter(i => i.category === selectedCategory)).map((item) => (
               <GridCard key={item.id || item.name} item={item} />
             ))}
@@ -202,7 +218,7 @@ const GridCard = ({ item }: { item: MenuItem }) => (
               {cartCount}
             </span>
           )}
-          
+
           {/* Simple Tooltip Cart Summary */}
           <div className="absolute bottom-full right-0 mb-4 w-64 bg-white text-brown-900 rounded-xl shadow-xl p-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity origin-bottom-right transform scale-95 group-hover:scale-100">
             <h4 className="font-bold border-b border-brown-900/10 pb-2 mb-2">Cart Summary</h4>

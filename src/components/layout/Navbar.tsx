@@ -8,6 +8,37 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
+  // Smart Navbar Visibility Logic
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false); // Hide on scroll down
+      } else {
+        setIsVisible(true);  // Show on scroll up
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (e.clientY < 100) {
+        setIsVisible(true); // Show if cursor near top
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, [lastScrollY]);
+
   // Close mobile menu on ESC key
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
@@ -32,8 +63,11 @@ export const Navbar = () => {
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
+      animate={{
+        opacity: isVisible ? 1 : 0,
+        y: isVisible ? 0 : -100
+      }}
+      transition={{ duration: 0.3 }}
       className="fixed top-0 left-0 w-full z-50 bg-brown-900/90 backdrop-blur-md border-b border-gold-500/20"
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
@@ -52,7 +86,7 @@ export const Navbar = () => {
           <Link to="/" className={getLinkClass("/")} >
             HOME
             {isActive("/") && (
-              <motion.div 
+              <motion.div
                 layoutId="navbar-highlight"
                 className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -62,7 +96,7 @@ export const Navbar = () => {
           <Link to="/menu" className={getLinkClass("/menu")}>
             MENU
             {isActive("/menu") && (
-              <motion.div 
+              <motion.div
                 layoutId="navbar-highlight"
                 className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -72,7 +106,7 @@ export const Navbar = () => {
           <Link to="/our-story" className={getLinkClass("/our-story")}>
             OUR STORY
             {isActive("/our-story") && (
-              <motion.div 
+              <motion.div
                 layoutId="navbar-highlight"
                 className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -82,7 +116,7 @@ export const Navbar = () => {
           <Link to="/art" className={getLinkClass("/art")}>
             ART
             {isActive("/art") && (
-              <motion.div 
+              <motion.div
                 layoutId="navbar-highlight"
                 className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -92,7 +126,7 @@ export const Navbar = () => {
           <Link to="/workshops" className={getLinkClass("/workshops")}>
             WORKSHOPS
             {isActive("/workshops") && (
-              <motion.div 
+              <motion.div
                 layoutId="navbar-highlight"
                 className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -102,7 +136,7 @@ export const Navbar = () => {
           <Link to="/franchise" className={getLinkClass("/franchise")}>
             CONTACT US
             {isActive("/franchise") && (
-              <motion.div 
+              <motion.div
                 layoutId="navbar-highlight"
                 className="absolute inset-0 bg-gold-400/10 rounded-lg -z-10"
                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
@@ -114,7 +148,7 @@ export const Navbar = () => {
         {/* Right: Mobile Toggle */}
         <div className="flex items-center gap-4">
           {/* Mobile Menu Button */}
-          <button 
+          <button
             className="md:hidden text-gold-400 hover:text-cream-100 transition"
             onClick={() => setIsOpen(!isOpen)}
           >
