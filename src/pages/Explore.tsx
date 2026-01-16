@@ -134,7 +134,7 @@ export default function Explore() {
               boxShadow: ["0px 0px 0px rgba(212, 175, 55, 0)", "0px 0px 20px rgba(212, 175, 55, 0.5)", "0px 0px 0px rgba(212, 175, 55, 0)"]
             }}
             transition={{ boxShadow: { duration: 2, repeat: Infinity } }}
-            onClick={() => navigate('/franchise')}
+            onClick={() => navigate('/franchise#inquiry')}
             className="bg-gold-400 text-[#2F1B14] px-12 py-4 rounded-full font-bold uppercase tracking-widest text-lg hover:bg-white transition-colors mb-16"
           >
             Get in Touch
@@ -195,7 +195,7 @@ export default function Explore() {
           "Become a part of the fastest growing cafe chain of India"
         </h3>
         <button
-          onClick={() => navigate('/franchise')}
+          onClick={() => navigate('/franchise#inquiry')}
           className="mt-3 text-xs w-full bg-white/10 hover:bg-gold-400 hover:text-[#3b2a2a] text-white py-3 rounded-lg uppercase tracking-widest font-bold transition-all flex items-center justify-center gap-2 group"
         >
           Get in Touch
@@ -207,7 +207,7 @@ export default function Explore() {
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#1a120b] p-4 md:hidden flex justify-between items-center border-t-2 border-gold-400">
         <span className="text-white text-xs font-bold uppercase tracking-wide">Join the Family</span>
         <button
-          onClick={() => navigate('/franchise')}
+          onClick={() => navigate('/franchise#inquiry')}
           className="bg-gold-400 text-[#3b2a2a] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
         >
           Get in Touch

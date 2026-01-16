@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -18,6 +18,7 @@ import {
   FaFacebook,
   FaTwitter,
   FaLinkedin,
+  FaWhatsapp
 } from "react-icons/fa";
 
 import coverimg from "../assets/coverimg.png";
@@ -31,6 +32,7 @@ import beansack from "../assets/beansack.jpg"
 
 export default function Franchise() {
   const navigate = useNavigate();
+  const { hash } = useLocation();
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -40,6 +42,22 @@ export default function Franchise() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
 
   // --- STATES ---
+  const [activeForm, setActiveForm] = useState<'review' | 'contact' | null>(null);
+
+  // --- HASH SCROLL EFFECT & AUTO-EXPAND ---
+  useEffect(() => {
+    if (hash === '#inquiry') {
+      setActiveForm('contact');
+      // Scroll to the contact form section
+      const element = document.getElementById('inquiry');
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth" });
+        }, 500);
+      }
+    }
+  }, [hash]);
+
   const [review, setReview] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -145,223 +163,273 @@ export default function Franchise() {
       </motion.section>
 
       {/* --- SECOND SECTION (PARALLEL FORMS) --- */}
-      <motion.section
-        className="relative z-10 w-full min-h-screen flex flex-col md:flex-row bg-[#e8d5b7]/20"
-      >
-        {/* LEFT FORM (SHARE EXPERIENCE - Review) */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-full md:w-1/2 min-h-[800px] bg-[#895b60] p-8 md:p-16 text-[#f5efe6] flex flex-col justify-center relative border-r border-white/5"
+      <AnimatePresence>
+        <motion.section
+          layout
+          className="relative z-10 w-full min-h-screen flex flex-col md:flex-row bg-[#f4f1ea]"
         >
-          <div className="relative z-10 max-w-lg mx-auto w-full">
-            <div className="flex flex-col items-center text-center mb-10">
-              <div className="w-16 h-16 rounded-full border-2 border-white flex items-center justify-center mb-4">
-                <NotebookPen className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-serif">Share Experience</h2>
-              <p className="text-white/80 text-sm mt-2 uppercase tracking-widest">Help us serve better</p>
-            </div>
+          {/* LEFT FORM (SHARE EXPERIENCE - Review) */}
+          <motion.div
+            layout
+            onClick={() => setActiveForm('review')}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, layout: { duration: 0.5 } }}
+            className={`
+             relative w-full md:w-1/2 min-h-[800px] flex flex-col justify-center p-8 md:p-20 overflow-hidden bg-[#F5E6D3]
+             ${activeForm === 'review' ? 'fixed inset-0 z-50 w-full h-full md:w-full' : 'relative group cursor-pointer'} 
+             ${activeForm === 'contact' ? 'hidden' : 'flex'}
+           `}
+          >
+            {/* Close Button */}
+            {activeForm === 'review' && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setActiveForm(null); }}
+                className="absolute top-6 right-6 z-50 p-2 bg-[#3b2a2a] text-[#f5efe6] rounded-full hover:bg-[#895b60] transition-colors"
+              >
+                <X className="w-8 h-8" />
+              </button>
+            )}
+            {/* Coffee Beans Background Pattern */}
+            <div className="absolute inset-0 w-full h-full opacity-15 pointer-events-none"
+              style={{ backgroundImage: `url(${seedsBg})`, backgroundSize: '300px', backgroundRepeat: 'repeat', mixBlendMode: 'multiply' }}
+            />
 
-            <form onSubmit={handleReviewSubmit} className="space-y-6">
-
-              {/* Boxed Inputs Style */}
-              <div className="grid grid-cols-1 gap-6">
-                <div className="relative group">
-                  <input
-                    value={name} onChange={e => setName(e.target.value)}
-                    className="w-full bg-[#5d3a3d] border-2 border-transparent focus:border-gold-400 rounded-lg py-4 px-4 outline-none placeholder:text-white/30 transition-all font-medium"
-                    placeholder="Your Name"
-                  />
-                  {errors.name && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-1">{errors.name}</p>}
-                </div>
-
-                <div className="relative group">
-                  <input
-                    value={phone} onChange={e => setPhone(e.target.value)} maxLength={10}
-                    className="w-full bg-[#5d3a3d] border-2 border-transparent focus:border-gold-400 rounded-lg py-4 px-4 outline-none placeholder:text-white/30 transition-all font-medium"
-                    placeholder="Phone Number"
-                  />
-                  {errors.phone && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-1">{errors.phone}</p>}
-                </div>
-
-                <div className="relative group">
-                  <input
-                    value={email} onChange={e => setEmail(e.target.value)}
-                    className="w-full bg-[#5d3a3d] border-2 border-transparent focus:border-gold-400 rounded-lg py-4 px-4 outline-none placeholder:text-white/30 transition-all font-medium"
-                    placeholder="Email Address"
-                  />
-                  {errors.email && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-1">{errors.email}</p>}
-                </div>
+            <div className={`relative z-10 max-w-lg mx-auto w-full transition-all duration-500 ${activeForm === 'review' ? 'scale-100' : 'scale-95 group-hover:scale-100'}`}>
+              <div className="mb-12">
+                <span className="font-lato text-[#895b60] uppercase tracking-widest text-2xl font-bold pl-1 mb-2 block">Feedback</span>
+                <h2 className="text-4xl md:text-5xl font-serif text-[#3b2a2a] mb-4"></h2>
+                <p className="font-lato text-[#5d3a3d]/70 text-lg leading-relaxed">
+                  Every cup tells a story. We'd love to hear yours.
+                </p>
               </div>
 
-              <div className="pt-4">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-white/80 mb-2 block">Your Rating</label>
-                <div className="flex gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      onClick={() => setRating(star)}
-                      onMouseEnter={() => setHoveredRating(star)}
-                      onMouseLeave={() => setHoveredRating(0)}
-                      className="p-1 focus:outline-none transition-transform hover:scale-110"
-                    >
-                      <Star
-                        className={`w-8 h-8 ${star <= (hoveredRating || rating) ? "fill-gold-400 text-gold-400" : "text-white/30"}`}
+              <form onSubmit={handleReviewSubmit} className="space-y-8" onClick={(e) => e.stopPropagation()}>
+
+                {/* Minimalist Inputs */}
+                <div className="space-y-6">
+                  <div className="relative group">
+                    <input
+                      value={name} onChange={e => setName(e.target.value)}
+                      className="w-full bg-transparent border-b border-[#3b2a2a]/20 py-3 text-[#3b2a2a] font-lato text-lg focus:border-[#895b60] outline-none transition-colors placeholder:text-[#3b2a2a]/30"
+                      placeholder="Describe yourself (Name)"
+                    />
+                    {errors.name && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-0">{errors.name}</p>}
+                  </div>
+
+                  <div className="relative group">
+                    <div className="flex items-center border-b border-[#3b2a2a]/20 focus-within:border-[#895b60] transition-colors">
+                      <span className="text-[#3b2a2a]/40 font-lato mr-2">+91</span>
+                      <input
+                        value={phone} onChange={e => setPhone(e.target.value)} maxLength={10}
+                        className="w-full bg-transparent py-3 text-[#3b2a2a] font-lato text-lg outline-none placeholder:text-[#3b2a2a]/30"
+                        placeholder=" Phone Number"
                       />
-                    </button>
-                  ))}
+                    </div>
+                    {errors.phone && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-0">{errors.phone}</p>}
+                  </div>
+
+                  <div className="relative group">
+                    <input
+                      value={email} onChange={e => setEmail(e.target.value)}
+                      className="w-full bg-transparent border-b border-[#3b2a2a]/20 py-3 text-[#3b2a2a] font-lato text-lg focus:border-[#895b60] outline-none transition-colors placeholder:text-[#3b2a2a]/30"
+                      placeholder="Where can we reach you? (Email)"
+                    />
+                    {errors.email && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-0">{errors.email}</p>}
+                  </div>
                 </div>
-                {errors.rating && <p className="text-[#fca5a5] text-xs mt-1">{errors.rating}</p>}
-              </div>
 
-              <div className="relative group">
-                <textarea
-                  value={review} onChange={e => setReview(e.target.value)} rows={4}
-                  className="w-full bg-[#5d3a3d] border-2 border-transparent focus:border-gold-400 rounded-lg py-4 px-4 outline-none placeholder:text-white/30 transition-all font-medium resize-none"
-                  placeholder="Write your review here (max 500 words)..."
-                />
-                {errors.review && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-1">{errors.review}</p>}
-              </div>
+                <div className="py-4">
+                  <label className="text-sm font-lato text-[#3b2a2a]/60 block mb-3">How was your brew?</label>
+                  <div className="flex gap-4">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setRating(star)}
+                        onMouseEnter={() => setHoveredRating(star)}
+                        onMouseLeave={() => setHoveredRating(0)}
+                        className="focus:outline-none transition-transform hover:scale-110"
+                      >
+                        <Star
+                          strokeWidth={1.5}
+                          className={`w-8 h-8 ${star <= (hoveredRating || rating) ? "fill-[#D4AF37] text-[#D4AF37]" : "text-[#3b2a2a]/20"}`}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                  {errors.rating && <p className="text-[#fca5a5] text-xs mt-2">{errors.rating}</p>}
+                </div>
 
-              <div className="pt-6">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  disabled={isSubmitting}
-                  className="w-full bg-[#3b2a2a] text-gold-400 border-2 border-transparent active:border-gold-400 hover:border-gold-400 py-4 rounded-xl font-bold uppercase tracking-[0.15em] transition-all shadow-xl"
-                >
-                  {isSubmitting ? "Submitting..." : "Submit Review"}
-                </motion.button>
-              </div>
-
-            </form>
-          </div>
-        </motion.div>
-
-        {/* RIGHT FORM (KNOW MORE - Contact) - Virtual Tour Aesthetic */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-full md:w-1/2 min-h-[800px] flex flex-col justify-center relative overflow-hidden"
-        >
-          {/* Background Image from Virtual Tour */}
-          <img
-            src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80"
-            alt="Cafe Interior"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
-
-          <div className="relative z-10 max-w-lg mx-auto w-full p-8 md:p-16 text-white">
-            <div className="flex flex-col items-center text-center mb-10">
-              <Phone className="w-12 h-12 md:w-10 md:h-10 text-white md:text-gold-400 mb-4 md:mb-6 md:animate-pulse" />
-
-              <h2 className="text-3xl md:text-4xl font-serif mb-3 md:mb-4 leading-tight drop-shadow-lg">
-                Know More
-              </h2>
-              <p className="text-sm md:text-l text-white/90 md:text-cream-200/90 max-w-xs md:max-w-lg">
-                Connect with Rabuste
-              </p>
-            </div>
-
-            <form onSubmit={handleContactSubmit} className="space-y-6">
-              <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
-                <input
-                  value={contactName} onChange={e => setContactName(e.target.value)}
-                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-4 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm"
-                  placeholder="Full Name"
-                />
-                {contactErrors.name && <p className="text-red-400 text-xs ml-1">{contactErrors.name}</p>}
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
-                <div className="flex">
-                  <span className="py-3 px-2 text-white/50 bg-white/10 md:bg-black/20 border-2 border-white/30 border-r-0 rounded-l-lg flex items-center">+91</span>
-                  <input
-                    value={contactPhone} onChange={e => setContactPhone(e.target.value)} maxLength={10}
-                    className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 border-l-0 focus:border-gold-400 text-white rounded-r-lg py-3 px-3 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm "
-                    placeholder="999 999 9999"
+                <div className="relative group">
+                  <textarea
+                    value={review} onChange={e => setReview(e.target.value)} rows={3}
+                    className="w-full bg-[#3b2a2a]/5 rounded-xl border-none p-4 text-[#3b2a2a] font-lato text-lg focus:ring-1 focus:ring-[#895b60]/50 outline-none transition-all placeholder:text-[#3b2a2a]/30 resize-none"
+                    placeholder="Share your thoughts..."
                   />
+                  {errors.review && <p className="text-[#fca5a5] text-xs absolute -bottom-5 left-1">{errors.review}</p>}
                 </div>
-                {contactErrors.phone && <p className="text-red-400 text-xs ml-1">{contactErrors.phone}</p>}
-              </div>
 
-              <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
-                <input
-                  value={contactEmail} onChange={e => setContactEmail(e.target.value)}
-                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-3 focus:outline-none transition-all placeholder:text-white/40 backdrop-blur-sm"
-                  placeholder="ABC@email.com"
-                />
-                {contactErrors.email && <p className="text-red-400 text-xs ml-1">{contactErrors.email}</p>}
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400"></label>
-                <select
-                  value={contactReason} onChange={e => setContactReason(e.target.value)}
-                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-3 px-4 focus:outline-none transition-all [&>option]:text-black backdrop-blur-sm"
-                >
-                  <option value="">Select Reason</option>
-                  <option value="franchise">Franchise Inquiry</option>
-                  <option value="corporate">Corporate Order</option>
-                  <option value="other">General Inquiry</option>
-                </select>
-                {contactErrors.reason && <p className="text-red-400 text-xs ml-1">{contactErrors.reason}</p>}
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs uppercase font-bold tracking-widest ml-1 text-gold-400">Suggestions / Questions</label>
-                <textarea
-                  value={suggestions} onChange={e => setSuggestions(e.target.value)} rows={3}
-                  className="w-full bg-white/10 md:bg-black/20 border-2 border-white/30 focus:border-gold-400 text-white rounded-lg py-4 px-4 focus:outline-none transition-all resize-none placeholder:text-white/40 backdrop-blur-sm"
-                  placeholder="Max 500 words..."
-                />
-                {contactErrors.suggestions && <p className="text-red-400 text-xs ml-1">{contactErrors.suggestions}</p>}
-              </div>
-
-              <div className="pt-6 flex flex-col gap-4">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  disabled={isContactSubmitting}
-                  className="
-                    w-full px-6 py-4 rounded-full text-sm font-bold uppercase tracking-[0.2em]
-                    border-2 border-white md:border-gold-400 text-white md:text-gold-400
-                    bg-white/10 md:bg-black/20 hover:bg-white hover:text-black
-                    md:hover:bg-gold-400 md:hover:text-brown-900 transition-all backdrop-blur-sm shadow-xl
+                <div className="pt-4">
+                  <motion.button
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                    disabled={isSubmitting}
+                    className="
+                    px-10 py-4 bg-[#3b2a2a] text-[#f5efe6] font-serif uppercase tracking-[0.15em] text-sm
+                    hover:bg-[#895b60] transition-colors shadow-lg
                   "
-                >
-                  {isContactSubmitting ? "Sending..." : "Submit Inquiry"}
-                </motion.button>
+                  >
+                    {isSubmitting ? "Submitting..." : "Send Review"}
+                  </motion.button>
+                </div>
 
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => navigate('/explore')}
-                  className="w-full text-white/70 py- font-serif uppercase tracking-widest hover:text-gold-400 transition-all group flex items-center justify-center gap-2 text-s"
-                >
-                  Explore More
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </motion.button>
+              </form>
+            </div>
+            {!activeForm && (
+              <div className="absolute inset-0 z-20 bg-black/0 hover:bg-black/5 transition-colors flex items-center justify-center opacity-0 hover:opacity-100 pointer-events-none md:pointer-events-auto">
+                <span className="bg-[#3b2a2a] text-[#f5efe6] px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest pointer-events-auto shadow-xl">
+                  Click to Expand
+                </span>
+              </div>
+            )}
+          </motion.div>
+
+          {/* RIGHT FORM (KNOW MORE - Contact) */}
+          <motion.div
+            id="inquiry"
+            layout
+            onClick={() => setActiveForm('contact')}
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, layout: { duration: 0.5 } }}
+            className={`
+             w-full md:w-1/2 min-h-[800px] flex flex-col justify-center relative bg-[#5d3a3d] p-4 md:p-20 text-[#f5efe6]
+             ${activeForm === 'contact' ? 'fixed inset-0 z-50 w-full h-full md:w-full' : 'relative group cursor-pointer'} 
+             ${activeForm === 'review' ? 'hidden' : 'flex'}
+           `}
+          >
+            {/* Close Button */}
+            {activeForm === 'contact' && (
+              <button
+                onClick={(e) => { e.stopPropagation(); setActiveForm(null); }}
+                className="absolute top-6 right-6 z-50 p-2 bg-white text-[#5d3a3d] rounded-full hover:bg-gold-400 transition-colors"
+              >
+                <X className="w-8 h-8" />
+              </button>
+            )}
+            {/* Subtle Texture */}
+            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `url(${seedsBg})`, backgroundSize: 'cover', mixBlendMode: 'overlay' }}></div>
+
+            <div className={`relative z-10 max-w-lg mx-auto w-full transition-all duration-500 ${activeForm === 'contact' ? 'scale-100' : 'scale-95 group-hover:scale-100'}`}>
+              <div className="mb-12">
+                <span className="font-lato text-gold-400 uppercase tracking-widest text-sm font-bold pl-1 mb-2 block">Partnership</span>
+                <h2 className="text-4xl md:text-5xl font-serif text-white mb-4">Let's Grow Together</h2>
+                <p className="font-lato text-white/60 text-lg leading-relaxed">
+                  Whether it's franchising or just a hello, we're listening.
+                </p>
               </div>
 
-            </form>
-          </div>
-        </motion.div>
+              <form onSubmit={handleContactSubmit} className="space-y-8" onClick={(e) => e.stopPropagation()}>
+                <div className="space-y-6">
 
-      </motion.section>
+                  <div className="relative">
+                    <input
+                      value={contactName} onChange={e => setContactName(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-5 py-4 text-white font-lato text-lg focus:border-gold-400/50 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                      placeholder="Full Name"
+                    />
+                    {contactErrors.name && <p className="text-red-300 text-xs absolute -bottom-5 left-1">{contactErrors.name}</p>}
+                  </div>
 
-      {/* --- FINAL SECTION (VISIT US) - Color Changed to #464646 (Old Know More color) --- */}
+                  <div className="relative grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="relative">
+                      <input
+                        value={contactPhone} onChange={e => setContactPhone(e.target.value)} maxLength={10}
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-5 py-4 text-white font-lato text-lg focus:border-gold-400/50 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                        placeholder="Phone Number"
+                      />
+                      {contactErrors.phone && <p className="text-red-300 text-xs absolute -bottom-5 left-1">{contactErrors.phone}</p>}
+                    </div>
+
+                    <div className="relative">
+                      <input
+                        value={contactEmail} onChange={e => setContactEmail(e.target.value)}
+                        className="w-full bg-white/5 border border-white/10 rounded-lg px-5 py-4 text-white font-lato text-lg focus:border-gold-400/50 focus:bg-white/10 outline-none transition-all placeholder:text-white/20"
+                        placeholder="Email Address"
+                      />
+                      {contactErrors.email && <p className="text-red-300 text-xs absolute -bottom-5 left-1">{contactErrors.email}</p>}
+                    </div>
+                  </div>
+
+
+                  <div className="relative">
+                    <select
+                      value={contactReason} onChange={e => setContactReason(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-5 py-4 text-white font-lato text-lg focus:border-gold-400/50 focus:bg-white/10 outline-none transition-all [&>option]:text-black appearance-none"
+                      style={{ backgroundImage: 'none' }} // Remove default arrow if needed, or customize
+                    >
+                      <option value="" className="text-black/50">Select Reason for Inquiry</option>
+                      <option value="franchise">Franchise Opportunity</option>
+                      <option value="corporate">Corporate Events</option>
+                      <option value="other">Other Queries</option>
+                    </select>
+                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-white/30">
+                      <Compass className="w-5 h-5" />
+                    </div>
+                    {contactErrors.reason && <p className="text-red-300 text-xs absolute -bottom-5 left-1">{contactErrors.reason}</p>}
+                  </div>
+
+                  <div className="relative">
+                    <textarea
+                      value={suggestions} onChange={e => setSuggestions(e.target.value)} rows={3}
+                      className="w-full bg-white/5 border border-white/10 rounded-lg px-5 py-4 text-white font-lato text-lg focus:border-gold-400/50 focus:bg-white/10 outline-none transition-all placeholder:text-white/20 resize-none"
+                      placeholder="Anything else you'd like to add?"
+                    />
+                    {contactErrors.suggestions && <p className="text-red-300 text-xs absolute -bottom-5 left-1">{contactErrors.suggestions}</p>}
+                  </div>
+                </div>
+
+
+                <div className="pt-4 flex flex-col md:flex-row gap-4 items-center">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    disabled={isContactSubmitting}
+                    className="
+                    w-full md:w-auto px-10 py-4 bg-gold-400 text-black font-serif uppercase tracking-[0.15em] text-sm font-bold
+                    hover:bg-white transition-colors shadow-lg
+                  "
+                  >
+                    {isContactSubmitting ? "Sending..." : "Submit Inquiry"}
+                  </motion.button>
+
+                  <button
+                    type="button"
+                    onClick={() => navigate('/explore')}
+                    className="font-lato text-gold-400 hover:text-white transition-colors text-sm underline underline-offset-4 decoration-white/20 hover:decoration-white"
+                  >
+                    Explore Us
+                  </button>
+                </div>
+
+              </form>
+            </div>
+            {!activeForm && (
+              <div className="absolute inset-0 z-20 bg-black/0 hover:bg-black/5 transition-colors flex items-center justify-center opacity-0 hover:opacity-100 pointer-events-none md:pointer-events-auto">
+                <span className="bg-white/10 text-white border border-white/50 backdrop-blur-md px-6 py-2 rounded-full text-sm font-bold uppercase tracking-widest pointer-events-auto shadow-xl">
+                  Click to Expand
+                </span>
+              </div>
+            )}
+          </motion.div>
+
+        </motion.section>
+      </AnimatePresence>
+
+      {/* --- FINAL SECTION (VISIT US) --- */}
       <section className="relative z-10 w-full bg-[#3b2a2a] text-cream-100 py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
@@ -374,43 +442,45 @@ export default function Franchise() {
           <div className="grid md:grid-cols-2 gap-16 items-start">
 
             {/* Contact Info */}
-            <div className="space-y-2 bg-white/5 p-10 rounded-2xl border border-white/10 backdrop-blur-sm">
-              <h3 className="text-2xl font-serif text-gold-400 border-b border-white/10 pb-4 mb-6">Contact Info</h3>
+            <div className="space-y-8">
+              <h3 className="text-2xl font-serif text-gold-400 border-b border-white/10 pb-4">Contact Info</h3>
 
-              <div className="flex items-center gap-6 group">
-                <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
-                  <Phone className="w-6 h-6 text-gold-400" />
+              <div className="space-y-6">
+                <div className="flex items-center gap-6 group">
+                  <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
+                    <Phone className="w-6 h-6 text-gold-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Phone</p>
+                    <p className="text-xl font-medium">123456789</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Phone</p>
-                  <p className="text-xl font-medium">123456789</p>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-6 group">
-                <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
-                  <MapPin className="w-6 h-6 text-gold-400" />
+                <div className="flex items-center gap-6 group">
+                  <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
+                    <MapPin className="w-6 h-6 text-gold-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Address</p>
+                    <p className="text-xl font-medium">Surat, Gujarat 395007</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Address</p>
-                  <p className="text-xl font-medium">Surat, Gujarat 395007</p>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-6 group">
-                <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
-                  <Mail className="w-6 h-6 text-gold-400" />
-                </div>
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Email</p>
-                  <p className="text-xl font-medium">hello@rabuste.cafe</p>
+                <div className="flex items-center gap-6 group">
+                  <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
+                    <Mail className="w-6 h-6 text-gold-400" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Email</p>
+                    <p className="text-xl font-medium">hello@rabuste.cafe</p>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Opening Hours */}
-            <div className="space-y-1 bg-gold-400/5 p-10 rounded-2xl border border-gold-400/20 backdrop-blur-sm">
-              <h3 className="text-2xl font-serif text-gold-400 border-b border-white/10 pb-4 mb-6">
+            {/* Opening Hours & Map Link */}
+            <div className="space-y-8">
+              <h3 className="text-2xl font-serif text-gold-400 border-b border-white/10 pb-4">
                 OPENING HOURS
               </h3>
 
@@ -419,18 +489,33 @@ export default function Franchise() {
                   <span className="text-white/80">Daily</span>
                   <span className="font-serif text-2xl text-gold-400 font-bold">9:30 AM – 11:00 PM</span>
                 </div>
+                <div className="pt-2 pb-6">
+                  <p className="italic text-white/40 font-serif">"Freshly brewed, every single day."</p>
+                </div>
               </div>
 
-              <div className="pt-8 text-center">
-                <p className="italic text-white/40 font-serif">"Freshly brewed, every single day."</p>
+              {/* --- MAP LINK PLACEHOLDER --- */}
+              <div className="pt-4 border-t border-white/10">
+                <a
+                  href="https://maps.app.goo.gl/qDFVgg6HXRgbL8bh6" // Replace with your actual Google Maps URL
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 text-gold-400 hover:text-white transition-colors group cursor-pointer"
+                >
+                  <span className="uppercase tracking-widest font-bold text-sm border-b border-gold-400/30 pb-0.5 group-hover:border-white">
+                    Get Directions on Map
+                  </span>
+                  <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                </a>
               </div>
+
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* --- MODALS --- */}
+      {/* --- MODALS (Unchanged) --- */}
       <AnimatePresence>
         {(showSuccessModal || showContactSuccessModal) && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
