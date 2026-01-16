@@ -25,6 +25,7 @@ import seedsBg from "../assets/seeds-bg.png";
 import beans1 from "../assets/beans1.png";
 import symbol from "../assets/symbol.png"
 import Products2 from "../assets/Products2.jpeg";
+import beansack from "../assets/beansack.jpg"
 
 
 
@@ -115,20 +116,13 @@ export default function Franchise() {
         className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden z-0"
       >
         {/* Placeholder for Background Image */}
-        <div className="absolute inset-0 bg-gray-900  h-[62vh] bg-cover bg-center" style={{ backgroundImage: `url(${Products2})` }}>
+        <div className="absolute inset-0  bg-gray-900 bg-cover bg-[center_70%] " style={{ backgroundImage: `url(${beansack})` }}>
           <div className="absolute inset-0 bg-black/50" />
         </div>
 
 
         <div className="relative z-10 text-center flex flex-col items-center p-6">
-          <motion.img
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            src={symbol}
-            alt="Rabuste Logo"
-            className="w-20 h-10 md:w-48 md:h-28 object-contain mb-8 drop-shadow-2xl"
-          />
+
 
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
