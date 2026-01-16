@@ -1,11 +1,12 @@
-import { motion } from "framer-motion";
-import { Coffee, ArrowLeft, Heart, MessageCircle, Share2, Play, Mail, Phone } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Coffee, ArrowLeft, Heart, MessageCircle, Share2, Play, Mail, Phone, X } from "lucide-react";
 import { FaInstagram } from "react-icons/fa";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
   ArrowUpRight,
+  ArrowUp,
   Users,
   Award,
 
@@ -15,45 +16,15 @@ import {
 
 import franchiseImg from "../assets/rabuste_franchise.png";
 import seedsBg from "../assets/seeds-bg.png"
+import cafeCommunityBg from "../assets/cafe_community_bg.png";
 
 export default function Explore() {
   const navigate = useNavigate();
+  const [showFixedBox, setShowFixedBox] = useState(true);
 
   return (
     <div className="w-full min-h-screen bg-[#fdfbf7]">
-      {/* HEADER */}
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        className="sticky top-0 z-50 backdrop-blur-md bg-[#1a120b]/95 border-b border-[#d4a574]/20 shadow-lg"
-      >
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => navigate('/')}
-              className="flex items-center gap-2 text-[#d4a574] hover:text-[#c89a5c] transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              <span className="text-sm font-medium">Back to Home</span>
-            </button>
 
-            <div className="flex items-center gap-3">
-              <Coffee className="w-8 h-8 text-[#d4a574]" />
-              <h1 className="text-2xl font-serif text-white">Rabuste Franchise</h1>
-            </div>
-
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-[#d4a574] hover:text-[#c89a5c] transition-colors"
-            >
-              <FaInstagram className="w-5 h-5" />
-              <span className="text-sm font-medium hidden sm:inline">Follow Us</span>
-            </a>
-          </div>
-        </div>
-      </motion.header>
 
       {/* HERO SECTION */}
       <section
@@ -87,16 +58,17 @@ export default function Explore() {
             >
               <h2 className="text-4xl md:text-5xl font-serif mb-6 text-[#1a120b]">Franchise with us</h2>
 
-              <div className="space-y-6 text-lg leading-relaxed text-[#3e2723] text-center">
+              <div className="space-y-4 text-l leading-relaxed text-[#3e272] text-center">
                 <p>
-                  If you are looking for a rewarding investment and want to start your own business? You are at the right place! Become a part of the Barista Brewing Family. We are expanding rapidly and we would be delighted for you to join us in this journey. As a Barista franchise, all the processes become much easier.
-                </p>
+                  Looking to invest in a café business that’s rewarding, creative, and full of character?
+                  You’re in the right place.                </p>
                 <p>
-                  We assist our franchise partners at all stages of starting the business and provide complete support in Cafe design and layout, Support/vendor negotiations in the sourcing of equipment; Food and Menu development; Training of staff, and establishing operations under the guidance of our seasoned manager; Marketing support around launch and post-launch of café and much more.
+                  Rabuste Café, based in Surat, invites you to be part of a growing coffee culture rooted in Robusta, art, and community. As we expand, we’re excited to welcome passionate partners who want to build something meaningful and profitable.
                 </p>
                 <p className="font-medium text-[#1a120b]">
-                  Join us in the journey of brewing experiences, and freshness accompanied by its perfect companions to enjoy along with captive audiences all across. Your efforts will be rewarded. Don't miss out on this amazing opportunity because we make your Investments more rewarding.
-                </p>
+                  When you partner with Rabuste, you’re never alone. We support you at every stage—right from café concept and layout design to sourcing equipment, curating the menu, staff training, and setting up smooth day-to-day operations under expert guidance. Our team also provides strong marketing support before launch and well beyond it.                </p>
+                <p> Together, we don’t just open cafés—we create places people return to. Places where coffee sparks conversations and every effort feels worth it.</p>
+                <p>Let’s build Rabuste, together.</p>
               </div>
             </motion.div>
           </div>
@@ -104,7 +76,10 @@ export default function Explore() {
       </section>
 
       {/* --- JOIN OUR COMMUNITY --- */}
-      <section className="bg-[#2F1B14] py-24 px-6 text-cream-100 relative overflow-hidden">
+      <section className="relative py-24 px-6 text-cream-100 overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${cafeCommunityBg})` }}>
+        {/* Dark Overlay for readability */}
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]"></div>
+
         {/* Background Pattern */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[100px] pointer-events-none"></div>
 
@@ -113,7 +88,7 @@ export default function Explore() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-serif mb-8 text-gold-400"
+            className="text-2xl md:text-4xl font-serif mb-8 text-gold-400"
           >
             Join Our Coffee Community
           </motion.h2>
@@ -124,8 +99,7 @@ export default function Explore() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-lg md:text-xl leading-relaxed mb-12 text-white/80"
           >
-            When you decide to franchise with us, you choose to become a part of a growing coffee community across the globe. Barista coffee Company is the Pioneer of coffee culture in India and its long-established identity of offering a truly International coffee experience in a warm, sociable, friendly and peaceful environment. Barista thrives to provide a welcoming experience to its guests at all the touch points across various formats.
-          </motion.p>
+            When you franchise with Rabuste, you become part of a growing coffee community built on culture, creativity, and connection. Rooted in a modern coffee experience, Rabuste focuses on warm, welcoming spaces where every touchpoint feels thoughtful, social, and inviting.         </motion.p>
 
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -137,19 +111,43 @@ export default function Explore() {
             onClick={() => navigate('/franchise#inquiry')}
             className="bg-gold-400 text-[#2F1B14] px-12 py-4 rounded-full font-bold uppercase tracking-widest text-lg hover:bg-white transition-colors mb-16"
           >
-            Get in Touch
+            Connect
           </motion.button>
 
-          {/* Icon Placeholders */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[Users, Globe, Coffee, Award].map((Icon, idx) => (
-              <div key={idx} className="flex flex-col items-center gap-4">
-                <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 hover:border-gold-400/50 transition-colors">
-                  <Icon className="w-8 h-8 text-gold-400" />
-                </div>
-                <div className="w-16 h-2 bg-white/10 rounded-full"></div>
+          {/* Icon Actions */}
+          <div className="flex flex-wrap justify-center gap-12 md:gap-20">
+            {/* 1st Icon: Home Redirection */}
+            <div className="flex flex-col items-center gap-4 group cursor-pointer" onClick={() => navigate('/')}>
+              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-gold-400 group-hover:bg-gold-400/10 transition-all">
+                <Users className="w-8 h-8 text-gold-400" />
               </div>
-            ))}
+              <p className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-gold-400 transition-colors">Home</p>
+            </div>
+
+            {/* 2nd Icon: Website Link */}
+            <a
+              href="https://rabuste.cafe"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-4 group cursor-pointer"
+              title="https://rabuste.cafe"
+            >
+              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-gold-400 group-hover:bg-gold-400/10 transition-all">
+                <Globe className="w-8 h-8 text-gold-400" />
+              </div>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-gold-400 transition-colors">Rabuste</p>
+            </a>
+
+            {/* 4th Icon (Now 3rd): Scroll to Top */}
+            <div
+              className="flex flex-col items-center gap-4 group cursor-pointer"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-gold-400 group-hover:bg-gold-400/10 transition-all">
+                <ArrowUp className="w-8 h-8 text-gold-400" />
+              </div>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-gold-400 transition-colors">Top</p>
+            </div>
           </div>
         </div>
       </section>
@@ -185,34 +183,61 @@ export default function Explore() {
       </section>
 
       {/* --- FIXED ENQUIRE BOX --- */}
-      <motion.div
-        initial={{ y: 100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        className="fixed bottom-6 left-6 z-40 max-w-sm w-[90vw] md:w-auto bg-[#1a120b] p-6 rounded-xl shadow-2xl border-l-4 border-gold-400 hidden md:block"
-      >
-        <h3 className="text-gold-400 font-serif text-lg mb-2 leading-tight">
-          "Become a part of the fastest growing cafe chain of India"
-        </h3>
-        <button
-          onClick={() => navigate('/franchise#inquiry')}
-          className="mt-3 text-xs w-full bg-white/10 hover:bg-gold-400 hover:text-[#3b2a2a] text-white py-3 rounded-lg uppercase tracking-widest font-bold transition-all flex items-center justify-center gap-2 group"
-        >
-          Get in Touch
-          <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </button>
-      </motion.div>
+      <AnimatePresence>
+        {showFixedBox && (
+          <>
+            {/* Desktop Version */}
+            <motion.div
+              initial={{ y: 100, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 100, opacity: 0 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="fixed bottom-6 left-6 z-40 max-w-sm w-[90vw] md:w-auto bg-[#1a120b] p-6 pt-8 rounded-xl shadow-2xl border-l-4 border-gold-400 hidden md:block"
+            >
+              <button
+                onClick={() => setShowFixedBox(false)}
+                className="absolute top-2 right-2 text-white/30 hover:text-white transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <h3 className="text-gold-400 font-serif text-lg mb-2 leading-tight">
+                "Become a part of the fastest growing cafe chain of India"
+              </h3>
+              <button
+                onClick={() => navigate('/franchise#inquiry')}
+                className="mt-3 text-xs w-full bg-white/10 hover:bg-gold-400 hover:text-[#3b2a2a] text-white py-3 rounded-lg uppercase tracking-widest font-bold transition-all flex items-center justify-center gap-2 group"
+              >
+                Connect
+                <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </button>
+            </motion.div>
 
-      {/* Mobile Version of Fixed Box (Simpler) */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-[#1a120b] p-4 md:hidden flex justify-between items-center border-t-2 border-gold-400">
-        <span className="text-white text-xs font-bold uppercase tracking-wide">Join the Family</span>
-        <button
-          onClick={() => navigate('/franchise#inquiry')}
-          className="bg-gold-400 text-[#3b2a2a] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
-        >
-          Get in Touch
-        </button>
-      </div>
+            {/* Mobile Version */}
+            <motion.div
+              initial={{ y: 100 }}
+              animate={{ y: 0 }}
+              exit={{ y: 100 }}
+              className="fixed bottom-0 left-0 right-0 z-40 bg-[#1a120b] p-4 md:hidden flex justify-between items-center border-t-2 border-gold-400"
+            >
+              <span className="text-white text-xs font-bold uppercase tracking-wide">Join the Family</span>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => navigate('/franchise#inquiry')}
+                  className="bg-gold-400 text-[#3b2a2a] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
+                >
+                  Connect
+                </button>
+                <button
+                  onClick={() => setShowFixedBox(false)}
+                  className="text-white/30 hover:text-white"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
     </div>
   );

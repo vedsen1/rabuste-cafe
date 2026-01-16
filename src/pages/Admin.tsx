@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Coffee, Palette, GraduationCap, Sprout, LogOut } from 'lucide-react';
+import { LayoutDashboard, Coffee, Palette, GraduationCap, Sprout, LogOut, MessageSquare } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 ;
 import { WorkshopManager } from '../components/admin/WorkshopManager';
@@ -9,9 +9,11 @@ import { MenuManager } from '@/components/admin/MenuManager';
 import { ArtDetailsModal } from '@/components/modals/ArtDetailsModal';
 import { ArtManager } from '@/components/admin/ArtManager';
 import { SeedsManager } from '@/components/admin/SeedsManager';
+import { InquiryManager } from '@/components/admin/InquiryManager';
 
 const tabs = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'inquiries', label: 'Inquiries', icon: MessageSquare },
   { id: 'menu', label: 'Manage Menu', icon: Coffee },
   { id: 'art', label: 'Manage Art', icon: Palette },
   { id: 'seeds', label: 'Manage Seeds', icon: Sprout },
@@ -35,17 +37,16 @@ export default function Admin() {
         <div className="p-6 flex-1">
           <h2 className="text-gold-400 font-serif text-xl mb-2">Admin Panel</h2>
           <p className="text-xs text-cream-200/50 mb-8 truncate">{user?.email}</p>
-          
+
           <nav className="space-y-2">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                  activeTab === tab.id 
-                    ? 'bg-gold-500 text-brown-900 font-bold' 
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === tab.id
+                    ? 'bg-gold-500 text-brown-900 font-bold'
                     : 'text-cream-200 hover:bg-brown-800'
-                }`}
+                  }`}
               >
                 <tab.icon size={20} />
                 {tab.label}
@@ -53,9 +54,9 @@ export default function Admin() {
             ))}
           </nav>
         </div>
-        
+
         <div className="p-6 border-t border-gold-500/10">
-          <button 
+          <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-red-300 hover:bg-red-900/20 transition-all"
           >
@@ -67,7 +68,7 @@ export default function Admin() {
 
       {/* Sidebar - Mobile Toggle */}
       <div className="md:hidden fixed bottom-6 right-6 z-50">
-        <button 
+        <button
           onClick={handleLogout}
           className="bg-red-900 text-white p-4 rounded-full shadow-lg border border-red-500/50"
         >
@@ -84,6 +85,7 @@ export default function Admin() {
           transition={{ duration: 0.3 }}
         >
           {activeTab === 'dashboard' && <DashboardView />}
+          {activeTab === 'inquiries' && <InquiryManager />}
           {activeTab === 'menu' && <MenuManager />}
           {activeTab === 'art' && <ArtManager />}
           {activeTab === 'seeds' && <SeedsManager />}
@@ -105,7 +107,7 @@ const DashboardView = () => (
     <div className="col-span-1 md:col-span-3 bg-brown-900/50 p-8 rounded-xl border border-gold-500/10 mt-8">
       <h3 className="text-2xl font-serif text-cream-100 mb-4">Welcome Back, Admin</h3>
       <p className="text-cream-200/80">
-        Use the sidebar to manage your cafe's content. You can add new menu items, 
+        Use the sidebar to manage your cafe's content. You can add new menu items,
         curate the art gallery, and schedule workshops directly from this panel.
       </p>
     </div>

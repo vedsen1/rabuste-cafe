@@ -1,9 +1,12 @@
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useState } from 'react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Compass, Clock, MapPin, Coffee } from 'lucide-react';
 import { StoryScrollSection } from '../components/sections/StoryScrollSection';
 import { InstagramBanner } from '../components/sections/InstagramBanner';
+import { VideoModal } from '../components/modals/VideoModal';
 
 export default function OurStory() {
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
@@ -54,7 +57,9 @@ export default function OurStory() {
             Experience the ambiance of Rabuste Cafe from the comfort of your home.
           </p>
 
-          <button className="
+          <button
+            onClick={() => setIsVideoModalOpen(true)}
+            className="
       px-6 py-3 md:px-10 md:py-4
       rounded-full
       text-xs md:text-sm
@@ -119,9 +124,11 @@ export default function OurStory() {
 
       </div>
 
-
-
-
+      <VideoModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoUrl="https://www.youtube.com/embed/iO82p2eQ1W4"
+      />
     </div>
   );
 }

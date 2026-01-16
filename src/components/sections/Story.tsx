@@ -30,25 +30,23 @@ export const Story = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.9 }}
         >
-          <span className="uppercase tracking-widest text-gold-400 text-sm">
-            Our Story
+          <span className="uppercase tracking-widest text-gold-400 text-xl">
+            Did you know?
           </span>
 
-          <h2 className="mt-4 text-4xl md:text-5xl font-serif leading-tight">
-            Built Around
-            <br /> Bold Robusta.
+          <h2 className="mt-6 text-l md:text-2xl font-serif leading-tight">
+            There’s a way to truly experience Robusta Coffee.
+            <br /> Savor the 1st, 3rd, and 5th sip.
           </h2>
 
-          <p className="mt-6 text-cream-200/80 leading-relaxed">
-            We chose Robusta not to follow trends, but to honor strength.
-            Grown in tougher conditions, it develops a deeper body,
-            thicker crema, and a caffeine kick that lingers.
+          <p className="mt-9 text-cream-200/80 leading-relaxed">
+            The first sip hits bold and bitter—your taste buds are just waking up to Robusta’s strength.
+            By the third sip, the hidden notes begin to unfold, revealing its depth and character.
+            And the fifth sip delivers the perfect finish—one that lingers, carrying the essence of 
           </p>
 
-          <p className="mt-4 text-cream-200/80 leading-relaxed">
-            This café is a reflection of that belief — honest coffee,
-            a cozy space, and moments that don't rush you,
-            even when the world does.
+          <p className="mt-8 text-cream-200/180 leading-relaxed">
+            "ROBUSTA AND RABUSTE"
           </p>
         </motion.div>
 

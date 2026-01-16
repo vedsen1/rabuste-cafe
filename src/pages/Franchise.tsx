@@ -29,6 +29,7 @@ import Products2 from "../assets/Products2.jpeg";
 import beansack from "../assets/beansack.jpg"
 
 
+import { addInquiry } from "../services/franchiseService";
 
 export default function Franchise() {
   const navigate = useNavigate();
@@ -77,6 +78,14 @@ export default function Franchise() {
   const [showContactSuccessModal, setShowContactSuccessModal] = useState(false);
   const [contactErrors, setContactErrors] = useState<{ [key: string]: string }>({});
 
+  const [copiedText, setCopiedText] = useState<string | null>(null);
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedText(text);
+    setTimeout(() => setCopiedText(null), 2000);
+  };
+
   // --- VALIDATION & HANDLERS ---
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
@@ -109,20 +118,48 @@ export default function Franchise() {
     e.preventDefault();
     if (!validateForm()) return;
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setShowSuccessModal(true);
-    setName(""); setEmail(""); setPhone(""); setReview(""); setRating(0);
+
+    try {
+      await addInquiry({
+        type: 'feedback',
+        name,
+        phone,
+        email,
+        rating,
+        review
+      });
+      setShowSuccessModal(true);
+      setName(""); setEmail(""); setPhone(""); setReview(""); setRating(0);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      // Optional: Add error handling UI here
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateContactForm()) return;
     setIsContactSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsContactSubmitting(false);
-    setShowContactSuccessModal(true);
-    setContactName(""); setContactEmail(""); setContactPhone(""); setContactReason(""); setSuggestions("");
+
+    try {
+      await addInquiry({
+        type: 'contact',
+        name: contactName,
+        phone: contactPhone,
+        email: contactEmail,
+        reason: contactReason,
+        suggestions
+      });
+      setShowContactSuccessModal(true);
+      setContactName(""); setContactEmail(""); setContactPhone(""); setContactReason(""); setSuggestions("");
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      // Optional: Add error handling UI here
+    } finally {
+      setIsContactSubmitting(false);
+    }
   };
 
   return (
@@ -446,33 +483,87 @@ export default function Franchise() {
               <h3 className="text-2xl font-serif text-gold-400 border-b border-white/10 pb-4">Contact Info</h3>
 
               <div className="space-y-6">
-                <div className="flex items-center gap-6 group">
+                <div
+                  className="flex items-center gap-6 group cursor-pointer"
+                  onClick={() => handleCopy("123456789")}
+                  title="Click to copy"
+                >
                   <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
                     <Phone className="w-6 h-6 text-gold-400" />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Phone</p>
-                    <p className="text-xl font-medium">123456789</p>
+                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1 flex items-center gap-2">
+                      Phone
+                      <AnimatePresence>
+                        {copiedText === "123456789" && (
+                          <motion.span
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 5 }}
+                            className="text-green-400 normal-case tracking-normal text-[10px]"
+                          >
+                            Copied!
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </p>
+                    <p className="text-xl font-medium group-hover:text-gold-400 transition-colors">9574006100</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6 group">
+                <div
+                  className="flex items-center gap-6 group cursor-pointer"
+                  onClick={() => handleCopy("Surat, Gujarat 395007")}
+                  title="Click to copy"
+                >
                   <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
                     <MapPin className="w-6 h-6 text-gold-400" />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Address</p>
-                    <p className="text-xl font-medium">Surat, Gujarat 395007</p>
+                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1 flex items-center gap-2">
+                      Address
+                      <AnimatePresence>
+                        {copiedText === "Surat, Gujarat 395007" && (
+                          <motion.span
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 5 }}
+                            className="text-green-400 normal-case tracking-normal text-[10px]"
+                          >
+                            Copied!
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </p>
+                    <p className="text-xl font-medium group-hover:text-gold-400 transition-colors">Surat, Gujarat 395007</p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-6 group">
+                <div
+                  className="flex items-center gap-6 group cursor-pointer"
+                  onClick={() => handleCopy("hello@rabuste.cafe")}
+                  title="Click to copy"
+                >
                   <div className="w-12 h-12 rounded-full bg-gold-500/10 flex items-center justify-center group-hover:bg-gold-500/20 transition-colors">
                     <Mail className="w-6 h-6 text-gold-400" />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Email</p>
-                    <p className="text-xl font-medium">hello@rabuste.cafe</p>
+                    <p className="text-xs uppercase tracking-widest text-white/50 mb-1 flex items-center gap-2">
+                      Email
+                      <AnimatePresence>
+                        {copiedText === "hello@rabuste.cafe" && (
+                          <motion.span
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: 5 }}
+                            className="text-green-400 normal-case tracking-normal text-[10px]"
+                          >
+                            Copied!
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </p>
+                    <p className="text-xl font-medium group-hover:text-gold-400 transition-colors">hello@rabuste.cafe</p>
                   </div>
                 </div>
               </div>
@@ -489,8 +580,30 @@ export default function Franchise() {
                   <span className="text-white/80">Daily</span>
                   <span className="font-serif text-2xl text-gold-400 font-bold">9:30 AM – 11:00 PM</span>
                 </div>
-                <div className="pt-2 pb-6">
-                  <p className="italic text-white/40 font-serif">"Freshly brewed, every single day."</p>
+                <div className="pt-2 pb-6 relative">
+                  <p className="italic text-white/40 font-serif">
+                    "We are the best partner in a long drive."<br />
+                    For takeaway call {" "}
+                    <span
+                      onClick={() => handleCopy("9574006100")}
+                      className="text-gold-400 font-bold cursor-pointer hover:text-white transition-colors relative"
+                    >
+                      9574006100
+                      <AnimatePresence>
+                        {copiedText === "9574006100" && (
+                          <motion.span
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: -20 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute left-0 text-green-400 text-[10px] whitespace-nowrap not-italic font-sans"
+                          >
+                            Copied!
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </span>
+                    "
+                  </p>
                 </div>
               </div>
 
@@ -514,6 +627,83 @@ export default function Franchise() {
           </div>
         </div>
       </section>
+
+      {/* --- FLOATING 3D EXPLORE BUTTON --- */}
+      <motion.div
+        initial={{
+          opacity: 0,
+          scale: 0.5,
+          perspective: 1000,
+          rotateX: 110,
+          rotateY: -45,
+          rotateZ: 90,
+          x: "50vw",
+          y: "50vh",
+          rotate: 720
+        }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          rotateX: 0,
+          rotateY: 0,
+          rotateZ: 0,
+          x: 0,
+          y: 0,
+          rotate: 0,
+          transition: {
+            duration: 3,
+            ease: [0.16, 1, 0.3, 1],
+            delay: 0.5
+          }
+        }}
+        whileHover={{
+          scale: 1.15,
+          rotateY: 15,
+          rotateX: -15,
+          transition: { duration: 0.4 }
+        }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-10 right-10 z-[100]"
+      >
+        <button
+          onClick={() => navigate('/explore')}
+          className="
+            relative group
+            px-8 py-8 md:px-10 md:py-10
+            bg-gold-500 text-[#3b2a2a]
+            rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)]
+            flex flex-col items-center justify-center
+            border-2 border-[#3b2a2a]/20
+            hover:border-[#3b2a2a]
+            hover:shadow-gold-500/20
+            transition-all duration-500
+            overflow-hidden
+          "
+        >
+          {/* Brew/Steam Animation Effect */}
+          <motion.div
+            animate={{
+              y: [-10, -30],
+              opacity: [0, 0.5, 0],
+              scale: [1, 1.5]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute top-4 w-12 h-12 bg-white/10 rounded-full blur-xl pointer-events-none"
+          />
+
+          <Compass className="w-8 h-8 mb-2 group-hover:rotate-180 transition-transform duration-700" />
+          <span className="text-[10px] font-black uppercase tracking-[0.3em] font-sans">
+            Explore
+          </span>
+
+          {/* 3D Ring Effect */}
+          <div className="absolute inset-0 border border-gold-400/20 rounded-full scale-110 group-hover:scale-125 transition-transform duration-500" />
+        </button>
+      </motion.div>
 
       {/* --- MODALS (Unchanged) --- */}
       <AnimatePresence>
