@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
-import { ShoppingCart, Coffee, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ShoppingCart, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import muffin from '../assets/muffin.png';
-import menuHeroBg from '../assets/menu-hero-bg.png';
 import { getMenuItems, MenuItem } from '../services/menuService';
 import { useCart } from '../context/CartContext';
 
@@ -19,15 +17,16 @@ const CATEGORIES = [
 export default function Menu() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const { addToCart, cartItems } = useCart();
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const { addToCart, cartItems, clearCart } = useCart();
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
         const data = await getMenuItems();
         setMenuItems(data);
-      } catch (error) {
-        console.error("Failed to load menu", error);
+      } catch (err) {
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -35,102 +34,70 @@ export default function Menu() {
     fetchMenu();
   }, []);
 
-  const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const cartCount = cartItems.reduce((a, b) => a + b.quantity, 0);
 
-  // UI helpers
-  const categoryColor = (cat: string) => {
-    switch (cat) {
-      case 'Robusta Cold': return 'bg-[#2f7d5d]';
-      case 'Robusta Hot': return 'bg-[#c24f33]';
-      case 'Blend Cold': return 'bg-[#4f6fc2]';
-      case 'Blend Hot': return 'bg-[#c28a33]';
-      case 'Manual Brew': return 'bg-[#7a5f3b]';
-      case 'Non Coffee': return 'bg-[#7a7a7a]';
-      case 'Savoury': return 'bg-[#a64b2a]';
-      default: return 'bg-[#7a5f3b]';
-    }
+  const getTotalAmount = () => {
+    return cartItems.reduce((total, item) => {
+      const price = Number(item.price.replace(/[^\d]/g, ''));
+      return total + price * item.quantity;
+    }, 0);
   };
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
+  const handleCheckout = () => {
+  const amount = getTotalAmount();
+  if (amount === 0) return;
+
+  const options = {
+    key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+    amount: amount * 100,
+    currency: 'INR',
+    name: 'Coffee Store',
+    description: 'Coffee Order',
+    handler: (response: any) => {
+      console.log('Payment Success:', response);
+
+      clearCart(); // ✅ THIS FIXES YOUR ISSUE
+
+      alert('Payment Successful ☕');
+    },
+    theme: {
+      color: '#2f7d5d',
+    },
+  };
+
+  const razorpay = new (window as any).Razorpay(options);
+  razorpay.open();
+};
 
 
   const GridCard = ({ item }: { item: MenuItem }) => (
-    <div className="bg-white rounded-xl border border-[#eee] shadow-sm hover:shadow-md transition-shadow overflow-hidden relative">
-      {/* Rating badge */}
-      <div className="absolute top-3 right-3 flex items-center gap-1 bg-white/90 px-2 py-1 rounded-full border border-[#ddd] text-[#555] text-xs font-semibold">
-        <Star size={14} className="text-[#f5a623]" fill="#f5a623" />
-        <span>4.8</span>
-      </div>
-      {/* Image */}
-      <div className="h-72 w-full bg-[#f7f3ee]">
+    <div className="bg-white rounded-xl border shadow-sm">
+      <div className="h-60 bg-[#f7f3ee]">
         {item.imageUrl ? (
-          <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover" />
+          <img src={item.imageUrl} className="w-full h-full object-cover" />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-[#b7a89a]">No Image</div>
+          <div className="flex items-center justify-center h-full">No Image</div>
         )}
       </div>
-      {/* Content */}
       <div className="p-4">
-        <div className="flex items-center gap-2 mb-2">
-          <span className={`inline-block w-3 h-3 rounded-sm ${categoryColor(item.category)}`} />
-          <h3 className="text-lg font-semibold text-[#2b2b2b]">{item.name}</h3>
-        </div>
-        <p className="text-sm text-[#6f6f6f] mb-3">{item.description || item.name}</p>
-        <div className="flex items-center justify-between">
-          <span className="text-[#333] font-semibold">{item.price}</span>
+        <h3 className="font-semibold">{item.name}</h3>
+        <p className="text-sm text-gray-500 mb-2">{item.description}</p>
+        <div className="flex justify-between items-center">
+          <span className="font-semibold">{item.price}</span>
           <button
             onClick={() => addToCart(item)}
-            className="px-3 py-2 bg-[#2f7d5d] text-white rounded-md text-xs font-semibold hover:bg-[#276b51]"
+            className="bg-[#2f7d5d] text-white px-3 py-1 rounded"
           >
-            Add to Cart
+            Add
           </button>
         </div>
       </div>
     </div>
   );
 
-  const ScrollRow = ({ items }: { items: MenuItem[] }) => {
-    const rowRef = useRef<HTMLDivElement>(null);
-
-    const scroll = (direction: 'left' | 'right') => {
-      if (rowRef.current) {
-        const scrollAmount = direction === 'left' ? -300 : 300;
-        rowRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-      }
-    };
-
-    return (
-      <div className="relative group/row">
-        {/* Left Arrow */}
-        <button
-          onClick={() => scroll('left')}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-brown-900/80 text-gold-400 p-2 rounded-full opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-brown-900 shadow-lg -ml-4"
-        >
-          <ChevronLeft size={24} />
-        </button>
-
-        {/* Scroll Container */}
-        <div
-          ref={rowRef}
-          className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide -mx-6 px-6"
-        >
-          {items.map(item => <GridCard key={item.id} item={item} />)}
-        </div>
-
-        {/* Right Arrow */}
-        <button
-          onClick={() => scroll('right')}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-brown-900/80 text-gold-400 p-2 rounded-full opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-brown-900 shadow-lg -mr-4"
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div>
-    );
-  };
-
   return (
-    <div className="min-h-screen pb-20 overflow-x-hidden relative bg-[#f2e8db]">
-      {/* Hero */}
+    <div className="min-h-screen bg-[#f2e8db] pb-24">
+      {/* HERO */}
       {/* Hero */}
       <section className="container mx-auto px-6 pt-32 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-8 md:gap-0">
@@ -196,46 +163,55 @@ export default function Menu() {
         </div>
       </div>
 
-      {/* Grid Menu */}
-      <div className="container mx-auto px-6">
+      {/* MENU GRID */}
+      <div className="container mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {loading ? (
-          <div className="text-center text-[#6f6f6f] py-20">Brewing the menu...</div>
+          <p>Loading...</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {(selectedCategory === 'All' ? menuItems : menuItems.filter(i => i.category === selectedCategory)).map((item) => (
-              <GridCard key={item.id || item.name} item={item} />
-            ))}
-          </div>
+          (selectedCategory === 'All'
+            ? menuItems
+            : menuItems.filter(i => i.category === selectedCategory)
+          ).map(item => <GridCard key={item.id} item={item} />)
         )}
       </div>
 
-      {/* Floating Cart Button */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <button className="bg-gold-500 text-brown-900 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform relative group">
-          <ShoppingCart size={24} fill="currentColor" />
+      {/* FLOATING CART */}
+      <div className="fixed bottom-6 right-6 group">
+        <button className="bg-[#FFC107] p-4 rounded-full shadow-xl relative">
+          <ShoppingCart />
           {cartCount > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-brown-900">
+            <span className="absolute -top-2 -right-2 bg-red-600 text-white w-6 h-6 flex items-center justify-center rounded-full">
               {cartCount}
             </span>
           )}
+        </button>
 
-          {/* Simple Tooltip Cart Summary */}
-          <div className="absolute bottom-full right-0 mb-4 w-64 bg-white text-brown-900 rounded-xl shadow-xl p-4 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity origin-bottom-right transform scale-95 group-hover:scale-100">
-            <h4 className="font-bold border-b border-brown-900/10 pb-2 mb-2">Cart Summary</h4>
-            {cartItems.length === 0 ? (
-              <p className="text-sm text-gray-500 italic">Your cart is empty</p>
-            ) : (
-              <ul className="text-sm space-y-1 max-h-40 overflow-y-auto">
-                {cartItems.map(item => (
-                  <li key={item.cartItemId} className="flex justify-between">
-                    <span className="truncate w-32">{item.name}</span>
-                    <span className="font-mono">x{item.quantity}</span>
+        {/* CART POPUP */}
+        <div className="absolute bottom-full right-0 mb-3 w-64 bg-white rounded-xl shadow-xl p-4 opacity-0 group-hover:opacity-100 transition">
+          <h4 className="font-bold mb-2">Cart</h4>
+
+          {cartItems.length === 0 ? (
+            <p className="text-sm text-gray-500">Empty</p>
+          ) : (
+            <>
+              <ul className="text-sm mb-3 max-h-32 overflow-y-auto">
+                {cartItems.map(i => (
+                  <li key={i.cartItemId} className="flex justify-between">
+                    <span>{i.name}</span>
+                    <span>x{i.quantity}</span>
                   </li>
                 ))}
               </ul>
-            )}
-          </div>
-        </button>
+
+              <button
+                onClick={handleCheckout}
+                className="w-full bg-[#2f7d5d] text-white py-2 rounded"
+              >
+                Checkout ₹{getTotalAmount()}
+              </button>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

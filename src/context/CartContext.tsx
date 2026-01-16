@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { MenuItem } from '../services/menuService';
 
 export interface CartItem extends MenuItem {
-  cartItemId: string; // Unique ID for the item in cart (in case of duplicates/variants)
+  cartItemId: string;
   quantity: number;
 }
 
@@ -19,42 +19,62 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
+  // ✅ Add to cart
   const addToCart = (item: MenuItem) => {
-    setCartItems((prev) => {
-      // Check if item already exists
-      const existingItem = prev.find((i) => i.id === item.id);
-      
+    setCartItems(prev => {
+      const existingItem = prev.find(i => i.id === item.id);
+
       if (existingItem) {
-        return prev.map((i) => 
-          i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
+        return prev.map(i =>
+          i.id === item.id
+            ? { ...i, quantity: i.quantity + 1 }
+            : i
         );
       }
 
-      return [...prev, { ...item, quantity: 1, cartItemId: `${item.id}-${Date.now()}` }];
+      return [
+        ...prev,
+        {
+          ...item,
+          quantity: 1,
+          cartItemId: crypto.randomUUID(), // ✅ better unique id
+        },
+      ];
     });
   };
 
+  // ✅ Remove single cart item
   const removeFromCart = (cartItemId: string) => {
-    setCartItems((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
+    setCartItems(prev => prev.filter(item => item.cartItemId !== cartItemId));
   };
 
+  // ✅ Clear cart (used after Razorpay success)
   const clearCart = () => {
     setCartItems([]);
   };
 
+  // ✅ Total price calculation
   const totalPrice = cartItems.reduce((total, item) => {
-    // Remove non-numeric chars from price (e.g. "₹4.00" -> 4.00)
-    const priceValue = parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0;
-    return total + priceValue * item.quantity;
+    const price = parseFloat(item.price.replace(/[^0-9.]/g, '')) || 0;
+    return total + price * item.quantity;
   }, 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, clearCart, totalPrice }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        totalPrice,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
 };
 
+// ✅ Safe hook
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
