@@ -59,7 +59,7 @@ export const Hero = () => {
           className="text-4xl md:text-5xl font-serif font-normal tracking-tight text-[#3C2F2F] mb-4 md:mb-6 drop-shadow-sm leading-tight"
           style={{ fontFamily: "'Inria Serif', serif" }}
         >
-          Brewing Hope & <br />Great Coffee
+          RABUSTE <br />
         </motion.h1>
 
         <motion.p
@@ -67,13 +67,23 @@ export const Hero = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 1 }}
-          className="text-base md:text-2xl font-sans font-normal tracking-wide text-[#5B4B3A]/90 mb-8 md:mb-12 max-w-sm md:max-w-md leading-relaxed"
+          className="text-base md:text-2xl font-sans font-semibold tracking-wide text-[#5B4B3A]/90 mb-8 md:mb-12 max-w-sm md:max-w-md leading-relaxed"
           style={{ fontFamily: "'Lato', sans-serif" }}
         >
-          Where every cup is crafted with passion and purpose.
-          A welcoming space for coffee lovers to pause, connect, and savor
-          thoughtfully brewed moments—one exceptional sip at a time.
+          Where the bold aroma of Robusta blends seamlessly with the calm of green leaves.<br/>Inhale its bold, earthy allure—deep notes of dark chocolate and a smooth, powerful finish in every sip.
+          <br />
+           
         </motion.p>
+        <motion.h2
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="text-5xl md:text-3xl font-serif text-brown-900 mb-8"
+            >
+               Let your ritual begin.
+            </motion.h2>
+
 
         <motion.button
           initial={{ opacity: 0, y: 10 , x: 50}}

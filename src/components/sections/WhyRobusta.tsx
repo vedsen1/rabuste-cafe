@@ -28,10 +28,10 @@ export const WhyRobusta = () => {
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-5xl font-serif text-brown-900 mb-8"
             >
-              Why Robusta, Why Art
+              Why Robusta?
             </motion.h2>
 
-            <div className="space-y-6 text-lg md:text-xl text-brown-800 leading-relaxed font-light">
+            <div className="space-y-6 text-lg md:text-l text-brown-700 leading-relaxed font-light">
 
               <motion.p
                 initial={{ opacity: 0, y: 15 }}
@@ -39,9 +39,25 @@ export const WhyRobusta = () => {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.8 }}
               >
-                Robusta grows where conditions are tougher — higher heat, stronger soil,
-                unpredictable climates. That resilience shapes its character:
-                deeper body, thicker crema, and an unmistakable strength.
+                These are beans you simply can’t ignore.
+
+                Robusta is the strongest coffee bean in the world—
+                bold in character and uncompromising in flavor. Expect deep, earthy notes with a naturally bitter, nutty edge.
+
+
+                
+              </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+              >
+              With a denser structure and nearly twice the caffeine, Robusta delivers a richer crema in your favorite espresso, contains less sugar, and is naturally lower in acidity.
+
+                
+
+                
               </motion.p>
 
               <motion.div
@@ -59,8 +75,22 @@ export const WhyRobusta = () => {
                 transition={{ delay: 0.6, duration: 0.8 }}
                 className="font-serif text-xl text-brown-900"
               >
-                Strong coffee. Thoughtful art. A space that stays with you.
+                Every sip brings a powerful caffeine rush—
+                the first hit wakes you up, and the last one stays with you.
+
               </motion.p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+                className="font-serif text-xl text-brown-900"
+              >
+                
+
+                This is Robusta at Rabuste.
+              </motion.p>
+
 
             </div>
           </div>
