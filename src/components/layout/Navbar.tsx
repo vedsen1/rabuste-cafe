@@ -6,37 +6,20 @@ import { FullScreenMenu } from './FullScreenMenu';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  // Smart Navbar - Hide on Scroll, Show on Hover
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setIsVisible(false); // Hide on scroll down
-      } else if (currentScrollY < lastScrollY) {
-        setIsVisible(true); // Show on scroll up
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      if (e.clientY < 50) {
-        setIsVisible(true); // Show navbar if cursor near top
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
       }
     };
 
     window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [lastScrollY]);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Close mobile menu on ESC key
   useEffect(() => {
@@ -50,92 +33,92 @@ export const Navbar = () => {
   }, [isOpen]);
 
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -20 }}
-      animate={{
-        opacity: isVisible ? 1 : 0,
-        y: isVisible ? 0 : -100
-      }}
-      transition={{ duration: 0.3 }}
-      className="fixed top-0 left-0 w-full z-50 bg-brown-900/90 backdrop-blur-md border-b border-gold-500/20"
+    <nav
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out border-b ${isScrolled
+          ? 'bg-[#2b1e1a]/95 backdrop-blur-md shadow-lg py-2 border-[#8B5E3C]/20'
+          : 'bg-transparent py-4 border-transparent'
+        }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between transition-all duration-300">
 
         {/* Left: Logo */}
-        <Link to="/" className="flex items-center">
+        <Link to="/" className="flex items-center group">
           <img
             src={logo}
             alt="Cafe Logo"
-            className="h-10 md:h-14 w-auto object-contain"
+            className={`transition-all duration-300 object-contain ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'
+              }`}
           />
         </Link>
 
-        {/* Right: Animated Hamburger/Cross Menu Button */}
-        <button
-          className="text-gold-400 hover:text-cream-100 transition relative w-8 h-8 flex items-center justify-center"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label={isOpen ? "Close menu" : "Open menu"}
-        >
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+        {/* Right: Contact Link & Menu Button */}
+        <div className="flex items-center gap-6">
+          <Link
+            to="/franchise"
+            className={`hidden md:block text-sm font-medium tracking-widest transition-colors uppercase ${isScrolled ? 'text-gold-400 hover:text-cream-100' : 'text-cream-100 hover:text-gold-400 shadow-sm'
+              }`}
           >
-            {/* Top Line */}
-            <motion.path
-              d="M4 6H20"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              animate={{
-                d: isOpen ? "M6 6L18 18" : "M4 6H20",
-                opacity: 1
-              }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            />
+            Contact
+          </Link>
 
-            {/* Middle Line */}
-            <motion.path
-              d="M4 12H20"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              animate={{
-                opacity: isOpen ? 0 : 1
-              }}
-              transition={{ duration: 0.2, ease: "easeInOut" }}
-            />
+          <button
+            className={`transition-colors relative w-8 h-8 flex items-center justify-center ${isScrolled ? 'text-gold-400 hover:text-cream-100' : 'text-cream-100 hover:text-gold-400'
+              }`}
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+          >
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Top Line */}
+              <motion.path
+                d="M4 6H20"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                animate={{
+                  d: isOpen ? "M6 6L18 18" : "M4 6H20",
+                  opacity: 1
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              />
 
-            {/* Bottom Line */}
-            <motion.path
-              d="M4 18H20"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              animate={{
-                d: isOpen ? "M6 18L18 6" : "M4 18H20",
-                opacity: 1
-              }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            />
-          </svg>
-        </button>
+              {/* Middle Line */}
+              <motion.path
+                d="M4 12H20"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                animate={{
+                  opacity: isOpen ? 0 : 1
+                }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+              />
 
+              {/* Bottom Line */}
+              <motion.path
+                d="M4 18H20"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                animate={{
+                  d: isOpen ? "M6 18L18 6" : "M4 18H20",
+                  opacity: 1
+                }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Full Screen Menu */}
       <FullScreenMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
-      {/* Hover Trigger Area - Shows when navbar is hidden */}
-      {!isVisible && (
-        <div
-          className="fixed top-0 left-0 w-full h-12 z-40 cursor-pointer"
-          onMouseEnter={() => setIsVisible(true)}
-          title="Hover to show menu"
-        />
-      )}
-    </motion.nav>
+    </nav>
   );
 };

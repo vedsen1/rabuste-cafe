@@ -1,5 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Compass, Clock, MapPin, Coffee } from 'lucide-react';
+import { StoryScrollSection } from '../components/sections/StoryScrollSection';
+import { InstagramBanner } from '../components/sections/InstagramBanner';
 
 export default function OurStory() {
   const { scrollYProgress } = useScroll();
@@ -73,42 +75,50 @@ export default function OurStory() {
       </section>
 
 
-      <section className="relative py-10 md:py-16 flex items-start justify-center">
-        <motion.div
-          style={{ y: yParallax }}
-          className="text-center z-10 px-6 max-w-4xl mt-6 md:mt-10"
-        >
-          <motion.span
-            initial={{ opacity: 0, letterSpacing: "0.2em" }}
-            whileInView={{ opacity: 1, letterSpacing: "0.5em" }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5 }}
-            className="block text-gold-500 text-xs md:text-base uppercase tracking-[0.5em] mb-3 font-bold"
-          >
-            A Journey Through Time & Taste
-          </motion.span>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 1 }}
-            className="text-4xl md:text-10xl font-serif text-brown-900 mb-4 leading-tight"
-          >
-            The Rabuste Experience
-          </motion.h1>
+      {/* Story Sections */}
+      <div className="relative bg-[#fdfbf7]">
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 1, duration: 1 }}
-            className="text-brown-900/70 text-base md:text-xl font-light max-w-3xl mx-auto"
-          >
-            Step inside our world. From the first bean we roasted to the community we've built, explore the soul of our cafe.
-          </motion.p>
-        </motion.div>
-      </section>
+        <StoryScrollSection
+          title="Although established in 2024, the dream behind Rabuste Cafe began much earlier."
+          titleClassName="text-xl md:text-3xl"
+          subtitle="Our Beginning"
+          year="2024"
+          image="https://images.unsplash.com/photo-1442512595367-27b369296b41?q=80&w=2000&auto=format&fit=crop"
+          alignment="left"
+          content={[
+            "It started with a simple obsession: the misunderstood Robusta bean. While the world chased Arabica, we saw untapped potential in the bold, earthy resilience of Robusta.",
+            "In a small garage in 2018, we roasted our first batch. It wasn't just coffee; it was a statement. Dark, chocolatey, and unapologetically strong. We knew then that we had to share this with the world."
+          ]}
+        />
+
+        <StoryScrollSection
+          title="The Philosophy"
+          subtitle="Craft & Soul"
+          image="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2000&auto=format&fit=crop"
+          alignment="right"
+          content={[
+            "We believe coffee is more than a morning ritual—it's a pause button for life. Our brewing philosophy centers on patience. We don't rush the roast, and we don't rush the pour.",
+            "Every cup served at Rabuste is a testament to the hands that picked the berries and the baristas who craft the perfect extraction. Precision, passion, and a touch of rebelliousness against the ordinary."
+          ]}
+        />
+
+        <StoryScrollSection
+          title="The Community"
+          subtitle="Growing Together"
+          year="2024"
+          image="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=2000&auto=format&fit=crop"
+          alignment="left"
+          content={[
+            "From that single garage to a bustling hub of creativity and conversation, Rabuste has grown into a sanctuary for dreamers, doers, and coffee lovers.",
+            "Today, we are more than a cafe. We are a gallery for local artists, a stage for musicians, and a workspace for innovators. Our story is written daily by the people who walk through our doors."
+          ]}
+        />
+
+        <InstagramBanner />
+
+      </div>
+
 
 
 
