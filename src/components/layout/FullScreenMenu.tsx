@@ -157,12 +157,12 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
                                                     className="block text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-none"
                                                     style={{
                                                         fontFamily: "'Inter Tight', 'Bebas Neue', sans-serif",
-                                                        WebkitTextStroke: hoveredItem === item.label ? '0px' : '1px rgba(255, 255, 255, 0.3)',
-                                                        color: hoveredItem === item.label ? '#D4AF37' : 'transparent',
+                                                        WebkitTextStroke: hoveredItem === item.label ? '0px' : '1px rgba(255, 255, 255, 0.6)',
+                                                        color: hoveredItem === item.label ? '#D4AF37' : 'rgba(255, 255, 255, 0.05)',
                                                     }}
                                                     animate={{
                                                         x: hoveredItem === item.label ? 20 : 0,
-                                                        opacity: hoveredItem && hoveredItem !== item.label ? 0.3 : 1,
+                                                        opacity: hoveredItem && hoveredItem !== item.label ? 0.5 : 1,
                                                     }}
                                                     transition={{ duration: 0.3, ease: "easeOut" }}
                                                 >
