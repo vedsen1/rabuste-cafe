@@ -1,21 +1,25 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Coffee, ArrowLeft, Heart, MessageCircle, Share2, Play, Mail, Phone, X } from "lucide-react";
-import { FaInstagram } from "react-icons/fa";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-
 import {
+  Coffee,
+  Instagram,
+  ArrowLeft,
+  Heart,
+  MessageCircle,
+  Share2,
+  Play,
+  Mail,
+  Phone,
+  X,
   ArrowUpRight,
   ArrowUp,
   Users,
-  Award,
-
   Globe,
   Quote
 } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import franchiseImg from "../assets/rabuste_franchise.png";
-import seedsBg from "../assets/seeds-bg.png"
 import cafeCommunityBg from "../assets/cafe_community_bg.png";
 
 export default function Explore() {
@@ -25,11 +29,30 @@ export default function Explore() {
   return (
     <div className="w-full min-h-screen bg-[#fdfbf7]">
 
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-50 px-6 py-6 flex justify-between items-center bg-[#1a120b]"
+      >
+        <div className="flex items-center gap-3">
+          <Coffee className="w-8 h-8 text-[#d4a574]" />
+          <h1 className="text-2xl font-serif text-white">Rabuste Franchise</h1>
+        </div>
+
+        <a
+          href="https://instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-2 text-[#d4a574] hover:text-[#c89a5c] transition-colors"
+        >
+          <Instagram className="w-5 h-5" />
+          <span className="text-sm font-medium hidden sm:inline">Follow Us</span>
+        </a>
+      </motion.header>
 
       {/* HERO SECTION */}
-      <section
-        className="relative py-20 px-4 overflow-hidden bg-[#fffdf5]"
-      >
+      <section className="relative py-20 px-4 overflow-hidden bg-[#fffdf5]">
         {/* Decorative Background Elements */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[#fdf5e6] rounded-l-[100px] opacity-50 pointer-events-none"></div>
 
@@ -73,15 +96,16 @@ export default function Explore() {
             </motion.div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* --- JOIN OUR COMMUNITY --- */}
-      <section className="relative py-24 px-6 text-cream-100 overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${cafeCommunityBg})` }}>
+      < section className="relative py-24 px-6 text-cream-100 overflow-hidden bg-cover bg-center" style={{ backgroundImage: `url(${cafeCommunityBg})` }
+      }>
         {/* Dark Overlay for readability */}
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]"></div>
+        < div className="absolute inset-0 bg-black/70 backdrop-blur-[2px]" ></div >
 
         {/* Background Pattern */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[100px] pointer-events-none"></div>
+        < div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gold-400/5 rounded-full blur-[100px] pointer-events-none" ></div >
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.h2
@@ -150,10 +174,10 @@ export default function Explore() {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* --- FRANCHISE TESTIMONIALS --- */}
-      <section className="py-24 px-6 bg-[#fdfbf7]">
+      < section className="py-24 px-6 bg-[#fdfbf7]" >
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-5xl font-serif text-center mb-16 text-[#1a120b] uppercase tracking-wide">
             Franchise Testimonials
@@ -180,65 +204,67 @@ export default function Explore() {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* --- FIXED ENQUIRE BOX --- */}
       <AnimatePresence>
-        {showFixedBox && (
-          <>
-            {/* Desktop Version */}
-            <motion.div
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 100, opacity: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="fixed bottom-6 left-6 z-40 max-w-sm w-[90vw] md:w-auto bg-[#1a120b] p-6 pt-8 rounded-xl shadow-2xl border-l-4 border-gold-400 hidden md:block"
-            >
-              <button
-                onClick={() => setShowFixedBox(false)}
-                className="absolute top-2 right-2 text-white/30 hover:text-white transition-colors"
+        {
+          showFixedBox && (
+            <>
+              {/* Desktop Version */}
+              <motion.div
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: 100, opacity: 0 }}
+                transition={{ delay: 0.5, duration: 0.8 }}
+                className="fixed bottom-6 left-6 z-40 max-w-sm w-[90vw] md:w-auto bg-[#1a120b] p-6 pt-8 rounded-xl shadow-2xl border-l-4 border-gold-400 hidden md:block"
               >
-                <X className="w-5 h-5" />
-              </button>
-              <h3 className="text-gold-400 font-serif text-lg mb-2 leading-tight">
-                "Become a part of the fastest growing cafe chain of India"
-              </h3>
-              <button
-                onClick={() => navigate('/franchise#inquiry')}
-                className="mt-3 text-xs w-full bg-white/10 hover:bg-gold-400 hover:text-[#3b2a2a] text-white py-3 rounded-lg uppercase tracking-widest font-bold transition-all flex items-center justify-center gap-2 group"
-              >
-                Connect
-                <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </button>
-            </motion.div>
-
-            {/* Mobile Version */}
-            <motion.div
-              initial={{ y: 100 }}
-              animate={{ y: 0 }}
-              exit={{ y: 100 }}
-              className="fixed bottom-0 left-0 right-0 z-40 bg-[#1a120b] p-4 md:hidden flex justify-between items-center border-t-2 border-gold-400"
-            >
-              <span className="text-white text-xs font-bold uppercase tracking-wide">Join the Family</span>
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => navigate('/franchise#inquiry')}
-                  className="bg-gold-400 text-[#3b2a2a] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
-                >
-                  Connect
-                </button>
                 <button
                   onClick={() => setShowFixedBox(false)}
-                  className="text-white/30 hover:text-white"
+                  className="absolute top-2 right-2 text-white/30 hover:text-white transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+                <h3 className="text-gold-400 font-serif text-lg mb-2 leading-tight">
+                  "Become a part of the fastest growing cafe chain of India"
+                </h3>
+                <button
+                  onClick={() => navigate('/franchise#inquiry')}
+                  className="mt-3 text-xs w-full bg-white/10 hover:bg-gold-400 hover:text-[#3b2a2a] text-white py-3 rounded-lg uppercase tracking-widest font-bold transition-all flex items-center justify-center gap-2 group"
+                >
+                  Connect
+                  <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                </button>
+              </motion.div>
 
-    </div>
+              {/* Mobile Version */}
+              <motion.div
+                initial={{ y: 100 }}
+                animate={{ y: 0 }}
+                exit={{ y: 100 }}
+                className="fixed bottom-0 left-0 right-0 z-40 bg-[#1a120b] p-4 md:hidden flex justify-between items-center border-t-2 border-gold-400"
+              >
+                <span className="text-white text-xs font-bold uppercase tracking-wide">Join the Family</span>
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => navigate('/franchise#inquiry')}
+                    className="bg-gold-400 text-[#3b2a2a] px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest"
+                  >
+                    Connect
+                  </button>
+                  <button
+                    onClick={() => setShowFixedBox(false)}
+                    className="text-white/30 hover:text-white"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+              </motion.div>
+            </>
+          )
+        }
+      </AnimatePresence >
+
+    </div >
   );
 }

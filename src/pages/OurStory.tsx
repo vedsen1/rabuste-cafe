@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { Compass, Clock, MapPin, Coffee } from 'lucide-react';
 import { StoryScrollSection } from '../components/sections/StoryScrollSection';
 import { InstagramBanner } from '../components/sections/InstagramBanner';
+import ourStoryBeginning from '../assets/our-story-beginning.jpg';
 import { VideoModal } from '../components/modals/VideoModal';
 
 export default function OurStory() {
@@ -11,9 +12,9 @@ export default function OurStory() {
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
-    <div className="min-h-screen pb-20 overflow-hidden">
-
+    <div className="min-h-screen overflow-hidden">
       <section className="relative h-[65vh] md:h-screen flex items-center justify-center overflow-hidden">
+        {/* ... content ... */}
 
         <img
           src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80"
@@ -79,21 +80,19 @@ export default function OurStory() {
         </div>
       </section>
 
-
-
       {/* Story Sections */}
-      <div className="relative bg-[#fdfbf7]">
+      <div className="relative bg-[#E6CCB2]">
 
         <StoryScrollSection
           title="Although established in 2024, the dream behind Rabuste Cafe began much earlier."
           titleClassName="text-xl md:text-3xl"
           subtitle="Our Beginning"
           year="2024"
-          image="https://images.unsplash.com/photo-1442512595367-27b369296b41?q=80&w=2000&auto=format&fit=crop"
+          image={ourStoryBeginning}
           alignment="left"
           content={[
             "It started with a simple obsession: the misunderstood Robusta bean. While the world chased Arabica, we saw untapped potential in the bold, earthy resilience of Robusta.",
-            "In a small garage in 2018, we roasted our first batch. It wasn't just coffee; it was a statement. Dark, chocolatey, and unapologetically strong. We knew then that we had to share this with the world."
+            "We are proud to be Surat’s first café to serve premium Robusta coffee, bringing a bold, full-bodied flavor experience to the city. Every cup reflects our commitment to quality, freshness, and redefining how Surat enjoys coffee."
           ]}
         />
 
@@ -115,8 +114,8 @@ export default function OurStory() {
           image="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=2000&auto=format&fit=crop"
           alignment="left"
           content={[
-            "From that single garage to a bustling hub of creativity and conversation, Rabuste has grown into a sanctuary for dreamers, doers, and coffee lovers.",
-            "Today, we are more than a cafe. We are a gallery for local artists, a stage for musicians, and a workspace for innovators. Our story is written daily by the people who walk through our doors."
+            "From its very first day, Rabuste was envisioned as more than just a café—a place where great coffee meets meaningful connections. What began as a simple idea has grown into a vibrant hub for creativity, conversations, and community, becoming a sanctuary for dreamers, doers, and coffee lovers alike.",
+            "Today, we are more than a café. We are a gallery for local artists, a welcoming space for ideas to flow, and a place where stories are shared over every cup. Our journey continues to be written each day by the people who walk through our doors."
           ]}
         />
 

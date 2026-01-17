@@ -31,7 +31,7 @@ export const Hero = () => {
         <motion.img
           src={beans}
           alt="Coffee Beans"
-          initial={{ opacity: 0, scale:1, x: 50, y: 0 }}
+          initial={{ opacity: 0, scale: 1, x: 50, y: 0 }}
           whileInView={{ opacity: 1, scale: 2.5, x: 20, y: 50 }}
           viewport={{ once: true }}
           transition={{ duration: 1.5, ease: "easeOut" }}
@@ -39,15 +39,15 @@ export const Hero = () => {
         />
       </div>
       <motion.img
-          src={beans}
-          alt="Coffee Beans"
-          initial={{ opacity: 0, scale:1, x: 50, y: 70 }}
-          whileInView={{ opacity: 1, scale: 2.5, x: 20, y: 80 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute top-0 right-0 w-24 md:w-32 object-contain"
-        />
-      
+        src={beans}
+        alt="Coffee Beans"
+        initial={{ opacity: 0, scale: 1, x: 50, y: 70 }}
+        whileInView={{ opacity: 1, scale: 2.5, x: 20, y: 80 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5, ease: "easeOut" }}
+        className="absolute top-0 right-0 w-24 md:w-32 object-contain hidden md:block"
+      />
+
 
       {/* Right Side - Content */}
       <div className="w-full md:w-5/12 min-h-[40vh] md:h-screen flex flex-col justify-center items-center md:items-start text-center md:text-left mt-0 md:mt-16 md:-ml-8 -translate-y-4 md:-translate-y-8 px-4 md:px-0">
@@ -70,24 +70,24 @@ export const Hero = () => {
           className="text-base md:text-2xl font-sans font-semibold tracking-wide text-[#5B4B3A]/90 mb-8 md:mb-12 max-w-sm md:max-w-md leading-relaxed"
           style={{ fontFamily: "'Lato', sans-serif" }}
         >
-          Where the bold aroma of Robusta blends seamlessly with the calm of green leaves.<br/>Inhale its bold, earthy allure—deep notes of dark chocolate and a smooth, powerful finish in every sip.
+          Where the bold aroma of Robusta blends seamlessly with the calm of green leaves.<br />Inhale its bold, earthy allure—deep notes of dark chocolate and a smooth, powerful finish in every sip.
           <br />
-           
+
         </motion.p>
         <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="text-5xl md:text-3xl font-serif text-brown-900 mb-8"
-            >
-               Let your ritual begin.
-            </motion.h2>
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-3xl font-serif text-brown-900 mb-8"
+        >
+          Let your ritual begin.
+        </motion.h2>
 
 
         <motion.button
-          initial={{ opacity: 0, y: 10 , x: 50}}
-          whileInView={{ opacity: 1, y: 0, x: 0}}
+          initial={{ opacity: 0, y: 10, x: 50 }}
+          whileInView={{ opacity: 1, y: 0, x: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.6, duration: 0.8 }}
           onClick={() => navigate('/menu')}
@@ -101,7 +101,7 @@ export const Hero = () => {
         </motion.button>
       </div>
 
-      
+
     </section>
   );
 };

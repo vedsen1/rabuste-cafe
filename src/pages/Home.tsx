@@ -8,15 +8,18 @@ import { RobustaSeeds } from '../components/sections/RobustaSeeds';
 
 import { Footer } from '@/components/sections/Footer';
 
+import { FearlessCoffee } from '../components/sections/FearlessCoffee';
+
 export default function Home() {
   return (
     <>
       <main className="relative z-10">
-        
+
         <HeroSlideshow />
         <Hero />
         <Story />
         <WhyRobusta />
+        <FearlessCoffee />
         <RobustaSeeds />
         <ExperienceReviews />
         {/* <Footer/> */}

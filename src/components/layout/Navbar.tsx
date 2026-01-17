@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { FullScreenMenu } from './FullScreenMenu';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,6 +34,19 @@ export const Navbar = () => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen]);
 
+  // Determine styles based on state
+  const getNavTextColor = () => {
+    if (isScrolled) return 'text-gold-400 hover:text-cream-100';
+    if (!isHomePage) return 'text-[#2b1e1a] hover:text-gold-400'; // Dark text for light pages
+    return 'text-cream-100 hover:text-gold-400'; // White text for Home
+  };
+
+  const getLogoStyle = () => {
+    if (isScrolled) return 'h-10 md:h-12';
+    if (!isHomePage) return 'h-12 md:h-16 [filter:brightness(0)_saturate(100%)_invert(13%)_sepia(29%)_saturate(795%)_hue-rotate(320deg)_brightness(97%)_contrast(92%)]'; // Brown logo for light pages
+    return 'h-12 md:h-16'; // Normal logo for Home
+  };
+
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out border-b ${isScrolled
@@ -46,8 +61,7 @@ export const Navbar = () => {
           <img
             src={logo}
             alt="Cafe Logo"
-            className={`transition-all duration-300 object-contain ${isScrolled ? 'h-10 md:h-12' : 'h-12 md:h-16'
-              }`}
+            className={`transition-all duration-300 object-contain ${getLogoStyle()}`}
           />
         </Link>
 
@@ -55,15 +69,13 @@ export const Navbar = () => {
         <div className="flex items-center gap-6">
           <Link
             to="/franchise"
-            className={`hidden md:block text-sm font-medium tracking-widest transition-colors uppercase ${isScrolled ? 'text-gold-400 hover:text-cream-100' : 'text-cream-100 hover:text-gold-400 shadow-sm'
-              }`}
+            className={`hidden md:block text-sm font-medium tracking-widest transition-colors uppercase ${getNavTextColor()}`}
           >
             Contact
           </Link>
 
           <button
-            className={`transition-colors relative w-8 h-8 flex items-center justify-center ${isScrolled ? 'text-gold-400 hover:text-cream-100' : 'text-cream-100 hover:text-gold-400'
-              }`}
+            className={`transition-colors relative w-10 h-10 flex items-center justify-center ${getNavTextColor()}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
@@ -87,9 +99,9 @@ export const Navbar = () => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               />
 
-              {/* Middle Line */}
+              {/* Middle Line - Shorter and Right Aligned (Facing Inside/Left) */}
               <motion.path
-                d="M4 12H20"
+                d="M8 12H20"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
@@ -119,6 +131,6 @@ export const Navbar = () => {
       {/* Full Screen Menu */}
       <FullScreenMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
-    </nav>
+    </nav >
   );
 };

@@ -2,7 +2,7 @@ import { Instagram } from 'lucide-react';
 
 export const InstagramBanner = () => {
     return (
-        <section className="w-full bg-[#fdfbf7] py-16 flex items-center justify-center border-t border-[#2b1e1a]/5">
+        <section className="w-full py-16 flex items-center justify-center border-t border-[#2b1e1a]/5">
             <a
                 href="https://www.instagram.com/rabuste.coffee"
                 target="_blank"
