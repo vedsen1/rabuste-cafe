@@ -19,6 +19,8 @@ export interface ArtPiece {
   // imagePath is no longer needed for Cloudinary deletions via simple API, 
   // but we keep it optional to avoid breaking old data types if needed
   imagePath?: string;
+  stock?: number;
+  medium?: string;
 }
 
 export const MOCK_ART_PIECES: ArtPiece[] = [
@@ -154,7 +156,7 @@ export const addArtPiece = async (art: Omit<ArtPiece, 'imageUrl'>, file: File | 
     description: art.description ? sanitizeInput(art.description) : undefined,
     imageUrl: downloadURL,
     stock: art.stock || 1,
-    category: art.category ? sanitizeInput(art.category) : undefined,
+    category: sanitizeInput(art.category) as ArtPiece['category'],
     dimensions: art.dimensions ? sanitizeInput(art.dimensions) : undefined,
     medium: art.medium ? sanitizeInput(art.medium) : undefined,
     year: art.year ? sanitizeInput(art.year) : undefined,

@@ -85,7 +85,7 @@ export default function Menu() {
         <div className="flex justify-between items-center">
           <span className="font-semibold">{item.price}</span>
           <button
-            onClick={() => addToCart(item)}
+            onClick={() => addToCart(item, 'menu')}
             className="bg-[#2f7d5d] text-white px-3 py-1 rounded"
           >
             Add
