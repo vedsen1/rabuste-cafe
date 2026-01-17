@@ -4,24 +4,119 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes paperFloat {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 @layer base {
   body {
     @apply bg-brown-800 text-cream-100 font-sans overflow-x-hidden;
     background-image: radial-gradient(circle at center, rgba(60, 36, 20, 0.8) 0%, rgba(47, 27, 20, 1) 100%);
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-serif;
   }
 }
 
 @layer utilities {
   .scrollbar-hide::-webkit-scrollbar {
-      display: none;
+    display: none;
   }
+
   .scrollbar-hide {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.torn-paper-bottom {
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 92% 84%, 84% 78%, 76% 82%, 68% 76%, 60% 80%, 52% 74%, 44% 78%, 36% 72%, 28% 76%, 20% 70%, 12% 74%, 4% 68%, 0 72%);
+}
+
+.blob-card {
+  border-radius: 40% 60% 32% 68% / 55% 35% 65% 45%;
+}
+
+.glass-panel {
+  background-color: rgba(20, 9, 4, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+.image-sharp {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+.ghost-button {
+  @apply inline-flex items-center justify-center rounded-full border text-xs tracking-[0.25em] uppercase transition-colors duration-300;
+}
+
+.floating-slow {
+  animation: float-slow 18s ease-in-out infinite;
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.hotspot-ring {
+  position: relative;
+}
+
+.hotspot-ring::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid rgba(226, 209, 195, 0.45);
+  opacity: 0.7;
+}
+
+.hotspot-pulse {
+  animation: hotspot-pulse 2.4s ease-out infinite;
+}
+
+@keyframes hotspot-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+
+  70% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1.35);
+    opacity: 0;
   }
 }
 
