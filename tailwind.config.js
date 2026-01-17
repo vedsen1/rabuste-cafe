@@ -29,6 +29,7 @@ export default {
       fontFamily: {
         serif: ["Cinzel", "serif"],
         sans: ["Fauna One", "sans-serif"],
+        lato: ["Lato", "sans-serif"],
       },
       animation: {
         "spin-slow": "spin 20s linear infinite",

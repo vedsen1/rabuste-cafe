@@ -26,7 +26,7 @@ export default function Art() {
   const [loading, setLoading] = useState(true);
   const [selectedArt, setSelectedArt] = useState<ArtPiece | null>(null);
   const { scrollYProgress } = useScroll();
-  
+
   const yHero = useTransform(scrollYProgress, [0, 0.5], [0, -100]);
   const opacityHero = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
@@ -53,16 +53,16 @@ export default function Art() {
     <div className="min-h-screen overflow-hidden">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none z-0">
-         <motion.div 
-           animate={{ rotate: 360 }}
-           transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-           className="absolute -top-1/2 -right-1/2 w-full h-full border-[2px] border-brown-900/5 rounded-full"
-         />
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-1/2 -right-1/2 w-full h-full border-[2px] border-brown-900/5 rounded-full"
+        />
       </div>
 
       {/* Intro Section */}
       <section className="relative h-[40vh] flex items-end justify-center pb-12 z-10">
-        <motion.div 
+        <motion.div
           style={{ y: yHero, opacity: opacityHero }}
           className="text-center px-6"
         >
@@ -113,31 +113,31 @@ export default function Art() {
                 },
               }}
               freeMode={{
-                   enabled: true,
-                   momentum: true,
-                  momentumRatio: 0.6,
+                enabled: true,
+                momentum: true,
+                momentumRatio: 0.6,
               }}
               mousewheel={{
-                    forceToAxis: true,
-                    sensitivity: 1,
+                forceToAxis: true,
+                sensitivity: 1,
               }}
             >
               {artPieces.map((art) => (
                 <SwiperSlide key={art.id} className="w-[300px] md:w-[400px] !flex justify-center">
-                  <motion.div 
+                  <motion.div
                     whileHover={{ y: -10 }}
                     onClick={() => setSelectedArt(art)}
                     className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl cursor-pointer group bg-brown-900"
                   >
-                    <img 
-                      src={art.imageUrl} 
-                      alt={art.title} 
-                      className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" 
+                    <img
+                      src={art.imageUrl}
+                      alt={art.title}
+                      className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110"
                     />
-                    
+
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
-                    
+
                     {/* Content */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                       <h3 className="text-2xl font-serif text-gold-400 mb-1">{art.title}</h3>
@@ -155,9 +155,9 @@ export default function Art() {
       </section>
 
       {/* Details Modal */}
-      <ArtDetailsModal 
-        art={selectedArt} 
-        onClose={() => setSelectedArt(null)} 
+      <ArtDetailsModal
+        art={selectedArt}
+        onClose={() => setSelectedArt(null)}
       />
     </div>
   );
