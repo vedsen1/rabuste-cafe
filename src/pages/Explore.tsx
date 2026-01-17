@@ -29,27 +29,7 @@ export default function Explore() {
   return (
     <div className="w-full min-h-screen bg-[#fdfbf7]">
 
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="relative z-50 px-6 py-6 flex justify-between items-center bg-[#1a120b]"
-      >
-        <div className="flex items-center gap-3">
-          <Coffee className="w-8 h-8 text-[#d4a574]" />
-          <h1 className="text-2xl font-serif text-white">Rabuste Franchise</h1>
-        </div>
 
-        <a
-          href="https://instagram.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 text-[#d4a574] hover:text-[#c89a5c] transition-colors"
-        >
-          <Instagram className="w-5 h-5" />
-          <span className="text-sm font-medium hidden sm:inline">Follow Us</span>
-        </a>
-      </motion.header>
 
       {/* HERO SECTION */}
       <section className="relative py-20 px-4 overflow-hidden bg-[#fffdf5]">

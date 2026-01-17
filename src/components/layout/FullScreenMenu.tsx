@@ -109,7 +109,7 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
                                 exit={{ opacity: 0, rotate: 90 }}
                                 transition={{ duration: 0.5, ease: "easeOut" }}
                                 onClick={onClose}
-                                className="text-gray-400 hover:text-[#ff7a18] transition-colors duration-300 p-2 cursor-pointer pointer-events-auto"
+                                className="text-gray-400 hover:text-[#D4AF37] transition-colors duration-300 p-2 cursor-pointer pointer-events-auto"
                                 aria-label="Close menu"
                             >
                                 <X size={40} strokeWidth={1} />
@@ -158,7 +158,7 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
                                                     style={{
                                                         fontFamily: "'Inter Tight', 'Bebas Neue', sans-serif",
                                                         WebkitTextStroke: hoveredItem === item.label ? '0px' : '1px rgba(255, 255, 255, 0.3)',
-                                                        color: hoveredItem === item.label ? '#ff7a18' : 'transparent',
+                                                        color: hoveredItem === item.label ? '#D4AF37' : 'transparent',
                                                     }}
                                                     animate={{
                                                         x: hoveredItem === item.label ? 20 : 0,
@@ -197,7 +197,7 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
                                     className="hidden lg:block absolute right-[10%] top-1/2 -translate-y-1/2 pointer-events-none"
                                 >
                                     <div className="text-right flex flex-col items-end">
-                                        <p className="text-[#ff7a18] text-sm tracking-[0.3em] uppercase mb-4 opacity-80">
+                                        <p className="text-[#D4AF37] text-sm tracking-[0.3em] uppercase mb-4 opacity-80">
                                             Explore
                                         </p>
                                         <div className="flex items-center gap-4">
@@ -205,7 +205,7 @@ export const FullScreenMenu = ({ isOpen, onClose }: FullScreenMenuProps) => {
                                                 style={{ fontFamily: "'Inter Tight', sans-serif" }}>
                                                 {hoveredItem}
                                             </h2>
-                                            <span className="text-[#ff7a18] text-4xl transform -rotate-45">→</span>
+                                            <span className="text-[#D4AF37] text-4xl transform -rotate-45">→</span>
                                         </div>
                                     </div>
                                 </motion.div>

@@ -1,5 +1,5 @@
 import { db } from '../lib/firebase';
-import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, updateDoc } from 'firebase/firestore';
 import { uploadToCloudinary } from './cloudinaryService';
 import { validateImageFile, sanitizeInput } from '../lib/validation';
 
@@ -153,8 +153,11 @@ export const addArtPiece = async (art: Omit<ArtPiece, 'imageUrl'>, file: File | 
     price: sanitizeInput(art.price),
     description: art.description ? sanitizeInput(art.description) : undefined,
     imageUrl: downloadURL,
-    // We don't need to store a storage path for Cloudinary unless we implement 
-    // signed deletion logic later. For now, we just store the URL.
+    stock: art.stock || 1,
+    category: art.category ? sanitizeInput(art.category) : undefined,
+    dimensions: art.dimensions ? sanitizeInput(art.dimensions) : undefined,
+    medium: art.medium ? sanitizeInput(art.medium) : undefined,
+    year: art.year ? sanitizeInput(art.year) : undefined,
   };
 
   return await addDoc(collection(db, COLLECTION_NAME), newArt);
@@ -168,4 +171,18 @@ export const deleteArtPiece = async (id: string) => {
   // or a signed upload preset with delete permissions (risky on frontend).
   // For this simple implementation, we only delete the database record.
   // The image remains in Cloudinary but becomes "orphaned".
+};
+
+export const updateArtPiece = async (id: string, updates: Partial<ArtPiece>) => {
+  const docRef = doc(db, COLLECTION_NAME, id);
+  const sanitizedUpdates = {
+    ...updates,
+    ...(updates.title && { title: sanitizeInput(updates.title) }),
+    ...(updates.description && { description: sanitizeInput(updates.description) }),
+    ...(updates.category && { category: sanitizeInput(updates.category) }),
+    ...(updates.dimensions && { dimensions: sanitizeInput(updates.dimensions) }),
+    ...(updates.medium && { medium: sanitizeInput(updates.medium) }),
+    ...(updates.year && { year: sanitizeInput(updates.year) }),
+  };
+  return await updateDoc(docRef, sanitizedUpdates);
 };

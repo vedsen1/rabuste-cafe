@@ -18,9 +18,9 @@ const SUBCATEGORIES = ['Milk', 'Non-Milk'];
 
 export const MenuManager = () => {
   const [items, setItems] = useState<MenuItem[]>([]);
-  const [newItem, setNewItem] = useState<Partial<MenuItem>>({ 
-    name: '', 
-    category: CATEGORIES[0], 
+  const [newItem, setNewItem] = useState<Partial<MenuItem>>({
+    name: '',
+    category: CATEGORIES[0],
     subcategory: 'Milk',
     price: '',
     description: ''
@@ -60,7 +60,7 @@ export const MenuManager = () => {
       setError(validation.errors.join(', '));
       return;
     }
-    
+
     setUploading(true);
     try {
       let imageUrl = '';
@@ -77,9 +77,9 @@ export const MenuManager = () => {
       } as MenuItem;
 
       await addMenuItem(itemToAdd);
-      setNewItem({ 
-        name: '', 
-        category: CATEGORIES[0], 
+      setNewItem({
+        name: '',
+        category: CATEGORIES[0],
         subcategory: 'Milk',
         price: '',
         description: ''
@@ -129,19 +129,19 @@ export const MenuManager = () => {
         <div className="flex flex-col md:flex-row gap-4 w-full">
           <div className="flex-1">
             <label className="block text-cream-200 text-sm font-bold mb-1">Item Name</label>
-            <input 
+            <input
               value={newItem.name}
-              onChange={(e) => setNewItem({...newItem, name: e.target.value})}
+              onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
               className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
               placeholder="e.g. Espresso"
             />
           </div>
-          
+
           <div className="w-full md:w-48">
             <label className="block text-cream-200 text-sm font-bold mb-1">Category</label>
-            <select 
+            <select
               value={newItem.category}
-              onChange={(e) => setNewItem({...newItem, category: e.target.value})}
+              onChange={(e) => setNewItem({ ...newItem, category: e.target.value })}
               className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             >
               {CATEGORIES.map(cat => (
@@ -153,9 +153,9 @@ export const MenuManager = () => {
           {showSubcategory && (
             <div className="w-full md:w-32">
               <label className="block text-cream-200 text-sm font-bold mb-1">Type</label>
-              <select 
+              <select
                 value={newItem.subcategory}
-                onChange={(e) => setNewItem({...newItem, subcategory: e.target.value})}
+                onChange={(e) => setNewItem({ ...newItem, subcategory: e.target.value })}
                 className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
               >
                 {SUBCATEGORIES.map(sub => (
@@ -167,9 +167,9 @@ export const MenuManager = () => {
 
           <div className="w-full md:w-32">
             <label className="block text-cream-200 text-sm font-bold mb-1">Price (₹)</label>
-            <input 
+            <input
               value={newItem.price}
-              onChange={(e) => setNewItem({...newItem, price: e.target.value})}
+              onChange={(e) => setNewItem({ ...newItem, price: e.target.value })}
               className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
               placeholder="₹0.00"
             />
@@ -178,28 +178,28 @@ export const MenuManager = () => {
 
         <div className="w-full">
           <label className="block text-cream-200 text-sm font-bold mb-1">Description (One Line)</label>
-          <input 
+          <input
             value={newItem.description || ''}
-            onChange={(e) => setNewItem({...newItem, description: e.target.value})}
+            onChange={(e) => setNewItem({ ...newItem, description: e.target.value })}
             className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-100"
             placeholder="e.g. Rich and intense flavor"
           />
         </div>
 
         <div className="w-full">
-           <label className="block text-cream-200 text-sm font-bold mb-1">Image</label>
-           <div className="relative">
-             <input 
-               type="file" 
-               accept="image/*"
-               onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
-               className="hidden"
-               id="menu-upload"
-             />
-             <label htmlFor="menu-upload" className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-200 cursor-pointer flex items-center justify-center gap-2 hover:bg-brown-700">
-               <Upload size={16} /> {file ? 'Image Selected' : 'Upload Image'}
-             </label>
-           </div>
+          <label className="block text-cream-200 text-sm font-bold mb-1">Image</label>
+          <div className="relative">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setFile(e.target.files ? e.target.files[0] : null)}
+              className="hidden"
+              id="menu-upload"
+            />
+            <label htmlFor="menu-upload" className="w-full bg-brown-800 border border-gold-500/30 rounded p-2 text-cream-200 cursor-pointer flex items-center justify-center gap-2 hover:bg-brown-700">
+              <Upload size={16} /> {file ? 'Image Selected' : 'Upload Image'}
+            </label>
+          </div>
         </div>
 
         <button type="submit" disabled={uploading} className="bg-gold-500 text-brown-900 px-4 py-2 rounded font-bold hover:bg-cream-100 transition flex items-center justify-center gap-2 disabled:opacity-50">
@@ -218,7 +218,7 @@ export const MenuManager = () => {
 
             return (
               <div key={cat} className="bg-brown-900 rounded-xl overflow-hidden border border-gold-500/10">
-                <button 
+                <button
                   onClick={() => toggleCategory(cat)}
                   className="w-full flex items-center justify-between p-4 bg-brown-800 hover:bg-brown-700 transition-colors"
                 >
@@ -253,8 +253,8 @@ export const MenuManager = () => {
                             </td>
                             <td className="p-4 font-mono">{item.price}</td>
                             <td className="p-4 text-center">
-                              <button 
-                                onClick={() => handleDelete(item.id!)} 
+                              <button
+                                onClick={() => handleDelete(item.id!)}
                                 className="text-red-400 hover:text-red-300 p-2 hover:bg-red-400/10 rounded-full transition-colors"
                                 title="Delete Item"
                               >
