@@ -35,8 +35,8 @@ export const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out border-b ${isScrolled
-          ? 'bg-[#2b1e1a]/95 backdrop-blur-md shadow-lg py-2 border-[#8B5E3C]/20'
-          : 'bg-transparent py-4 border-transparent'
+        ? 'bg-[#2b1e1a]/95 backdrop-blur-md shadow-lg py-2 border-[#8B5E3C]/20'
+        : 'bg-transparent py-4 border-transparent'
         }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between transition-all duration-300">

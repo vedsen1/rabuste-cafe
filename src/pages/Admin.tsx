@@ -33,7 +33,7 @@ export default function Admin() {
   return (
     <div className="min-h-screen flex pt-24 pb-20 md:pb-0">
       {/* Sidebar - Desktop */}
-      <div className="w-64 bg-brown-900 border-r border-gold-500/10 hidden md:flex flex-col fixed z-10 left-0 top-24 bottom-0">
+      <div className="w-64 bg-zinc-950 border-r border-white/10 hidden md:flex flex-col fixed z-10 left-0 top-24 bottom-0">
         <div className="p-6 flex-1">
           <h2 className="text-gold-400 font-serif text-xl mb-2">Admin Panel</h2>
           <p className="text-xs text-cream-200/50 mb-8 truncate">{user?.email}</p>
@@ -44,8 +44,8 @@ export default function Admin() {
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${activeTab === tab.id
-                    ? 'bg-gold-500 text-brown-900 font-bold'
-                    : 'text-cream-200 hover:bg-brown-800'
+                  ? 'bg-gold-500 text-brown-900 font-bold'
+                  : 'text-cream-200 hover:bg-brown-800'
                   }`}
               >
                 <tab.icon size={20} />

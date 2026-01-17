@@ -49,7 +49,7 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
                         animate={{ x: 0 }}
                         exit={{ x: '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                        className="fixed top-0 right-0 h-full w-[80%] md:w-[400px] bg-brown-900 border-l border-gold-500/20 z-[70] shadow-2xl flex flex-col p-8 md:p-12"
+                        className="fixed top-0 right-0 h-full w-[80%] md:w-[400px] bg-black/95 backdrop-blur-2xl border-l border-white/10 z-[70] shadow-2xl flex flex-col p-8 md:p-12"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between mb-12">
