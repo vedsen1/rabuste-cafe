@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Coffee, ArrowLeft, Heart, MessageCircle, Share2, Play, Mail, Phone } from "lucide-react";
-import { FaInstagram } from "react-icons/fa";
+import { Coffee, ArrowLeft, Heart, MessageCircle, Share2, Play, Mail, Phone, Instagram } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -48,7 +47,7 @@ export default function Explore() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-[#d4a574] hover:text-[#c89a5c] transition-colors"
             >
-              <FaInstagram className="w-5 h-5" />
+              <Instagram className="w-5 h-5" />
               <span className="text-sm font-medium hidden sm:inline">Follow Us</span>
             </a>
           </div>

@@ -23,7 +23,7 @@ export const StoryScrollSection = ({
     const isLeft = alignment === 'left';
 
     return (
-        <section className="relative w-full py-20 md:py-32 px-4 md:px-12 overflow-hidden bg-[#fdfbf7] text-[#2b1e1a] border-b border-[#2b1e1a]/5 last:border-0">
+        <section className="relative w-full py-6 md:py-10 px-3 md:px-8 overflow-hidden text-[#2b1e1a] border-b border-[#2b1e1a]/5 last:border-0">
 
             {/* Decorative Year Background */}
             {year && (

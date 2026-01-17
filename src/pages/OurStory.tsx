@@ -2,93 +2,31 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { Compass, Clock, MapPin, Coffee } from 'lucide-react';
 import { StoryScrollSection } from '../components/sections/StoryScrollSection';
 import { InstagramBanner } from '../components/sections/InstagramBanner';
+import ourStoryBeginning from '../assets/our-story-beginning.jpg';
 
 export default function OurStory() {
   const { scrollYProgress } = useScroll();
   const yParallax = useTransform(scrollYProgress, [0, 1], [0, -100]);
 
   return (
-    <div className="min-h-screen pb-20 overflow-hidden">
-
+    <div className="min-h-screen overflow-hidden">
       <section className="relative h-[65vh] md:h-screen flex items-center justify-center overflow-hidden">
-
-        <img
-          src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&q=80"
-          alt="Cafe Interior"
-          className="
-    absolute inset-0 w-full h-full
-    object-contain md:object-cover
-    opacity-100 md:opacity-100
-  "
-        />
-
-        {/* Content */}
-        <div className="
-    relative z-10 flex flex-col items-center justify-center text-center
-    px-4 md:p-6
-    text-white
-  ">
-          <Compass className="
-      w-12 h-12 md:w-20 md:h-20
-      text-white md:text-gold-400
-      mb-4 md:mb-6
-      md:animate-pulse
-    " />
-
-          <h2 className="
-      text-3xl md:text-7xl
-      font-serif
-      mb-3 md:mb-4
-      leading-tight
-      drop-shadow-lg
-    ">
-            Virtual Tour
-          </h2>
-
-          <p className="
-      text-sm md:text-xl
-      max-w-xs md:max-w-lg
-      mb-6 md:mb-8
-      text-white/90 md:text-cream-200/90
-    ">
-            Experience the ambiance of Rabuste Cafe from the comfort of your home.
-          </p>
-
-          <button className="
-      px-6 py-3 md:px-10 md:py-4
-      rounded-full
-      text-xs md:text-sm
-      font-bold
-      uppercase tracking-[0.2em]
-      border-2
-      border-white md:border-gold-400
-      text-white md:text-gold-400
-      bg-white/10 md:bg-black/20
-      hover:bg-white hover:text-black
-      md:hover:bg-gold-400 md:hover:text-brown-900
-      transition-all
-      backdrop-blur-sm
-    ">
-            Explore Space
-          </button>
-        </div>
+        {/* ... content ... */}
       </section>
 
-
-
       {/* Story Sections */}
-      <div className="relative bg-[#fdfbf7]">
+      <div className="relative bg-[#E6CCB2]">
 
         <StoryScrollSection
           title="Although established in 2024, the dream behind Rabuste Cafe began much earlier."
           titleClassName="text-xl md:text-3xl"
           subtitle="Our Beginning"
           year="2024"
-          image="https://images.unsplash.com/photo-1442512595367-27b369296b41?q=80&w=2000&auto=format&fit=crop"
+          image={ourStoryBeginning}
           alignment="left"
           content={[
             "It started with a simple obsession: the misunderstood Robusta bean. While the world chased Arabica, we saw untapped potential in the bold, earthy resilience of Robusta.",
-            "In a small garage in 2018, we roasted our first batch. It wasn't just coffee; it was a statement. Dark, chocolatey, and unapologetically strong. We knew then that we had to share this with the world."
+            "We are proud to be Surat’s first café to serve premium Robusta coffee, bringing a bold, full-bodied flavor experience to the city. Every cup reflects our commitment to quality, freshness, and redefining how Surat enjoys coffee."
           ]}
         />
 
@@ -110,8 +48,8 @@ export default function OurStory() {
           image="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=2000&auto=format&fit=crop"
           alignment="left"
           content={[
-            "From that single garage to a bustling hub of creativity and conversation, Rabuste has grown into a sanctuary for dreamers, doers, and coffee lovers.",
-            "Today, we are more than a cafe. We are a gallery for local artists, a stage for musicians, and a workspace for innovators. Our story is written daily by the people who walk through our doors."
+            "From its very first day, Rabuste was envisioned as more than just a café—a place where great coffee meets meaningful connections. What began as a simple idea has grown into a vibrant hub for creativity, conversations, and community, becoming a sanctuary for dreamers, doers, and coffee lovers alike.",
+            "Today, we are more than a café. We are a gallery for local artists, a welcoming space for ideas to flow, and a place where stories are shared over every cup. Our journey continues to be written each day by the people who walk through our doors."
           ]}
         />
 
