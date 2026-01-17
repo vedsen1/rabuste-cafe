@@ -38,17 +38,7 @@ const slides: SlideImage[] = [
     alt: 'Rabuste Cafe - Art Gallery',
     isArtSlide: true,
   },
-  {
-    id: 5,
-    src: new URL('../../assets/slideshow/slide-5.jpg', import.meta.url).href,
-    alt: 'Rabuste Cafe - Community Gathering',
-  },
-  {
-    id: 6,
-    src: new URL('../../assets/slideshow/slide-6.jpg', import.meta.url).href,
-    alt: 'Rabuste Premium Seeds - The Art of Coffee, Refined',
-    isSeedsSlide: true,
-  },
+
 ];
 
 export const HeroSlideshow = () => {

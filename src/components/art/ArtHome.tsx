@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, EffectFade, Pagination, Navigation } from 'swiper/modules';
-import { Link } from 'react-router-dom';
+import { Link, useOutletContext } from 'react-router-dom';
 import { MOCK_ART_PIECES } from '../../services/artService';
 
 // Import Swiper styles
@@ -13,6 +14,12 @@ import 'swiper/css/navigation';
 export const ArtHome = () => {
     // Select top 3 featured items for the hero
     const featuredArt = MOCK_ART_PIECES.slice(0, 3);
+    const { setNavbarTheme } = useOutletContext<{ setNavbarTheme: (t: 'default' | 'yellow') => void }>();
+
+    // Reset on unmount
+    useEffect(() => {
+        return () => setNavbarTheme('default');
+    }, [setNavbarTheme]);
 
     return (
         <div className="w-full bg-black">
@@ -31,6 +38,19 @@ export const ArtHome = () => {
                         autoplay={{
                             delay: 5000,
                             disableOnInteraction: false,
+                        }}
+                        onSlideChange={(swiper) => {
+                            // activeIndex might be affected by loop mode, checking realIndex is safer
+                            if (swiper.realIndex === 0) {
+                                setNavbarTheme('yellow');
+                            } else {
+                                setNavbarTheme('default');
+                            }
+                        }}
+                        onInit={(swiper) => {
+                            if (swiper.realIndex === 0) {
+                                setNavbarTheme('yellow');
+                            }
                         }}
                         pagination={{
                             clickable: true,

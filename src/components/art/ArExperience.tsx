@@ -1,75 +1,98 @@
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { MOCK_ART_PIECES } from '../../services/artService';
 import { Link } from 'react-router-dom';
-import { Scan, Smartphone, Box } from 'lucide-react';
+import { Scan, Smartphone, Box, Cuboid } from 'lucide-react';
+import { ArViewer } from './ArViewer';
 
 export const ArExperience = () => {
     const arPieces = MOCK_ART_PIECES.filter(p => p.isArEnabled);
+    const [selectedArt, setSelectedArt] = useState(arPieces[0]);
 
     return (
-        <div className="min-h-screen bg-black text-white pt-52 pb-20 px-4">
+        <div className="min-h-screen bg-black text-white pt-32 pb-20 px-4">
             <div className="container mx-auto">
                 {/* Header */}
-                <div className="text-center mb-20">
+                <div className="text-center mb-16">
                     <span className="text-orange-400 text-sm uppercase tracking-[0.3em] font-bold block mb-4">Augmented Reality</span>
-                    <h1 className="text-4xl md:text-7xl font-serif text-white mb-8">
+                    <h1 className="text-4xl md:text-7xl font-serif text-white mb-6">
                         Art Beyond the Canvas
                     </h1>
-                    <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed">
-                        Experience the hidden layers of our coffee art collection.
-                        Using WebAR technology, we bring static masterpieces to life right in your browser.
+                    <p className="text-gray-400 max-w-2xl mx-auto text-lg font-light leading-relaxed mb-4">
+                        Experience our collection in a new dimension. Select an artwork below to view it in 3D space.
                     </p>
                 </div>
 
-                {/* Steps */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24 max-w-5xl mx-auto">
-                    {[
-                        { icon: Smartphone, title: '1. Choose Artwork', desc: 'Select an AR-enabled piece from the gallery below.' },
-                        { icon: Scan, title: '2. Scan / Click', desc: 'Click "View in AR" or scan the QR code with your phone.' },
-                        { icon: Box, title: '3. Experience', desc: 'Watch the artwork animate and transform in 3D space.' }
-                    ].map((step, idx) => (
+                <div className="flex flex-col lg:flex-row gap-12 mb-20 max-w-7xl mx-auto">
+                    {/* Left: 3D Viewer */}
+                    <div className="w-full lg:w-2/3">
                         <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: idx * 0.2 }}
-                            className="bg-white/5 border border-white/10 p-8 rounded-2xl text-center hover:bg-white/10 transition-colors"
+                            key={selectedArt.id}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.5 }}
                         >
-                            <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <step.icon className="w-8 h-8 text-black" />
-                            </div>
-                            <h3 className="text-xl font-serif mb-3">{step.title}</h3>
-                            <p className="text-gray-400 text-sm">{step.desc}</p>
+                            <ArViewer imageUrl={selectedArt.imageUrl} />
                         </motion.div>
-                    ))}
-                </div>
 
-                {/* AR Gallery List */}
-                <div className="mb-12">
-                    <h2 className="text-3xl font-serif mb-8 border-b border-white/10 pb-4">AR-Enabled Collection</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="flex items-center justify-between mt-6 px-2">
+                            <div>
+                                <h2 className="text-2xl font-serif text-white">{selectedArt.title}</h2>
+                                <p className="text-orange-400 text-sm uppercase tracking-wider">{selectedArt.artist}</p>
+                            </div>
+                            <div className="flex gap-4">
+                                <button className="flex items-center gap-2 px-6 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-orange-500 hover:text-white transition-colors">
+                                    <Smartphone className="w-4 h-4" /> View in AR
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right: Selector */}
+                    <div className="w-full lg:w-1/3 flex flex-col gap-4 max-h-[700px] overflow-y-auto custom-scrollbar pr-2">
+                        <h3 className="text-white/50 text-xs font-sans uppercase tracking-widest mb-2 sticky top-0 bg-black z-10 py-2">Select Artwork</h3>
                         {arPieces.map((art) => (
-                            <Link to={`/art/piece/${art.id}`} key={art.id} className="group flex items-center gap-6 bg-[#111] p-4 rounded-xl hover:bg-[#222] transition-colors border border-white/5">
-                                <div className="w-24 h-24 rounded-lg overflow-hidden shrink-0">
+                            <motion.div
+                                key={art.id}
+                                onClick={() => setSelectedArt(art)}
+                                className={`group flex items-center gap-4 p-3 rounded-xl border cursor-pointer transition-all duration-300 ${selectedArt.id === art.id
+                                        ? 'bg-white/10 border-orange-500/50'
+                                        : 'bg-transparent border-white/5 hover:bg-white/5 hover:border-white/20'
+                                    }`}
+                                whileHover={{ x: 5 }}
+                            >
+                                <div className="w-20 h-20 rounded-lg overflow-hidden shrink-0 relative">
                                     <img src={art.imageUrl} alt={art.title} className="w-full h-full object-cover" />
+                                    {selectedArt.id === art.id && (
+                                        <div className="absolute inset-0 bg-orange-500/20 flex items-center justify-center">
+                                            <Cuboid className="w-6 h-6 text-white drop-shadow-md" />
+                                        </div>
+                                    )}
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-serif text-white mb-1 group-hover:text-orange-400 transition-colors">{art.title}</h3>
-                                    <p className="text-sm text-gray-500 mb-2">{art.artist}</p>
-                                    <span className="flex items-center text-xs font-bold text-green-400 uppercase tracking-widest gap-2">
-                                        <Box className="w-3 h-3" /> AR Ready
-                                    </span>
+                                    <h4 className={`font-serif text-lg mb-1 ${selectedArt.id === art.id ? 'text-white' : 'text-gray-400 group-hover:text-white'}`}>
+                                        {art.title}
+                                    </h4>
+                                    <p className="text-xs text-gray-500 uppercase tracking-widest">{art.artist}</p>
                                 </div>
-                            </Link>
+                            </motion.div>
                         ))}
                     </div>
                 </div>
 
-                <div className="text-center bg-gradient-to-r from-orange-900/20 to-orange-600/20 p-12 rounded-3xl border border-orange-500/30">
-                    <h3 className="text-2xl font-serif mb-4">Ready to start?</h3>
-                    <Link to="/art/gallery" className="inline-block bg-white text-black px-8 py-3 rounded-full font-bold uppercase tracking-widest hover:bg-orange-500 hover:text-white transition-colors">
-                        Go to Full Gallery
-                    </Link>
+                {/* Additional Info / Steps */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto pt-12 border-t border-white/10">
+                    {[
+                        { icon: Cuboid, title: 'Interact', desc: 'Drag to rotate and explore the artwork in 3D.' },
+                        { icon: Scan, title: 'Scan', desc: 'Use your phone camera to place the art in your room.' },
+                        { icon: Box, title: 'Collect', desc: 'Own a digital piece of the Rabuste collection.' }
+                    ].map((step, idx) => (
+                        <div key={idx} className="text-center">
+                            <step.icon className="w-8 h-8 text-orange-400 mx-auto mb-4" />
+                            <h3 className="text-lg font-serif mb-2">{step.title}</h3>
+                            <p className="text-gray-500 text-sm max-w-xs mx-auto">{step.desc}</p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
