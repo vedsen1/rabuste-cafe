@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { User as UserIcon } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { FullScreenMenu } from './FullScreenMenu';
+import { AuthModal } from '../modals/AuthModal';
+import { useAuth } from '../../context/AuthContext';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { user, logout } = useAuth();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -74,6 +79,16 @@ export const Navbar = () => {
             Contact
           </Link>
 
+          {/* User / Login Icon */}
+          <button
+            onClick={() => user ? logout() : setIsAuthOpen(true)}
+            className={`transition-colors relative w-10 h-10 flex items-center justify-center ${getNavTextColor()}`}
+            aria-label={user ? "Logout" : "Login"}
+            title={user ? `Signed in as ${user.displayName || user.email}` : "Login / Signup"}
+          >
+            <UserIcon size={24} strokeWidth={1.5} />
+          </button>
+
           <button
             className={`transition-colors relative w-10 h-10 flex items-center justify-center ${getNavTextColor()}`}
             onClick={() => setIsOpen(!isOpen)}
@@ -130,6 +145,9 @@ export const Navbar = () => {
 
       {/* Full Screen Menu */}
       <FullScreenMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
+
+      {/* Auth Modal */}
+      <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
 
     </nav >
   );
