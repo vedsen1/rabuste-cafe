@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import fearlessCoffeeImg from '../../assets/fearless-coffee-ref.jpg';
+import fearlessCoffeeImg from '../../assets/fearless-coffee-collage.jpg';
 
 export const FearlessCoffee = () => {
     return (
@@ -15,12 +15,6 @@ export const FearlessCoffee = () => {
                         backgroundSize: '200% 100%' // Zoom in to show only the left half
                     }}
                 >
-                    {/* Overlay Text "Because weak coffee..." is part of the image, 
-                        so we rely on the image for this part. 
-                        If scaling messes it up, we could darken and overlay live text, 
-                        but "as it is" implies keeping the image text. 
-                        We add a slight subtle gradient to ensure it pops if needed, 
-                        but usually the image has it. */}
                 </div>
 
                 {/* Right Panel: Split Top/Bottom */}
@@ -65,6 +59,6 @@ export const FearlessCoffee = () => {
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 };

@@ -75,7 +75,7 @@ export const Navbar = () => {
           </Link>
 
           <button
-            className={`transition-colors relative w-8 h-8 flex items-center justify-center ${getNavTextColor()}`}
+            className={`transition-colors relative w-10 h-10 flex items-center justify-center ${getNavTextColor()}`}
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
@@ -99,9 +99,9 @@ export const Navbar = () => {
                 transition={{ duration: 0.3, ease: "easeInOut" }}
               />
 
-              {/* Middle Line */}
+              {/* Middle Line - Shorter and Right Aligned (Facing Inside/Left) */}
               <motion.path
-                d="M4 12H20"
+                d="M8 12H20"
                 stroke="currentColor"
                 strokeWidth="1.5"
                 strokeLinecap="round"
@@ -131,6 +131,6 @@ export const Navbar = () => {
       {/* Full Screen Menu */}
       <FullScreenMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
 
-    </nav>
+    </nav >
   );
 };

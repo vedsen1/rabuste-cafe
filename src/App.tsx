@@ -50,23 +50,23 @@ function AppContent() {
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/our-story" element={<OurStory />} />
-            <Route path="/art" element={<Art />} />
+            <Route path="/art/*" element={<Art />} />
             <Route path="/workshops" element={<Workshops />} />
             <Route path="/franchise" element={<Franchise />} />
-            <Route path='/explore' element={<Explore/>}/>
+            <Route path='/explore' element={<Explore />} />
             <Route path="/seeds-inquiry" element={<SeedsInquiry />} />
             <Route path="/login" element={<Login />} />
-            <Route 
-              path="/admin" 
+            <Route
+              path="/admin"
               element={
                 <ProtectedAdminRoute>
                   <Admin />
                 </ProtectedAdminRoute>
-              } 
+              }
             />
           </Routes>
         </div>
-        
+
         {/* Render Footer everywhere except Admin panel, Login page, and Seeds Inquiry */}
         {location.pathname !== '/admin' && location.pathname !== '/login' && location.pathname !== '/seeds-inquiry' && (
           <div className="relative z-10">

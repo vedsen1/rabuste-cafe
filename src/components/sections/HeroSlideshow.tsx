@@ -8,7 +8,10 @@ interface SlideImage {
   src: string;
   alt: string;
   isSeedsSlide?: boolean;
+  isArtSlide?: boolean;
   hasMenuCta?: boolean;
+  hasArtCta?: boolean;
+  hasArtHotspot?: boolean;
 }
 
 // Import slideshow images
@@ -31,8 +34,9 @@ const slides: SlideImage[] = [
   },
   {
     id: 4,
-    src: new URL('../../assets/slideshow/slide-4.jpg', import.meta.url).href,
-    alt: 'Rabuste Cafe - Cozy Ambiance',
+    src: new URL('../../assets/slideshow/slide-4-gallery.jpg', import.meta.url).href,
+    alt: 'Rabuste Cafe - Art Gallery',
+    isArtSlide: true,
   },
   {
     id: 5,
@@ -132,6 +136,65 @@ export const HeroSlideshow = () => {
               className="px-8 py-3 md:px-10 md:py-4 bg-white/10 backdrop-blur-md border border-white/40 text-white font-serif text-base md:text-xl tracking-wider uppercase rounded-sm hover:bg-white hover:text-black transition-all duration-300"
             >
               Grab Our Menu
+            </motion.button>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Art CTA Slide */}
+      {slides[currentSlide].hasArtCta && (
+        <div className="absolute inset-0 z-20 flex flex-col justify-end items-end pointer-events-none pb-12 pr-6 md:pb-24 md:pr-24">
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="pointer-events-auto"
+          >
+            <motion.button
+              onClick={() => navigate('/art')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 md:px-10 md:py-4 bg-white/10 backdrop-blur-md border border-white/40 text-white font-serif text-base md:text-xl tracking-wider uppercase rounded-sm hover:bg-white hover:text-black transition-all duration-300"
+            >
+              Explore More
+            </motion.button>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Art Hotspot for Baked-in Button */}
+      {slides[currentSlide].hasArtHotspot && (
+        <div className="absolute inset-0 z-20 pointer-events-none">
+          {/* Positioning the hotspot over the visual button in the image */}
+          <motion.div
+            className="absolute bottom-[18%] right-[22%] w-[180px] h-[60px] cursor-pointer pointer-events-auto bg-transparent"
+            onClick={() => navigate('/art')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            title="Explore Art"
+          />
+        </div>
+      )}
+
+      {/* Art Slide Special CTA */}
+      {slides[currentSlide].isArtSlide && (
+        <div className="absolute inset-0 z-20 flex flex-col justify-end items-center pb-20 md:pb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="flex flex-col items-end"
+          >
+            <h2 className="text-2xl md:text-4xl font-sans font-light text-white mb-4 drop-shadow-sm tracking-widest uppercase text-right">
+              Where Art Meets <span className="font-bold text-orange-400">Creativity</span>
+            </h2>
+            <motion.button
+              onClick={() => navigate('/art')}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 py-2 md:px-8 md:py-3 bg-white/10 backdrop-blur-md border border-white/60 text-white font-sans text-sm md:text-lg tracking-widest uppercase rounded-none hover:bg-orange-500 hover:border-orange-500 hover:text-black transition-all duration-300 shadow-xl"
+            >
+              Explore
             </motion.button>
           </motion.div>
         </div>
