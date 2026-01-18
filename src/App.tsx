@@ -13,6 +13,7 @@ import Admin from './pages/Admin';
 import Login from './pages/Login';
 import Cart from './pages/Cart';
 import { Navbar } from './components/layout/Navbar';
+import ScrollToTop from './components/layout/ScrollToTop';
 import { Preloader } from './components/ui/Preloader';
 import { GlobalBackground } from './components/layout/GlobalBackground';
 import { AuthProvider } from './context/AuthContext';
@@ -86,6 +87,7 @@ export default function App() {
     <AuthProvider>
       <CartProvider>
         <Router>
+          <ScrollToTop />
           <AppContent />
         </Router>
         <Chatbot />

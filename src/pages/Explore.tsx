@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 import exploreImg from "../assets/exploreimg.png";
 import cafeCommunityBg from "../assets/cafe_community_bg.png";
+import founderImg from "../assets/founder.png";
 
 export default function Explore() {
   const navigate = useNavigate();
@@ -153,41 +154,65 @@ export default function Explore() {
               <p className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-gold-400 transition-colors">Rabuste</p>
             </a>
 
-            {/* 4th Icon (Now 3rd): Back to Franchise */}
-           
           </div>
         </div>
       </section >
 
       {/* --- FRANCHISE TESTIMONIALS --- */}
-      < section className="py-24 px-6 bg-[#fdfbf7]" >
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-5xl font-serif text-center mb-16 text-[#1a120b] uppercase tracking-wide">
-            Franchise Testimonials
-          </h2>
+      <section className="py-24 px-6 bg-[#fdfbf7]">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-5xl font-serif text-center mb-16 text-[#1a120b] uppercase tracking-wide"
+          >
+            Founder's Vision
+          </motion.h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white p-8 rounded-2xl shadow-xl border border-[#e8d5b7]">
-                <div className="flex justify-center mb-6">
-                  <div className="w-24 h-24 rounded-full bg-gray-200 border-4 border-gold-400 overflow-hidden">
-                    {/* Placeholder for Owner Image */}
-                    <img src={`https://placehold.co/100x100?text=Owner+${i}`} alt="Owner" className="w-full h-full object-cover" />
-                  </div>
-                </div>
-                <Quote className="w-8 h-8 text-gold-400 mx-auto mb-4 opacity-50" />
-                <p className="text-center text-[#3e2723] italic mb-6">
-                  "Joining the Rabuste family was the best decision for my business career. The support has been phenomenal."
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="bg-white p-8 md:p-12 rounded-3xl shadow-2xl border border-[#e8d5b7] relative overflow-hidden"
+          >
+            {/* Background Decoration */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#d4a574]/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+
+            <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
+              <motion.div
+                animate={{
+                  y: [0, -10, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="w-48 h-48 md:w-64 md:h-64 flex-shrink-0 rounded-2xl overflow-hidden border-4 border-[#d4a574]/30 shadow-xl"
+              >
+                <img
+                  src={founderImg}
+                  alt="Founder"
+                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                />
+              </motion.div>
+
+              <div className="flex-1 text-center md:text-left">
+                <Quote className="w-10 h-10 text-gold-400 mb-6 opacity-30 mx-auto md:mx-0" />
+                <p className="text-xl md:text-2xl text-[#3e2723] italic leading-relaxed mb-8 font-serif">
+                  "Rabuste is more than just a café; it's a dream of connecting people over the finest Robusta. Our journey is built on passion, quality, and the community that walks through our doors every day."
                 </p>
-                <div className="text-center">
-                  <h4 className="font-bold text-[#1a120b] uppercase">Franchise Owner</h4>
-                  <p className="text-xs text-gold-500 uppercase tracking-widest">Location Name</p>
+                <div>
+                  <h4 className="text-2xl font-bold text-[#1a120b] uppercase tracking-tight">Vaibhav Sutaria</h4>
+                  <p className="text-sm text-gold-500 uppercase tracking-[0.2em] font-bold">Founder, Rabuste Café</p>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          </motion.div>
         </div>
-      </section >
+      </section>
 
       {/* --- FIXED ENQUIRE BOX --- */}
       <AnimatePresence>
