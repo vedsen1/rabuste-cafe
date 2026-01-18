@@ -106,16 +106,20 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
                         onClick={onClose}
-                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[80] flex items-center justify-center p-4"
-                    >
+                        className="fixed inset-0 top-0 left-0 w-screen h-screen bg-black/70 backdrop-blur-md z-[80]"
+                    />
+                    {/* Modal Container */}
+                    <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
                         {/* Modal */}
                         <motion.div
-                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            initial={{ scale: 0.8, opacity: 0, y: 40 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
-                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            exit={{ scale: 0.8, opacity: 0, y: 40 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="bg-[#2b1e1a] w-full max-w-md rounded-2xl border border-gold-400/20 shadow-2xl overflow-hidden relative"
+                            className="bg-[#2b1e1a] w-full max-w-md rounded-3xl border border-gold-400/30 shadow-2xl overflow-hidden relative"
                         >
                             {/* Close Button */}
                             <button
@@ -128,7 +132,7 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                             <div className="p-8">
                                 {/* Header */}
                                 <div className="text-center mb-8">
-                                    <h2 className="text-3xl font-serif text-cream-100 mb-2">
+                                    <h2 className="text-3xl font-serif text-gold-400 mb-2">
                                         {mode === 'login' ? 'Welcome Back' : 'Join Rabuste'}
                                     </h2>
                                     <p className="text-cream-200/60 text-sm">
@@ -197,7 +201,7 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full py-3 bg-gold-600 hover:bg-gold-500 text-[#2b1e1a] font-bold rounded-lg transition-colors mt-6 flex items-center justify-center gap-2"
+                                        className="w-full py-3 bg-gold-400 hover:bg-gold-300 text-brown-950 font-bold text-lg rounded-lg transition-colors mt-6 flex items-center justify-center gap-2 shadow-lg"
                                     >
                                         {loading ? <Loader2 size={20} className="animate-spin" /> : (mode === 'login' ? 'Sign In' : 'Create Account')}
                                     </button>
@@ -218,7 +222,7 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }: AuthModalP
 
                             </div>
                         </motion.div>
-                    </motion.div>
+                    </div>
                 </>
             )}
         </AnimatePresence>

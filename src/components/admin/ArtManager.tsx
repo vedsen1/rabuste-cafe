@@ -27,6 +27,17 @@ export const ArtManager = () => {
     fetchPieces();
   }, []);
 
+  useEffect(() => {
+    if (showAddForm) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [showAddForm]);
+
   const fetchPieces = async () => {
     try {
       const data = await getArtPieces();
@@ -113,17 +124,27 @@ export const ArtManager = () => {
       {/* Add Form Modal */}
       <AnimatePresence>
         {showAddForm && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-brown-900 border border-gold-500/20 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
-            >
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 top-0 left-0 w-screen h-screen z-40 bg-black/80 backdrop-blur-sm" 
+              onClick={() => setShowAddForm(false)}
+            />
+            <div className="fixed inset-0 top-0 left-0 w-screen h-screen z-50 flex items-center justify-center p-4">
+              <div
+                className="bg-brown-900 border border-brown-700 rounded-2xl p-8 w-full max-w-2xl max-h-[85vh] overflow-y-auto overflow-x-hidden shadow-2xl pointer-events-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-serif text-white">Add New Artwork</h3>
-                <button onClick={() => setShowAddForm(false)} className="text-gray-400 hover:text-white">
-                  <X size={24} />
+                <h3 className="text-2xl font-serif text-gold-400">Add New Artwork</h3>
+                <button 
+                  onClick={() => setShowAddForm(false)} 
+                  className="text-cream-200/60 hover:text-cream-100 transition-colors p-2 hover:bg-brown-800 rounded-lg"
+                  title="Close"
+                >
+                  <X size={28} />
                 </button>
               </div>
 
@@ -261,8 +282,9 @@ export const ArtManager = () => {
                   </button>
                 </div>
               </form>
-            </motion.div>
-          </div>
+              </div>
+            </div>
+          </>
         )}
       </AnimatePresence>
 

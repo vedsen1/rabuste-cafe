@@ -10,8 +10,10 @@ export interface MenuItem {
   category: string;
   subcategory?: string; // 'Milk' | 'Non-Milk' | undefined
   price: string;
+  costPrice?: string;
   description?: string;
   imageUrl?: string;
+  isSpecial?: boolean; // Robusta Specials flag
 }
 
 export const getMenuItems = async () => {
@@ -38,7 +40,10 @@ export const updateMenuItem = async (id: string, item: Partial<MenuItem>) => {
   if (item.name) sanitizedItem.name = sanitizeInput(item.name);
   if (item.category) sanitizedItem.category = sanitizeInput(item.category);
   if (item.price) sanitizedItem.price = sanitizeInput(item.price);
+  if (item.costPrice) sanitizedItem.costPrice = sanitizeInput(item.costPrice);
   if (item.subcategory) sanitizedItem.subcategory = sanitizeInput(item.subcategory);
+  if (item.description) sanitizedItem.description = sanitizeInput(item.description);
+  if (item.imageUrl) sanitizedItem.imageUrl = item.imageUrl;
 
   const docRef = doc(db, COLLECTION_NAME, id);
   return await updateDoc(docRef, sanitizedItem);
