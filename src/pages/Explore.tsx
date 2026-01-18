@@ -19,7 +19,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import franchiseImg from "../assets/rabuste_franchise.png";
+import exploreImg from "../assets/exploreimg.png";
 import cafeCommunityBg from "../assets/cafe_community_bg.png";
 
 export default function Explore() {
@@ -45,7 +45,7 @@ export default function Explore() {
             className="w-full md:w-1/2 relative"
           >
             <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl border-4 border-[#d4a574]/30">
-              <img src={franchiseImg} alt="Rabuste Franchise" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+              <img src={exploreImg} alt="Explore Rabuste" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </div>
             {/* Decorative Element */}
             <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-[#d4a574] rounded-full mix-blend-multiply opacity-20 blur-3xl"></div>
@@ -120,6 +120,17 @@ export default function Explore() {
 
           {/* Icon Actions */}
           <div className="flex flex-wrap justify-center gap-12 md:gap-20">
+            {/* 4th Icon (Now 3rd): Back to Franchise */}
+            <div
+              className="flex flex-col items-center gap-4 group cursor-pointer"
+              onClick={() => navigate('/franchise')}
+            >
+              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-gold-400 group-hover:bg-gold-400/10 transition-all">
+                <ArrowLeft className="w-8 h-8 text-gold-400" />
+              </div>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-gold-400 transition-colors">Back</p>
+            </div>
+
             {/* 1st Icon: Home Redirection */}
             <div className="flex flex-col items-center gap-4 group cursor-pointer" onClick={() => navigate('/')}>
               <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-gold-400 group-hover:bg-gold-400/10 transition-all">
@@ -142,16 +153,8 @@ export default function Explore() {
               <p className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-gold-400 transition-colors">Rabuste</p>
             </a>
 
-            {/* 4th Icon (Now 3rd): Scroll to Top */}
-            <div
-              className="flex flex-col items-center gap-4 group cursor-pointer"
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            >
-              <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center border border-white/10 group-hover:border-gold-400 group-hover:bg-gold-400/10 transition-all">
-                <ArrowUp className="w-8 h-8 text-gold-400" />
-              </div>
-              <p className="text-[10px] uppercase tracking-widest text-white/30 group-hover:text-gold-400 transition-colors">Top</p>
-            </div>
+            {/* 4th Icon (Now 3rd): Back to Franchise */}
+           
           </div>
         </div>
       </section >
