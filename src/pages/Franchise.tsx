@@ -30,6 +30,7 @@ import beansack from "../assets/beansack.jpg"
 
 
 import { addInquiry } from "../services/franchiseService";
+import { sendConfirmationEmail } from "../services/emailService";
 
 export default function Franchise() {
   const navigate = useNavigate();
@@ -120,19 +121,25 @@ export default function Franchise() {
     setIsSubmitting(true);
 
     try {
-      await addInquiry({
-        type: 'feedback',
+      const inquiryData = {
+        type: 'feedback' as const,
         name,
         phone,
         email,
         rating,
         review
-      });
+      };
+
+      await addInquiry(inquiryData);
+
+      // Send confirmation email
+      await sendConfirmationEmail(inquiryData);
+
       setShowSuccessModal(true);
       setName(""); setEmail(""); setPhone(""); setReview(""); setRating(0);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting review:", error);
-      // Optional: Add error handling UI here
+      alert(error.message || "Failed to submit feedback. Please check your connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -144,19 +151,25 @@ export default function Franchise() {
     setIsContactSubmitting(true);
 
     try {
-      await addInquiry({
-        type: 'contact',
+      const inquiryData = {
+        type: 'contact' as const,
         name: contactName,
         phone: contactPhone,
         email: contactEmail,
         reason: contactReason,
         suggestions
-      });
+      };
+
+      await addInquiry(inquiryData);
+
+      // Send confirmation email
+      await sendConfirmationEmail(inquiryData);
+
       setShowContactSuccessModal(true);
       setContactName(""); setContactEmail(""); setContactPhone(""); setContactReason(""); setSuggestions("");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting contact form:", error);
-      // Optional: Add error handling UI here
+      alert(error.message || "Failed to submit inquiry. Please check your connection.");
     } finally {
       setIsContactSubmitting(false);
     }
@@ -310,6 +323,7 @@ export default function Franchise() {
 
                 <div className="pt-4">
                   <motion.button
+                    type="submit"
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                     disabled={isSubmitting}
@@ -432,6 +446,7 @@ export default function Franchise() {
 
                 <div className="pt-4 flex flex-col md:flex-row gap-4 items-center">
                   <motion.button
+                    type="submit"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     disabled={isContactSubmitting}

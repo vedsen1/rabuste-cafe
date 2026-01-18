@@ -11,6 +11,7 @@ const CATEGORIES = [
   'Blend Hot',
   'Manual Brew',
   'Non Coffee',
+  'Shakes',
   'Savoury'
 ];
 
@@ -44,30 +45,30 @@ export default function Menu() {
   };
 
   const handleCheckout = () => {
-  const amount = getTotalAmount();
-  if (amount === 0) return;
+    const amount = getTotalAmount();
+    if (amount === 0) return;
 
-  const options = {
-    key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-    amount: amount * 100,
-    currency: 'INR',
-    name: 'Coffee Store',
-    description: 'Coffee Order',
-    handler: (response: any) => {
-      console.log('Payment Success:', response);
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: amount * 100,
+      currency: 'INR',
+      name: 'Coffee Store',
+      description: 'Coffee Order',
+      handler: (response: any) => {
+        console.log('Payment Success:', response);
 
-      clearCart(); // ✅ THIS FIXES YOUR ISSUE
+        clearCart(); // ✅ THIS FIXES YOUR ISSUE
 
-      alert('Payment Successful ☕');
-    },
-    theme: {
-      color: '#2f7d5d',
-    },
+        alert('Payment Successful ☕');
+      },
+      theme: {
+        color: '#2f7d5d',
+      },
+    };
+
+    const razorpay = new (window as any).Razorpay(options);
+    razorpay.open();
   };
-
-  const razorpay = new (window as any).Razorpay(options);
-  razorpay.open();
-};
 
 
   const GridCard = ({ item }: { item: MenuItem }) => (

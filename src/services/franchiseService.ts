@@ -3,7 +3,7 @@ import { collection, addDoc, getDocs, query, orderBy, Timestamp } from 'firebase
 
 const COLLECTION_NAME = 'inquiries';
 
-export type InquiryType = 'feedback' | 'contact';
+export type InquiryType = 'feedback' | 'contact' | 'seeds';
 
 export interface BaseInquiry {
     id?: string;
@@ -29,7 +29,17 @@ export interface ContactInquiry extends BaseInquiry {
     suggestions?: string;
 }
 
-export type Inquiry = FeedbackInquiry | ContactInquiry;
+export interface SeedInquiry extends BaseInquiry {
+    type: 'seeds';
+    name: string;
+    phone: string;
+    email: string;
+    seedType: string;
+    quantity: string;
+    message?: string;
+}
+
+export type Inquiry = FeedbackInquiry | ContactInquiry | SeedInquiry;
 
 // Helper to distribute Omit across a union
 type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never;

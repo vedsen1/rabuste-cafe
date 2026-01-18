@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
-import { User as UserIcon } from 'lucide-react';
+import { User as UserIcon, LayoutDashboard } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { FullScreenMenu } from './FullScreenMenu';
 import { AuthModal } from '../modals/AuthModal';
@@ -11,7 +11,7 @@ export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, isAdmin, logout } = useAuth();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
 
@@ -79,10 +79,22 @@ export const Navbar = () => {
         <div className="flex items-center gap-6">
           <Link
             to="/franchise"
-            className={`hidden md:block text-sm font-medium tracking-widest transition-colors uppercase ${getNavTextColor()}`}
+            className={`text-sm font-medium tracking-widest transition-colors uppercase ${getNavTextColor()}`}
           >
             Contact
           </Link>
+
+          {/* Admin Dashboard Icon */}
+          {user && isAdmin && (
+            <Link
+              to="/admin"
+              className={`transition-colors relative w-10 h-10 flex items-center justify-center ${getNavTextColor()}`}
+              aria-label="Admin Dashboard"
+              title="Admin Dashboard"
+            >
+              <LayoutDashboard size={24} strokeWidth={1.5} />
+            </Link>
+          )}
 
           {/* Cart Icon */}
           <Link

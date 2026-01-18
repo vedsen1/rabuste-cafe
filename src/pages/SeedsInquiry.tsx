@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Send } from 'lucide-react';
+import { addInquiry } from '../services/franchiseService';
 
 export default function SeedsInquiry() {
   const navigate = useNavigate();
@@ -28,10 +29,17 @@ export default function SeedsInquiry() {
     setLoading(true);
 
     try {
-      // Send email notification (you can integrate with a service like EmailJS or Nodemailer)
-      console.log('Inquiry submitted:', formData);
-      
-      // For now, just show success message
+      // Save to Firestore
+      await addInquiry({
+        type: 'seeds',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        seedType: formData.seedType,
+        quantity: formData.quantity,
+        message: formData.message
+      });
+
       setSubmitted(true);
       setTimeout(() => {
         navigate('/');
@@ -59,7 +67,7 @@ export default function SeedsInquiry() {
                 Grow Your Own Robusta
               </h1>
               <p className="text-cream-200/80 text-lg max-w-2xl mx-auto">
-                Premium Robusta seeds sourced from the finest coffee regions. Fill out the form below 
+                Premium Robusta seeds sourced from the finest coffee regions. Fill out the form below
                 and our team will contact you with pricing, availability, and growing guidance.
               </p>
             </motion.div>
@@ -191,7 +199,7 @@ export default function SeedsInquiry() {
             </motion.div>
             <h2 className="text-4xl font-serif text-cream-100 mb-4">Thank You!</h2>
             <p className="text-cream-200 text-lg mb-6">
-              Your inquiry has been submitted successfully. Our team will contact you shortly 
+              Your inquiry has been submitted successfully. Our team will contact you shortly
               with pricing and availability details.
             </p>
             <p className="text-cream-200/60 text-sm">

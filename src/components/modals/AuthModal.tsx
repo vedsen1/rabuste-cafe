@@ -5,6 +5,8 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthModalProps {
     isOpen: boolean;
@@ -19,7 +21,20 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }: AuthModalP
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const { user } = useAuth();
+    const { user, isAdmin } = useAuth();
+    const navigate = useNavigate();
+
+    // Body scroll locking
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isOpen]);
 
     // Reset state when modal opens/closes or mode changes
     const resetForm = () => {
@@ -54,6 +69,10 @@ export const AuthModal = ({ isOpen, onClose, initialMode = 'login' }: AuthModalP
                 });
             } else {
                 await signInWithEmailAndPassword(auth, email, password);
+                // Check if admin and navigate
+                if (isAdmin) {
+                    navigate('/admin');
+                }
             }
             onClose();
             resetForm();
