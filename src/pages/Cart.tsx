@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { Minus, Plus, Trash2, ArrowRight } from 'lucide-react';
+import { Minus, Plus, Trash2, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import { AuthModal } from '../components/modals/AuthModal';
@@ -60,7 +60,14 @@ export default function Cart() {
 
     return (
         <div className="min-h-screen bg-[#F6F1E8] pt-32 pb-20 px-6">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-4xl mx-auto relative">
+                <button
+                    onClick={() => navigate(-1)}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 md:top-2 md:-translate-y-0 text-[#2B1B16]/60 hover:text-[#C9A24D] transition-colors flex items-center gap-2"
+                >
+                    <ArrowLeft size={20} />
+                    <span className="hidden md:inline text-sm uppercase tracking-widest">Back</span>
+                </button>
                 <h1 className="text-4xl md:text-5xl font-serif text-[#2B1B16] mb-12 text-center">Your Cart</h1>
 
                 {isEmpty ? (
