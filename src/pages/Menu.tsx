@@ -172,12 +172,14 @@ export default function Menu() {
           (selectedCategory === 'All'
             ? menuItems
             : menuItems.filter(i => i.category === selectedCategory)
-          ).map(item => <GridCard key={item.id} item={item} />)
+          )
+            .filter(item => item.name && item.name.trim() !== '')
+            .map(item => <GridCard key={item.id} item={item} />)
         )}
       </div>
 
       {/* FLOATING CART */}
-      <div className="fixed bottom-6 right-6 group">
+      <div className="fixed bottom-24 right-6 group z-40">
         <button className="bg-[#FFC107] p-4 rounded-full shadow-xl relative">
           <ShoppingCart />
           {cartCount > 0 && (
