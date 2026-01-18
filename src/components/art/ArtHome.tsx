@@ -137,20 +137,28 @@ export const ArtHome = () => {
             </section>
 
             {/* Video Feature Section */}
-            <section className="relative w-full bg-black h-[600px] flex flex-col md:flex-row">
+            <section className="relative w-full bg-black h-[800px] flex flex-col md:flex-row">
                 {/* Left Side: Video Placeholder */}
                 <div className="w-full md:w-1/2 h-1/2 md:h-full relative bg-gray-900 flex items-center justify-center border-r border-white/10 group overflow-hidden">
-                    <div className="text-center z-10">
-                        <div className="w-20 h-20 border-2 border-white/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 group-hover:border-white transition-all duration-300 cursor-pointer">
+                    <video
+                        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                    >
+                        <source src={new URL('../../assets/art/art.mp4', import.meta.url).href} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
+
+                    <div className="text-center z-10 pointers-events-none">
+                        {/* Play Button Icon (Optional, since auto-playing) */}
+                        {/* <div className="w-20 h-20 border-2 border-white/30 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-sm">
                             <div className="w-0 h-0 border-l-[16px] border-l-white border-y-[10px] border-y-transparent ml-1" />
-                        </div>
-                        <p className="text-white/50 font-sans tracking-widest uppercase text-sm group-hover:text-white transition-colors">Watch Video</p>
+                        </div> */}
                     </div>
-                    {/* Placeholder Background Pattern */}
-                    <div className="absolute inset-0 opacity-20"
-                        style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, #333 1px, transparent 1px)', backgroundSize: '20px 20px' }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent pointer-events-none" />
                 </div>
 
                 {/* Right Side: Text Content */}
@@ -168,7 +176,11 @@ export const ArtHome = () => {
                                 The Art of Creation
                             </h1>
                             <p className="text-lg text-white/70 font-light mb-8 leading-relaxed">
-                                [Text to be provided]. Experience the meticulous process and passion that goes into every masterpiece.
+                                Art is a conversation without words.
+                                It listens to the chaos inside us and replies in colors, shapes, and quiet emotions.
+                                <br /><br />
+                                Sometimes it heals. Sometimes it questions. Sometimes it simply sits beside us like an old friend,
+                                reminding us that feeling deeply is a form of courage.
                             </p>
                             <Link
                                 to="/art/artists"
@@ -179,10 +191,10 @@ export const ArtHome = () => {
                         </motion.div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             {/* Quick Links / Categories Preview */}
-            <section className="py-20 px-4 bg-black">
+            < section className="py-20 px-4 bg-black" >
                 <div className="container mx-auto">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
@@ -216,7 +228,7 @@ export const ArtHome = () => {
                         ))}
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     );
 };
