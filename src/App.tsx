@@ -11,6 +11,7 @@ import Explore from './pages/Explore';
 import SeedsInquiry from './pages/SeedsInquiry';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import Cart from './pages/Cart';
 import { Navbar } from './components/layout/Navbar';
 import { Preloader } from './components/ui/Preloader';
 import { GlobalBackground } from './components/layout/GlobalBackground';
@@ -57,6 +58,7 @@ function AppContent() {
             <Route path='/explore' element={<Explore />} />
             <Route path="/seeds-inquiry" element={<SeedsInquiry />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/cart" element={<Cart />} />
             <Route
               path="/admin"
               element={

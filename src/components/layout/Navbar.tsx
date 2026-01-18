@@ -40,18 +40,19 @@ export const Navbar = () => {
   }, [isOpen]);
 
   const isWorkshopsPage = location.pathname === '/workshops';
+  const isArtPage = location.pathname.startsWith('/art'); // Covers /art and sub-routes
 
   // Determine styles based on state
   const getNavTextColor = () => {
     if (isScrolled) return 'text-gold-400 hover:text-cream-100';
-    if (isWorkshopsPage) return 'text-[#D4AF37] hover:text-cream-100'; // Yellow/Gold for Workshops
+    if (isWorkshopsPage || isArtPage) return 'text-[#D4AF37] hover:text-cream-100'; // Yellow/Gold for Workshops & Art
     if (!isHomePage) return 'text-[#2b1e1a] hover:text-gold-400'; // Dark text for light pages
     return 'text-cream-100 hover:text-gold-400'; // White text for Home
   };
 
   const getLogoStyle = () => {
     if (isScrolled) return 'h-10 md:h-12';
-    if (isWorkshopsPage) return 'h-12 md:h-16'; // Original Logo (Gold/White) for Workshops
+    if (isWorkshopsPage || isArtPage) return 'h-12 md:h-16'; // Original Logo (Gold/White) for Workshops & Art
     if (!isHomePage) return 'h-12 md:h-16 [filter:brightness(0)_saturate(100%)_invert(13%)_sepia(29%)_saturate(795%)_hue-rotate(320deg)_brightness(97%)_contrast(92%)]'; // Brown logo for light pages
     return 'h-12 md:h-16'; // Normal logo for Home
   };
@@ -81,6 +82,15 @@ export const Navbar = () => {
             className={`hidden md:block text-sm font-medium tracking-widest transition-colors uppercase ${getNavTextColor()}`}
           >
             Contact
+          </Link>
+
+          {/* Cart Icon */}
+          <Link
+            to="/cart"
+            className={`transition-colors relative w-10 h-10 flex items-center justify-center ${getNavTextColor()}`}
+            aria-label="Cart"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><path d="M3 6h18" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
           </Link>
 
           {/* User / Login Icon */}
