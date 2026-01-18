@@ -56,10 +56,10 @@ export const Hero = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
-          className="text-4xl md:text-5xl font-serif font-normal tracking-tight text-[#3C2F2F] mb-4 md:mb-6 drop-shadow-sm leading-tight"
+          className=" capitalize text-4xl md:text-5xl font-serif font-normal tracking-tight text-[#3C2F2F] mb-4 md:mb-6 drop-shadow-sm leading-tight "
           style={{ fontFamily: "'Inria Serif', serif" }}
         >
-          RABUSTE <br />
+          surat's first and only cafe to serve <br/>Robusta Coffee <br />
         </motion.h1>
 
         <motion.p
@@ -67,7 +67,7 @@ export const Hero = () => {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 1 }}
-          className="text-base md:text-2xl font-sans font-semibold tracking-wide text-[#5B4B3A]/90 mb-8 md:mb-12 max-w-sm md:max-w-md leading-relaxed"
+          className="text-base md:text-2xl font-sans  tracking-wide text-[#5B4B3A]/90 mb-8 md:mb-12 max-w-sm md:max-w-md leading-relaxed"
           style={{ fontFamily: "'Lato', sans-serif" }}
         >
           Where the bold aroma of Robusta blends seamlessly with the calm of green leaves.<br />Inhale its bold, earthy allure—deep notes of dark chocolate and a smooth, powerful finish in every sip.
