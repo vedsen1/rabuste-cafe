@@ -82,7 +82,7 @@ function HeroSection({
         style={{ y }}
         src={
           imageUrl ??
-          new URL('../assets/slideshow/workshop-hero.jpg', import.meta.url).href
+          new URL('../assets/slideshow/workshop-hero-v2.png', import.meta.url).href
         }
         alt="Rabuste workshop mood"
         className="absolute inset-0 w-full h-full object-cover z-0"
@@ -474,7 +474,7 @@ export default function Workshops() {
   };
 
   // Resolve hero image via Vite and log for debugging
-  const heroImageUrl = new URL('../assets/slideshow/workshop-hero.jpg', import.meta.url).href;
+  const heroImageUrl = new URL('../assets/slideshow/workshop-hero-v2.png', import.meta.url).href;
   console.log('Workshops heroImageUrl ->', heroImageUrl);
 
   return (

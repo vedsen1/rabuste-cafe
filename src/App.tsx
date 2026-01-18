@@ -18,6 +18,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { ProtectedAdminRoute } from './components/layout/ProtectedAdminRoute';
 import { Footer } from './components/sections/Footer';
+import Chatbot from './components/Chatbot';
 
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
@@ -85,6 +86,7 @@ export default function App() {
         <Router>
           <AppContent />
         </Router>
+        <Chatbot />
       </CartProvider>
     </AuthProvider>
   );

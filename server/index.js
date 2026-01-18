@@ -3,13 +3,56 @@
 const express = require('express');
 const cors = require('cors');
 const { Resend } = require('resend');
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// Configure dotenv to read from root if local .env is missing or doesn't have the key
+require('dotenv').config({ path: '../.env' });
+// Also try standard config in case it's in server/.env
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Initialize Gemini
+const genAI = new GoogleGenerativeAI(process.env.VITE_GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({
+  model: "gemini-flash-latest",
+  systemInstruction: "You are a helpful and charming AI assistant for Rabuste Cafe. Your goal is to help customers choose coffee, explain the menu, and assist with art gallery or workshop inquiries. You should be polite, enthusiastic, and knowledgeable about coffee. \n\nIMPORTANT: If the user asks for a recommendation or you suggest a specific item, you MUST include a JSON block at the end of your response like this:\n```json\n{\n  \"type\": \"recommendation\",\n  \"data\": {\n    \"itemName\": \"Name of Item\",\n    \"price\": 150,\n    \"imageUrl\": \"URL_TO_IMAGE\"\n  }\n}\n```\nFor the image URL, use a placeholder like 'https://images.unsplash.com/photo-1509042239860-f550ce710b93' if you don't have a specific one, or describe it. Actually, just use standard unsplash placeholder URLs for coffee if unsure. Current menu items include: Espresso (150), Cappuccino (220), Latte (240), Croissant (180). Use these prices."
+});
+
 app.use(cors());
 app.use(express.json());
+
+// Chat Endpoint
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { message, history } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ error: 'Message is required' });
+    }
+
+    const chat = model.startChat({
+      history: history || [],
+      generationConfig: {
+        maxOutputTokens: 500,
+      },
+    });
+
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ text });
+  } catch (error) {
+    console.error('Gemini API Error:', error);
+    // Check for specific error types if needed
+    if (error.message?.includes('429')) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+    res.status(500).json({ error: 'Failed to process chat message' });
+  }
+});
 
 // Helper to fetch workshop (Optional: if we want to trust client data, we can skip fetching from Firestore here. 
 // For simplicity, we'll trust the client sends correct titles/schedules or we could use firebase-admin to verify,

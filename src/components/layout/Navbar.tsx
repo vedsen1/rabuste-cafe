@@ -39,15 +39,19 @@ export const Navbar = () => {
     return () => window.removeEventListener('keydown', handleEsc);
   }, [isOpen]);
 
+  const isWorkshopsPage = location.pathname === '/workshops';
+
   // Determine styles based on state
   const getNavTextColor = () => {
     if (isScrolled) return 'text-gold-400 hover:text-cream-100';
+    if (isWorkshopsPage) return 'text-[#D4AF37] hover:text-cream-100'; // Yellow/Gold for Workshops
     if (!isHomePage) return 'text-[#2b1e1a] hover:text-gold-400'; // Dark text for light pages
     return 'text-cream-100 hover:text-gold-400'; // White text for Home
   };
 
   const getLogoStyle = () => {
     if (isScrolled) return 'h-10 md:h-12';
+    if (isWorkshopsPage) return 'h-12 md:h-16'; // Original Logo (Gold/White) for Workshops
     if (!isHomePage) return 'h-12 md:h-16 [filter:brightness(0)_saturate(100%)_invert(13%)_sepia(29%)_saturate(795%)_hue-rotate(320deg)_brightness(97%)_contrast(92%)]'; // Brown logo for light pages
     return 'h-12 md:h-16'; // Normal logo for Home
   };

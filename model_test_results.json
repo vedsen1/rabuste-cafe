@@ -1,0 +1,51 @@
+[
+  {
+    "model": "gemini-flash-latest",
+    "success": true
+  },
+  {
+    "model": "gemini-1.5-flash",
+    "success": false,
+    "error": "404 Not Found"
+  },
+  {
+    "model": "gemini-1.5-flash-001",
+    "success": false,
+    "error": "404 Not Found"
+  },
+  {
+    "model": "gemini-1.5-flash-002",
+    "success": false,
+    "error": "404 Not Found"
+  },
+  {
+    "model": "gemini-1.5-flash-8b",
+    "success": false,
+    "error": "404 Not Found"
+  },
+  {
+    "model": "gemini-2.0-flash",
+    "success": false,
+    "error": "429 Quota Exceeded"
+  },
+  {
+    "model": "gemini-2.0-flash-lite-preview-02-05",
+    "success": false,
+    "error": "429 Quota Exceeded"
+  },
+  {
+    "model": "gemini-pro",
+    "success": false,
+    "error": "404 Not Found"
+  },
+  {
+    "model": "gemini-1.5-pro",
+    "success": false,
+    "error": "404 Not Found"
+  },
+  {
+    "model": "gemini-1.5-pro-001",
+    "success": false,
+    "error": "404 Not Found"
+  }
+]
